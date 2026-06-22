@@ -133,7 +133,7 @@ DATA.forEach(d => Object.keys(d.operators).forEach(op => { OP_STOPCOUNT[op] = (O
 const active = new Set();  // 켜진 운영사
 CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op)));
 
-let map, clusterer, infowindow;
+let map, infowindow;
 const markers = [];  // {marker, item}
 
 // 총 충전기 수 → 마커 반지름(px)
@@ -168,32 +168,63 @@ function dominantColor(item) {
   return best ? COLORS[best] : "#9aa6b5";
 }
 
-function buildFilters() {
-  const root = document.getElementById("filters");
-  CATEGORIES.forEach(cat => {
-    const grp = document.createElement("div");
+function makeOpButton(op) {
+  const el = document.createElement("div");
+  el.className = active.has(op) ? "op on" : "op";
+  el.dataset.op = op;
+  el.innerHTML = `<span class="sw"></span>${op}<span class="cnt">${OP_STOPCOUNT[op] || 0}</span>`;
+  el.onclick = () => {
+    if (active.has(op)) { active.delete(op); el.classList.remove("on"); }
+    else { active.add(op); el.classList.add("on"); }
+    paintButton(el);
+    refresh();
+  };
+  paintButton(el);
+  return el;
+}
+function getOrCreateGroup(title) {
+  let grp = [...document.querySelectorAll("#filters .grp")].find(g => g.dataset.title === title);
+  if (!grp) {
+    grp = document.createElement("div");
     grp.className = "grp";
-    grp.innerHTML = `<div class="grp-title">${cat.title}</div>`;
+    grp.dataset.title = title;
+    grp.innerHTML = `<div class="grp-title">${title}</div>`;
     const btns = document.createElement("div");
     btns.className = "btns";
-    cat.ops.forEach(op => {
-      const n = OP_STOPCOUNT[op] || 0;
-      const el = document.createElement("div");
-      el.className = "op on";
-      el.dataset.op = op;
-      el.innerHTML = `<span class="sw"></span>${op}<span class="cnt">${n}</span>`;
-      el.onclick = () => {
-        if (active.has(op)) { active.delete(op); el.classList.remove("on"); }
-        else { active.add(op); el.classList.add("on"); }
-        paintButton(el);
-        refresh();
-      };
-      btns.appendChild(el);
-      paintButton(el);
-    });
     grp.appendChild(btns);
-    root.appendChild(grp);
+    document.getElementById("filters").appendChild(grp);
+  }
+  return grp.querySelector(".btns");
+}
+function buildFilters() {
+  CATEGORIES.forEach(cat => {
+    const btns = getOrCreateGroup(cat.title);
+    cat.ops.forEach(op => btns.appendChild(makeOpButton(op)));
   });
+}
+
+// 새 사업자(헤더에 없던 컬럼) → 색상·필터 버튼 자동 등록
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const hx = x => Math.round(255 * x).toString(16).padStart(2, "0");
+  return "#" + hx(f(0)) + hx(f(8)) + hx(f(4));
+}
+let _extraColorIdx = 0;
+function nextColor() {
+  const hue = (_extraColorIdx * 137.508) % 360;  // 황금각: 색 최대 분산
+  _extraColorIdx++;
+  return hslToHex(hue, 68, 45);
+}
+function registerOperator(op) {
+  if (op in COLORS) return false;   // 기존 사업자는 건드리지 않음
+  COLORS[op] = nextColor();
+  OP_STOPCOUNT[op] = 0;
+  active.add(op);
+  getOrCreateGroup("추가 사업자").appendChild(makeOpButton(op));
+  return true;
 }
 function paintButton(el) {
   const color = COLORS[el.dataset.op] || "#4fd1c5";
@@ -229,26 +260,28 @@ function iwContent(d) {
 }
 
 function refresh() {
-  const visible = [];
+  let visibleCount = 0;
   let chargerSum = 0;
   markers.forEach(m => {
     const ops = Object.keys(m.item.operators);
     const show = ops.some(op => active.has(op));
     if (show) {
       m.marker.setImage(markerImage(m.item.total, dominantColor(m.item), m.item.approx));
-      visible.push(m.marker);
+      m.marker.setMap(map);   // 개별 점(마커)으로 표시 (클러스터 숫자 X)
+      visibleCount++;
       ops.forEach(op => { if (active.has(op)) chargerSum += m.item.operators[op]; });
+    } else {
+      m.marker.setMap(null);
     }
   });
-  clusterer.clear();
-  clusterer.addMarkers(visible);
-  document.getElementById("stat-stops").textContent = visible.length;
+  document.getElementById("stat-stops").textContent = visibleCount;
   document.getElementById("stat-chargers").textContent = chargerSum.toLocaleString() + "대";
 }
 
 // ===== CSV 업로드 =====
 const OPERATOR_LABELS = CATEGORIES.flatMap(c => c.ops);  // 17개 운영사 (엑셀 순서)
-const CSV_HEADER = ["휴게소명", "시설구분", "노선명", "주소", ...OPERATOR_LABELS];
+const BASE_FIELDS = ["휴게소명", "시설구분", "노선명", "주소"];
+const CSV_HEADER = [...BASE_FIELDS, ...OPERATOR_LABELS];
 
 function downloadSample() {
   const example = [
@@ -340,12 +373,19 @@ async function handleUpload(file) {
 
   const header = rows[0].map(h => h.trim());
   const idx = {};
-  CSV_HEADER.forEach(h => { idx[h] = header.indexOf(h); });
+  BASE_FIELDS.forEach(h => { idx[h] = header.indexOf(h); });
   if (idx["주소"] < 0 || idx["휴게소명"] < 0) {
     status.className = "err";
     status.textContent = "헤더에 '휴게소명'과 '주소' 컬럼이 필요합니다. 샘플 양식을 사용하세요.";
     return;
   }
+
+  // 기본 4개 컬럼을 뺀 나머지는 전부 사업자 컬럼. 새 사업자는 자동 등록.
+  const opCols = header
+    .map((h, i) => ({ op: h.trim(), i }))
+    .filter(x => x.op && !BASE_FIELDS.includes(x.op));
+  const newOps = [];
+  opCols.forEach(x => { if (registerOperator(x.op)) newOps.push(x.op); });
 
   let ok = 0; const failed = [];
   const added = [];
@@ -355,9 +395,9 @@ async function handleUpload(file) {
     if (!name) continue;
     const address = (cells[idx["주소"]] || "").trim();
     const operators = {}; let total = 0;
-    OPERATOR_LABELS.forEach(op => {
-      const v = parseInt((cells[idx[op]] || "").trim(), 10);
-      if (Number.isFinite(v) && v > 0) { operators[op] = v; total += v; }
+    opCols.forEach(x => {
+      const v = parseInt((cells[x.i] || "").trim(), 10);
+      if (Number.isFinite(v) && v > 0) { operators[x.op] = v; total += v; }
     });
     if (total === 0) { failed.push(name + " (충전기 수 없음)"); continue; }
 
@@ -383,16 +423,14 @@ async function handleUpload(file) {
     map.setBounds(b);
   }
   status.className = failed.length ? "err" : "";
-  status.textContent = `추가 완료: ${ok}곳` + (failed.length ? `\n실패 ${failed.length}곳:\n- ${failed.join("\n- ")}` : "");
+  const newMsg = newOps.length ? `\n신규 사업자 ${newOps.length}개 추가: ${newOps.join(", ")}` : "";
+  status.textContent = `추가 완료: ${ok}곳${newMsg}` + (failed.length ? `\n실패 ${failed.length}곳:\n- ${failed.join("\n- ")}` : "");
 }
 
 function init() {
   map = new kakao.maps.Map(document.getElementById("map"), {
     center: new kakao.maps.LatLng(36.3, 127.8),
     level: 13,
-  });
-  clusterer = new kakao.maps.MarkerClusterer({
-    map, averageCenter: true, minLevel: 8, gridSize: 70,
   });
   infowindow = new kakao.maps.InfoWindow({ removable: true, zIndex: 10 });
 
@@ -406,7 +444,8 @@ function init() {
     e.target.value = "";  // 같은 파일 재업로드 허용
   };
   document.getElementById("all-on").onclick = () => {
-    CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op))); syncButtons(); refresh();
+    document.querySelectorAll(".op").forEach(el => active.add(el.dataset.op));
+    syncButtons(); refresh();
   };
   document.getElementById("all-off").onclick = () => {
     active.clear(); syncButtons(); refresh();
@@ -416,7 +455,7 @@ function init() {
 
 (function loadSDK() {
   const s = document.createElement("script");
-  s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${JS_KEY}&libraries=clusterer,services&autoload=false`;
+  s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${JS_KEY}&libraries=services&autoload=false`;
   s.onload = () => kakao.maps.load(init);
   document.head.appendChild(s);
 })();
