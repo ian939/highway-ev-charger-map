@@ -1,0 +1,8 @@
+# 보안 키
+.env
+
+# 빌드 부산물
+geocode_failed.csv
+__pycache__/
+*.pyc
+.gstack/

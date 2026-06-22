@@ -1,0 +1,425 @@
+<!-- 고속도로 휴게소 전기차충전소 현황 지도 (운영사 필터 + 클러스터) -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>고속도로 휴게소 전기차충전소 현황 지도</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: "Malgun Gothic", "Noto Sans KR", sans-serif; }
+  #app { display: flex; height: 100vh; }
+  #sidebar {
+    width: 320px; flex: 0 0 320px; height: 100%; overflow-y: auto;
+    background: #1b2230; color: #e8edf4; padding: 16px 16px 40px;
+  }
+  #map { flex: 1 1 auto; height: 100%; }
+  h1 { font-size: 16px; margin: 0 0 4px; }
+  .sub { font-size: 11px; color: #8b97a8; margin-bottom: 14px; }
+  .stat { background: #2a3344; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+  .stat .row { display: flex; justify-content: space-between; font-size: 13px; padding: 2px 0; }
+  .stat b { color: #4fd1c5; font-size: 16px; }
+  .grp { margin-bottom: 12px; }
+  .grp-title { font-size: 12px; color: #9fb0c6; margin: 10px 0 6px; font-weight: 700; letter-spacing: .3px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .op {
+    font-size: 12px; padding: 5px 9px; border-radius: 14px; cursor: pointer;
+    border: 1px solid #3a465c; background: #2a3344; color: #aeb9c9; user-select: none;
+    transition: all .12s;
+  }
+  .op.on { background: #4fd1c5; border-color: #4fd1c5; color: #0f1620; font-weight: 700; }
+  .op .cnt { opacity: .7; font-weight: 400; margin-left: 3px; }
+  .op .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .iw-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .toolbar { display: flex; gap: 8px; margin: 6px 0 14px; }
+  .toolbar button {
+    flex: 1; font-size: 12px; padding: 7px; border-radius: 6px; cursor: pointer;
+    border: 1px solid #3a465c; background: #344056; color: #e8edf4;
+  }
+  .toolbar button:hover { background: #3f4d66; }
+  .upload { background: #232c3c; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+  .upload-btns { display: flex; flex-direction: column; gap: 6px; }
+  .upload-btns button, .up-label {
+    font-size: 12px; padding: 7px; border-radius: 6px; cursor: pointer; text-align: center;
+    border: 1px solid #3a465c; background: #344056; color: #e8edf4; display: block;
+  }
+  .upload-btns button:hover, .up-label:hover { background: #3f4d66; }
+  #upload-status { font-size: 11px; color: #9fb0c6; margin-top: 8px; line-height: 1.5; white-space: pre-line; }
+  #upload-status.err { color: #f0ad4e; }
+  .legend { font-size: 11px; color: #8b97a8; margin-top: 16px; line-height: 1.7; }
+  .legend .dot { display: inline-block; border-radius: 50%; background: #2f9e8f; vertical-align: middle; margin-right: 6px; opacity: .85; }
+  .iw { font-family: "Malgun Gothic", sans-serif; padding: 12px 14px; max-width: 280px; font-size: 12px; color: #1b2230; line-height: 1.55; }
+  .iw h3 { margin: 0 0 4px; font-size: 14px; }
+  .iw .meta { color: #667; font-size: 11px; margin-bottom: 8px; }
+  .iw table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .iw td { padding: 2px 0; }
+  .iw td.n { text-align: right; font-weight: 700; color: #2f9e8f; }
+  .iw .tot { border-top: 1px solid #ddd; margin-top: 6px; padding-top: 6px; font-weight: 700; display: flex; justify-content: space-between; }
+  .iw .approx { display: inline-block; background: #f0ad4e; color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h1>고속도로 휴게소 전기차충전소 현황</h1>
+    <div class="sub">기준일 2026-06-19 · 운영사 버튼으로 설치 분포 필터(OR)</div>
+    <div class="stat">
+      <div class="row"><span>표시 중 휴게소</span><b id="stat-stops">0</b></div>
+      <div class="row"><span>선택 운영사 충전기</span><b id="stat-chargers">0</b></div>
+    </div>
+    <div class="toolbar">
+      <button id="all-on">전체 선택</button>
+      <button id="all-off">전체 해제</button>
+    </div>
+    <div class="upload">
+      <div class="grp-title">CSV로 휴게소 추가</div>
+      <div class="upload-btns">
+        <button id="sample-dl">① 샘플 양식 다운로드</button>
+        <label class="up-label">② CSV 업로드<input id="csv-file" type="file" accept=".csv" hidden></label>
+      </div>
+      <div id="upload-status"></div>
+    </div>
+    <div id="filters"></div>
+    <div class="legend">
+      <div>마커 색 = 대표 사업자(켜진 것 중 충전기 최다), 버튼 색과 동일</div>
+      <div><span class="dot" style="width:8px;height:8px;"></span>마커 크기 = 휴게소 총 충전기 수</div>
+      <div><span class="approx" style="margin:0;">근사</span> 건설중·미확정 부지(점선 테두리, 읍·면 단위 근사 위치)</div>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+const DATA = __DATA__;
+const JS_KEY = "__JSKEY__";
+
+// 운영사 카테고리 그룹 (엑셀 F~V 순서)
+const CATEGORIES = [
+  { title: "환경부", ops: ["환경부"] },
+  { title: "한전", ops: ["한전"] },
+  { title: "기타", ops: ["현대 E-pit", "시그넷", "SC생활안전", "대영채비"] },
+  { title: "SK·차수별", ops: ["1차 SK일렉링크","2차 이지차저","3차 SK시그넷","3차 워터","4차 SK일렉링크","4차 워터","4차 채비","5차 1권역","5차 2권역","5차 3권역","5차 멀티(50kW)"] },
+];
+
+// 운영사별 고유 색상 (CATEGORIES 순서와 대응)
+const COLORS = {
+  "환경부": "#2e7d32",
+  "한전": "#1565c0",
+  "현대 E-pit": "#6a1b9a",
+  "시그넷": "#ad1457",
+  "SC생활안전": "#4e342e",
+  "대영채비": "#00838f",
+  "1차 SK일렉링크": "#e53935",
+  "2차 이지차저": "#fb8c00",
+  "3차 SK시그넷": "#f9a825",
+  "3차 워터": "#43a047",
+  "4차 SK일렉링크": "#c62828",
+  "4차 워터": "#00acc1",
+  "4차 채비": "#5e35b1",
+  "5차 1권역": "#3949ab",
+  "5차 2권역": "#00897b",
+  "5차 3권역": "#7cb342",
+  "5차 멀티(50kW)": "#8d6e63",
+};
+function textColorOn(hex) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return (r*299 + g*587 + b*114) / 1000 > 150 ? "#1b2230" : "#fff";
+}
+
+// 운영사별 보유 휴게소 수 집계
+const OP_STOPCOUNT = {};
+DATA.forEach(d => Object.keys(d.operators).forEach(op => { OP_STOPCOUNT[op] = (OP_STOPCOUNT[op]||0)+1; }));
+
+const active = new Set();  // 켜진 운영사
+CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op)));
+
+let map, clusterer, infowindow;
+const markers = [];  // {marker, item}
+
+// 총 충전기 수 → 마커 반지름(px)
+function radiusFor(total) {
+  return Math.max(7, Math.min(26, 6 + Math.sqrt(total) * 2.4));
+}
+const _imgCache = {};
+function markerImage(total, color, approx) {
+  const key = `${total}|${color}|${approx}`;
+  if (_imgCache[key]) return _imgCache[key];
+  const r = radiusFor(total);
+  const size = Math.ceil(r * 2 + 4);
+  const c = size / 2;
+  const dash = approx ? ' stroke-dasharray="3 2"' : "";
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">` +
+    `<circle cx="${c}" cy="${c}" r="${r}" fill="${color}" fill-opacity="0.85" stroke="#fff" stroke-width="2"${dash}/>` +
+    `</svg>`;
+  const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+  const img = new kakao.maps.MarkerImage(url, new kakao.maps.Size(size, size), {
+    offset: new kakao.maps.Point(c, c),
+  });
+  _imgCache[key] = img;
+  return img;
+}
+// 켜진 운영사 중 충전기 수가 가장 많은 대표 운영사 색
+function dominantColor(item) {
+  let best = null, bestN = -1;
+  for (const [op, n] of Object.entries(item.operators)) {
+    if (active.has(op) && n > bestN) { bestN = n; best = op; }
+  }
+  return best ? COLORS[best] : "#9aa6b5";
+}
+
+function buildFilters() {
+  const root = document.getElementById("filters");
+  CATEGORIES.forEach(cat => {
+    const grp = document.createElement("div");
+    grp.className = "grp";
+    grp.innerHTML = `<div class="grp-title">${cat.title}</div>`;
+    const btns = document.createElement("div");
+    btns.className = "btns";
+    cat.ops.forEach(op => {
+      const n = OP_STOPCOUNT[op] || 0;
+      const el = document.createElement("div");
+      el.className = "op on";
+      el.dataset.op = op;
+      el.innerHTML = `<span class="sw"></span>${op}<span class="cnt">${n}</span>`;
+      el.onclick = () => {
+        if (active.has(op)) { active.delete(op); el.classList.remove("on"); }
+        else { active.add(op); el.classList.add("on"); }
+        paintButton(el);
+        refresh();
+      };
+      btns.appendChild(el);
+      paintButton(el);
+    });
+    grp.appendChild(btns);
+    root.appendChild(grp);
+  });
+}
+function paintButton(el) {
+  const color = COLORS[el.dataset.op] || "#4fd1c5";
+  const sw = el.querySelector(".sw");
+  if (sw) sw.style.background = color;
+  if (active.has(el.dataset.op)) {
+    el.style.background = color;
+    el.style.borderColor = color;
+    el.style.color = textColorOn(color);
+    if (sw) sw.style.boxShadow = "0 0 0 1.5px rgba(255,255,255,.7)";
+  } else {
+    el.style.background = "#2a3344";
+    el.style.borderColor = "#3a465c";
+    el.style.color = "#aeb9c9";
+    if (sw) sw.style.boxShadow = "none";
+  }
+}
+function syncButtons() {
+  document.querySelectorAll(".op").forEach(el => {
+    el.classList.toggle("on", active.has(el.dataset.op));
+    paintButton(el);
+  });
+}
+
+function iwContent(d) {
+  const rows = Object.entries(d.operators)
+    .map(([k, v]) => `<tr><td><span class="iw-sw" style="background:${COLORS[k]||'#999'}"></span>${k}</td><td class="n">${v}</td></tr>`).join("");
+  const approx = d.approx ? '<span class="approx">근사</span>' : "";
+  return `<div class="iw"><h3>${d.name}${approx}</h3>` +
+    `<div class="meta">${d.type || ""} · ${d.route || ""}<br>${d.address || ""}</div>` +
+    `<table>${rows}</table>` +
+    `<div class="tot"><span>합계</span><span>${d.total}대</span></div></div>`;
+}
+
+function refresh() {
+  const visible = [];
+  let chargerSum = 0;
+  markers.forEach(m => {
+    const ops = Object.keys(m.item.operators);
+    const show = ops.some(op => active.has(op));
+    if (show) {
+      m.marker.setImage(markerImage(m.item.total, dominantColor(m.item), m.item.approx));
+      visible.push(m.marker);
+      ops.forEach(op => { if (active.has(op)) chargerSum += m.item.operators[op]; });
+    }
+  });
+  clusterer.clear();
+  clusterer.addMarkers(visible);
+  document.getElementById("stat-stops").textContent = visible.length;
+  document.getElementById("stat-chargers").textContent = chargerSum.toLocaleString() + "대";
+}
+
+// ===== CSV 업로드 =====
+const OPERATOR_LABELS = CATEGORIES.flatMap(c => c.ops);  // 17개 운영사 (엑셀 순서)
+const CSV_HEADER = ["휴게소명", "시설구분", "노선명", "주소", ...OPERATOR_LABELS];
+
+function downloadSample() {
+  const example = [
+    "예시휴게소(서울)", "휴게소", "경부선", "서울특별시 서초구 경부고속도로 100",
+    "2", "", "", "", "", "", "4", "", "", "3", "", "", "", "5", "", "", "1",
+  ];
+  const rows = [CSV_HEADER, example];
+  const csv = rows.map(r => r.map(c => /[",\n]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c).join(",")).join("\r\n");
+  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });  // BOM: 엑셀 한글
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "휴게소_충전소_추가양식.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function parseCSV(text) {
+  text = text.replace(/^﻿/, "");
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+      else cur += c;
+    } else {
+      if (c === '"') q = true;
+      else if (c === ",") { row.push(cur); cur = ""; }
+      else if (c === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; }
+      else if (c === "\r") { /* skip */ }
+      else cur += c;
+    }
+  }
+  if (cur !== "" || row.length) { row.push(cur); rows.push(row); }
+  return rows.filter(r => r.some(c => c.trim() !== ""));
+}
+
+// 클라이언트 지오코딩: 휴게소명 키워드검색 → 실패 시 주소검색
+const placesSvc = () => new kakao.maps.services.Places();
+const geocoderSvc = () => new kakao.maps.services.Geocoder();
+function geocodeClient(name, address) {
+  return new Promise(resolve => {
+    const base = String(name).split(/[(\s]/)[0];
+    placesSvc().keywordSearch(base + "휴게소", (data, status) => {
+      if (status === kakao.maps.services.Status.OK && data.length) {
+        const rest = data.find(d => (d.category_name || "").includes("고속도로휴게소")) || data[0];
+        return resolve({ lat: +rest.y, lng: +rest.x });
+      }
+      geocoderSvc().addressSearch(String(address || ""), (res, st2) => {
+        if (st2 === kakao.maps.services.Status.OK && res.length) {
+          return resolve({ lat: +res[0].y, lng: +res[0].x });
+        }
+        resolve(null);
+      });
+    });
+  });
+}
+
+function updateCounts() {
+  for (const op in OP_STOPCOUNT) OP_STOPCOUNT[op] = 0;
+  markers.forEach(m => Object.keys(m.item.operators).forEach(op => {
+    if (op in OP_STOPCOUNT) OP_STOPCOUNT[op]++;
+  }));
+  document.querySelectorAll(".op").forEach(el => {
+    const c = el.querySelector(".cnt");
+    if (c) c.textContent = OP_STOPCOUNT[el.dataset.op] || 0;
+  });
+}
+
+function addMarkerForItem(d) {
+  const marker = new kakao.maps.Marker({
+    position: new kakao.maps.LatLng(d.lat, d.lng),
+    image: markerImage(d.total, dominantColor(d), d.approx),
+    title: d.name,
+  });
+  kakao.maps.event.addListener(marker, "click", () => {
+    infowindow.setContent(iwContent(d));
+    infowindow.open(map, marker);
+  });
+  markers.push({ marker, item: d });
+}
+
+async function handleUpload(file) {
+  const status = document.getElementById("upload-status");
+  status.className = "";
+  status.textContent = "파일 읽는 중…";
+  const text = await file.text();
+  const rows = parseCSV(text);
+  if (rows.length < 2) { status.className = "err"; status.textContent = "데이터 행이 없습니다."; return; }
+
+  const header = rows[0].map(h => h.trim());
+  const idx = {};
+  CSV_HEADER.forEach(h => { idx[h] = header.indexOf(h); });
+  if (idx["주소"] < 0 || idx["휴게소명"] < 0) {
+    status.className = "err";
+    status.textContent = "헤더에 '휴게소명'과 '주소' 컬럼이 필요합니다. 샘플 양식을 사용하세요.";
+    return;
+  }
+
+  let ok = 0; const failed = [];
+  const added = [];
+  for (let r = 1; r < rows.length; r++) {
+    const cells = rows[r];
+    const name = (cells[idx["휴게소명"]] || "").trim();
+    if (!name) continue;
+    const address = (cells[idx["주소"]] || "").trim();
+    const operators = {}; let total = 0;
+    OPERATOR_LABELS.forEach(op => {
+      const v = parseInt((cells[idx[op]] || "").trim(), 10);
+      if (Number.isFinite(v) && v > 0) { operators[op] = v; total += v; }
+    });
+    if (total === 0) { failed.push(name + " (충전기 수 없음)"); continue; }
+
+    status.textContent = `지오코딩 중… (${r}/${rows.length - 1}) ${name}`;
+    const geo = await geocodeClient(name, address);
+    if (!geo) { failed.push(name + " (좌표 변환 실패)"); continue; }
+
+    const item = {
+      no: null, name, type: (cells[idx["시설구분"]] || "").trim(),
+      route: (cells[idx["노선명"]] || "").trim(), address,
+      lat: geo.lat, lng: geo.lng, operators, total, approx: false, uploaded: true,
+    };
+    addMarkerForItem(item);
+    added.push(item);
+    ok++;
+  }
+
+  updateCounts();
+  refresh();
+  if (added.length) {
+    const b = new kakao.maps.LatLngBounds();
+    added.forEach(d => b.extend(new kakao.maps.LatLng(d.lat, d.lng)));
+    map.setBounds(b);
+  }
+  status.className = failed.length ? "err" : "";
+  status.textContent = `추가 완료: ${ok}곳` + (failed.length ? `\n실패 ${failed.length}곳:\n- ${failed.join("\n- ")}` : "");
+}
+
+function init() {
+  map = new kakao.maps.Map(document.getElementById("map"), {
+    center: new kakao.maps.LatLng(36.3, 127.8),
+    level: 13,
+  });
+  clusterer = new kakao.maps.MarkerClusterer({
+    map, averageCenter: true, minLevel: 8, gridSize: 70,
+  });
+  infowindow = new kakao.maps.InfoWindow({ removable: true, zIndex: 10 });
+
+  DATA.forEach(addMarkerForItem);
+
+  buildFilters();
+  document.getElementById("sample-dl").onclick = downloadSample;
+  document.getElementById("csv-file").onchange = (e) => {
+    const f = e.target.files[0];
+    if (f) handleUpload(f);
+    e.target.value = "";  // 같은 파일 재업로드 허용
+  };
+  document.getElementById("all-on").onclick = () => {
+    CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op))); syncButtons(); refresh();
+  };
+  document.getElementById("all-off").onclick = () => {
+    active.clear(); syncButtons(); refresh();
+  };
+  refresh();
+}
+
+(function loadSDK() {
+  const s = document.createElement("script");
+  s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${JS_KEY}&libraries=clusterer,services&autoload=false`;
+  s.onload = () => kakao.maps.load(init);
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
