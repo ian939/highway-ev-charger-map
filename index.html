@@ -101,11 +101,15 @@
       </div>
       <div id="upload-status"></div>
     </div>
+    <div class="grp" id="count-filter">
+      <div class="grp-title">사업자 수(중복) 필터</div>
+      <div class="btns" id="count-btns"></div>
+    </div>
     <div id="filters"></div>
     <div class="legend">
       <div>마커 색 = 대표 사업자(켜진 것 중 충전기 최다), 버튼 색과 동일</div>
       <div><span class="dot" style="width:8px;height:8px;"></span>마커 크기 = 휴게소 총 충전기 수 (사업자 ⚙로 색·모양·크기 조절)</div>
-      <div>마커 배지 = 그 지점 사업자 수(2+), <b style="color:#e2231a">빨강</b>=SK일렉링크 포함</div>
+      <div>원 안 숫자 = 그 지점 사업자 수, <b style="color:#e2231a">SK</b> 태그=SK일렉링크 포함</div>
       <div><span class="approx" style="margin:0;">근사</span> 건설중·미확정 부지(점선 테두리, 읍·면 단위 근사 위치)</div>
     </div>
   </div>
@@ -175,6 +179,7 @@ DATA.forEach(d => Object.keys(d.operators).forEach(op => { OP_STOPCOUNT[op] = (O
 
 const active = new Set();  // 켜진 운영사
 CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op)));
+const activeCounts = new Set([1, 2, 3, 4]);  // 사업자 수 필터(4=4개 이상), 기본 전체 ON
 
 let map, infowindow;
 const ITEMS = [];               // 전체 휴게소 항목 (통계용)
@@ -218,20 +223,23 @@ function shapeSVG(shape, c, r, color, dash) {
   return `<circle cx="${c}" cy="${c}" r="${r}" ${attr}/>`;
 }
 const _imgCache = {};
-// badgeText가 있으면 우상단에 사업자 수 배지(텍스트·색)
-function markerImage(total, color, shape, scale, approx, badgeText, badgeColor) {
-  const key = `${total}|${color}|${shape}|${scale}|${approx}|${badgeText}|${badgeColor}`;
+// centerText: 원 중앙 숫자(사업자 수), sk: 우상단 빨강 'SK' 태그
+function markerImage(total, color, shape, scale, approx, centerText, sk) {
+  const key = `${total}|${color}|${shape}|${scale}|${approx}|${centerText}|${sk}`;
   if (_imgCache[key]) return _imgCache[key];
   const r = radiusFor(total) * scale;
-  const size = Math.ceil(r * 2 + (badgeText ? 28 : 6));
+  const size = Math.ceil(r * 2 + (sk ? 26 : 6));
   const c = size / 2;
   const dash = approx ? ' stroke-dasharray="3 2"' : "";
   let inner = shapeSVG(shape, c, r, color, dash);
-  if (badgeText) {  // 우상단 모서리 고정 배지
-    const bw = 9 + badgeText.length * 6.6, bh = 15;
-    const bx = size - bw / 2 - 2, by = bh / 2 + 2;
-    inner += `<rect x="${(bx - bw / 2).toFixed(1)}" y="${(by - bh / 2).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh}" rx="7" fill="${badgeColor}" stroke="#fff" stroke-width="1.3"/>`;
-    inner += `<text x="${bx.toFixed(1)}" y="${(by + 3.6).toFixed(1)}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif">${badgeText}</text>`;
+  if (centerText) {  // 원 중앙 숫자
+    const fs = Math.max(8, Math.round(r * 0.95));
+    inner += `<text x="${c}" y="${(c + fs * 0.35).toFixed(1)}" font-size="${fs}" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif" paint-order="stroke" stroke="rgba(0,0,0,0.25)" stroke-width="0.6">${centerText}</text>`;
+  }
+  if (sk) {  // 우상단 'SK' 태그
+    const bw = 20, bh = 14, bx = size - bw / 2 - 2, by = bh / 2 + 2;
+    inner += `<rect x="${(bx - bw / 2).toFixed(1)}" y="${(by - bh / 2).toFixed(1)}" width="${bw}" height="${bh}" rx="7" fill="#e2231a" stroke="#fff" stroke-width="1.3"/>`;
+    inner += `<text x="${bx.toFixed(1)}" y="${(by + 3.6).toFixed(1)}" font-size="9" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif">SK</text>`;
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">${inner}</svg>`;
   const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
@@ -265,12 +273,8 @@ function nodeMarkerImage(node, visItems) {
   const total = visItems.reduce((s, it) => s + it.total, 0);
   const approx = visItems.some(it => it.approx);
   const { count, hasSK } = nodeOpInfo(visItems);
-  let badgeText = "", badgeColor = "";
-  if (count >= 2) {
-    badgeText = hasSK ? "SK" + count : "" + count;
-    badgeColor = hasSK ? "#e2231a" : "#475569";  // SK 빨강 / 일반 슬레이트
-  }
-  return markerImage(total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, approx, badgeText, badgeColor);
+  const centerText = count >= 1 ? "" + count : "";
+  return markerImage(total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, approx, centerText, hasSK);
 }
 
 function makeOpButton(op) {
@@ -306,6 +310,22 @@ function buildFilters() {
   CATEGORIES.forEach(cat => {
     const btns = getOrCreateGroup(cat.title);
     cat.ops.forEach(op => btns.appendChild(makeOpButton(op)));
+  });
+}
+// 사업자 수(1/2/3/4개 이상) 필터 버튼
+function buildCountFilters() {
+  const root = document.getElementById("count-btns");
+  [[1, "1개"], [2, "2개"], [3, "3개"], [4, "4개 이상"]].forEach(([v, label]) => {
+    const el = document.createElement("div");
+    el.className = "op cbtn" + (activeCounts.has(v) ? " on" : "");
+    el.dataset.cnt = v;
+    el.textContent = label;
+    el.onclick = () => {
+      if (activeCounts.has(v)) { activeCounts.delete(v); el.classList.remove("on"); }
+      else { activeCounts.add(v); el.classList.add("on"); }
+      refresh();
+    };
+    root.appendChild(el);
   });
 }
 
@@ -443,7 +463,12 @@ function refresh() {
   let visibleStops = 0;
   let chargerSum = 0;
   nodes.forEach(node => {
-    const visItems = node.items.filter(it => Object.keys(it.operators).some(op => active.has(op)));
+    let visItems = node.items.filter(it => Object.keys(it.operators).some(op => active.has(op)));
+    // 사업자 수 필터: 지점의 사업자 수 버킷(4=4+)이 선택돼 있어야 표시
+    if (visItems.length) {
+      const bucket = Math.min(nodeOpInfo(visItems).count, 4);
+      if (!activeCounts.has(bucket)) visItems = [];
+    }
     if (visItems.length) {
       node.marker.setImage(nodeMarkerImage(node, visItems));
       node.marker.setMap(map);
@@ -629,6 +654,7 @@ function init() {
   DATA.forEach(addItem);
 
   buildFilters();
+  buildCountFilters();
   wireSettings();
   document.getElementById("sample-dl").onclick = downloadSample;
   document.getElementById("csv-file").onchange = (e) => {
