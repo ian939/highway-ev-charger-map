@@ -46,6 +46,11 @@
   #op-settings .os-foot button { flex: 1; padding: 6px; border-radius: 5px; border: 1px solid #3f4d66; background: #344056; color: #e8edf4; cursor: pointer; }
   #op-settings .os-foot button:hover { background: #3f4d66; }
   .iw-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dup-badge { display: inline-block; min-width: 16px; height: 16px; line-height: 16px; padding: 0 4px; border-radius: 8px; background: #e23b3b; color: #fff; font-size: 11px; font-weight: 700; text-align: center; vertical-align: middle; margin-left: 4px; }
+  .iw .dup-item { border-top: 1px dashed #d2d2d2; padding-top: 8px; margin-top: 8px; }
+  .iw .dup-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .iw .dup-sub { font-weight: 400; color: #778; font-size: 11px; margin-left: 6px; }
+  .iw .dup-tot { display: flex; justify-content: space-between; color: #2f9e8f; font-weight: 700; font-size: 12px; margin-top: 4px; }
   .toolbar { display: flex; gap: 8px; margin: 6px 0 14px; }
   .toolbar button {
     flex: 1; font-size: 12px; padding: 7px; border-radius: 6px; cursor: pointer;
@@ -81,6 +86,7 @@
     <div class="stat">
       <div class="row"><span>표시 중 휴게소</span><b id="stat-stops">0</b></div>
       <div class="row"><span>선택 운영사 충전기</span><b id="stat-chargers">0</b></div>
+      <div class="row"><span>중복 지점 <span class="dup-badge" style="position:static">2</span></span><b id="stat-dup">0곳</b></div>
     </div>
     <div class="toolbar">
       <button id="all-on">전체 선택</button>
@@ -169,7 +175,10 @@ const active = new Set();  // 켜진 운영사
 CATEGORIES.forEach(c => c.ops.forEach(op => active.add(op)));
 
 let map, infowindow;
-const markers = [];  // {marker, item}
+const ITEMS = [];               // 전체 휴게소 항목 (통계용)
+const nodes = [];               // 지도 마커 단위: {marker, items:[...], lat, lng}
+const nodeIndex = {};           // 좌표키 → node (중복 묶음)
+const nodeKey = (lat, lng) => lat.toFixed(4) + "," + lng.toFixed(4);  // ~11m 이내 동일 지점
 
 // 총 충전기 수 → 마커 반지름(px)
 function radiusFor(total) {
@@ -207,16 +216,26 @@ function shapeSVG(shape, c, r, color, dash) {
   return `<circle cx="${c}" cy="${c}" r="${r}" ${attr}/>`;
 }
 const _imgCache = {};
-function markerImage(total, color, shape, scale, approx) {
-  const key = `${total}|${color}|${shape}|${scale}|${approx}`;
+// count>1이면 중복 지점: 강조 링 + 개수 배지 추가
+function markerImage(total, color, shape, scale, approx, count) {
+  const key = `${total}|${color}|${shape}|${scale}|${approx}|${count}`;
   if (_imgCache[key]) return _imgCache[key];
   const r = radiusFor(total) * scale;
-  const size = Math.ceil(r * 2 + 6);
+  const dup = count > 1;
+  const size = Math.ceil(r * 2 + (dup ? 22 : 6));
   const c = size / 2;
   const dash = approx ? ' stroke-dasharray="3 2"' : "";
-  const svg =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">` +
-    shapeSVG(shape, c, r, color, dash) + `</svg>`;
+  let inner = "";
+  if (dup) {  // 중복 강조 링
+    inner += `<circle cx="${c}" cy="${c}" r="${r + 3}" fill="none" stroke="${color}" stroke-width="1.5" stroke-opacity="0.55"/>`;
+  }
+  inner += shapeSVG(shape, c, r, color, dash);
+  if (dup) {  // 우상단 개수 배지
+    const bx = c + r * 0.78, by = c - r * 0.78, rb = 7.5;
+    inner += `<circle cx="${bx}" cy="${by}" r="${rb}" fill="#e23b3b" stroke="#fff" stroke-width="1.5"/>`;
+    inner += `<text x="${bx}" y="${by + 3}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif">${count}</text>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">${inner}</svg>`;
   const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
   const img = new kakao.maps.MarkerImage(url, new kakao.maps.Size(size, size), {
     offset: new kakao.maps.Point(c, c),
@@ -224,19 +243,23 @@ function markerImage(total, color, shape, scale, approx) {
   _imgCache[key] = img;
   return img;
 }
-// 켜진 사업자 중 충전기 수가 가장 많은 대표 사업자
-function dominantOp(item) {
+// 켜진 사업자 중 충전기 수가 가장 많은 대표 사업자 (항목들 전체에서)
+function dominantOpOf(items) {
   let best = null, bestN = -1;
-  for (const [op, n] of Object.entries(item.operators)) {
-    if (active.has(op) && n > bestN) { bestN = n; best = op; }
-  }
+  items.forEach(it => {
+    for (const [op, n] of Object.entries(it.operators)) {
+      if (active.has(op) && n > bestN) { bestN = n; best = op; }
+    }
+  });
   return best;
 }
-// 대표 사업자의 스타일(색·모양·크기)로 마커 이미지 생성
-function markerImageFor(item) {
-  const op = dominantOp(item);
+// 지점(node)의 보이는 항목들 기준 마커 이미지: 대표 사업자 스타일 + 중복 배지
+function nodeMarkerImage(node, visItems) {
+  const op = dominantOpOf(visItems);
   const color = op ? COLORS[op] : "#9aa6b5";
-  return markerImage(item.total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, item.approx);
+  const total = visItems.reduce((s, it) => s + it.total, 0);
+  const approx = visItems.some(it => it.approx);
+  return markerImage(total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, approx, visItems.length);
 }
 
 function makeOpButton(op) {
@@ -370,33 +393,55 @@ function wireSettings() {
   });
 }
 
-function iwContent(d) {
-  const rows = Object.entries(d.operators)
+function opRows(operators) {
+  return Object.entries(operators)
     .map(([k, v]) => `<tr><td><span class="iw-sw" style="background:${COLORS[k]||'#999'}"></span>${k}</td><td class="n">${v}</td></tr>`).join("");
+}
+function iwContent(d) {
   const approx = d.approx ? '<span class="approx">근사</span>' : "";
   return `<div class="iw"><h3>${d.name}${approx}</h3>` +
     `<div class="meta">${d.type || ""} · ${d.route || ""}<br>${d.address || ""}</div>` +
-    `<table>${rows}</table>` +
+    `<table>${opRows(d.operators)}</table>` +
     `<div class="tot"><span>합계</span><span>${d.total}대</span></div></div>`;
+}
+// 중복 지점 합본 팝업: 같은 좌표의 여러 휴게소를 모두 나열 + 전체 합계
+function nodePopup(node, visItems) {
+  if (visItems.length === 1) return iwContent(visItems[0]);
+  const marks = "①②③④⑤⑥⑦⑧⑨".split("");
+  const sum = visItems.reduce((s, it) => s + it.total, 0);
+  const blocks = visItems.map((it, i) => {
+    const approx = it.approx ? '<span class="approx">근사</span>' : "";
+    return `<div class="dup-item"><div class="dup-name">${marks[i] || (i+1)+"."} ${it.name}${approx}` +
+      `<span class="dup-sub">${it.type || ""} · ${it.route || ""}</span></div>` +
+      `<table>${opRows(it.operators)}</table>` +
+      `<div class="dup-tot"><span>소계</span><span>${it.total}대</span></div></div>`;
+  }).join("");
+  return `<div class="iw"><h3>중복 지점 · ${visItems.length}곳 <span class="dup-badge">${visItems.length}</span></h3>` +
+    `<div class="meta">${visItems[0].address || ""}</div>` +
+    blocks +
+    `<div class="tot"><span>전체 합계</span><span>${sum}대</span></div></div>`;
 }
 
 function refresh() {
-  let visibleCount = 0;
+  let visibleStops = 0;
   let chargerSum = 0;
-  markers.forEach(m => {
-    const ops = Object.keys(m.item.operators);
-    const show = ops.some(op => active.has(op));
-    if (show) {
-      m.marker.setImage(markerImageFor(m.item));
-      m.marker.setMap(map);   // 개별 점(마커)으로 표시 (클러스터 숫자 X)
-      visibleCount++;
-      ops.forEach(op => { if (active.has(op)) chargerSum += m.item.operators[op]; });
+  nodes.forEach(node => {
+    const visItems = node.items.filter(it => Object.keys(it.operators).some(op => active.has(op)));
+    if (visItems.length) {
+      node.marker.setImage(nodeMarkerImage(node, visItems));
+      node.marker.setMap(map);
+      node._visItems = visItems;     // 클릭 팝업에서 사용
+      visibleStops += visItems.length;
+      visItems.forEach(it => Object.keys(it.operators).forEach(op => { if (active.has(op)) chargerSum += it.operators[op]; }));
     } else {
-      m.marker.setMap(null);
+      node._visItems = [];
+      node.marker.setMap(null);
     }
   });
-  document.getElementById("stat-stops").textContent = visibleCount;
+  document.getElementById("stat-stops").textContent = visibleStops;
   document.getElementById("stat-chargers").textContent = chargerSum.toLocaleString() + "대";
+  const dupEl = document.getElementById("stat-dup");
+  if (dupEl) dupEl.textContent = nodes.filter(n => (n._visItems || []).length > 1).length + "곳";
 }
 
 // ===== CSV 업로드 =====
@@ -462,7 +507,7 @@ function geocodeClient(name, address) {
 
 function updateCounts() {
   for (const op in OP_STOPCOUNT) OP_STOPCOUNT[op] = 0;
-  markers.forEach(m => Object.keys(m.item.operators).forEach(op => {
+  ITEMS.forEach(it => Object.keys(it.operators).forEach(op => {
     if (op in OP_STOPCOUNT) OP_STOPCOUNT[op]++;
   }));
   document.querySelectorAll(".op").forEach(el => {
@@ -471,17 +516,23 @@ function updateCounts() {
   });
 }
 
-function addMarkerForItem(d) {
-  const marker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(d.lat, d.lng),
-    image: markerImageFor(d),
-    title: d.name,
-  });
-  kakao.maps.event.addListener(marker, "click", () => {
-    infowindow.setContent(iwContent(d));
-    infowindow.open(map, marker);
-  });
-  markers.push({ marker, item: d });
+// 항목을 같은 좌표 지점(node)에 묶어 마커 1개로 관리 (중복 지점 처리)
+function addItem(d) {
+  ITEMS.push(d);
+  const key = nodeKey(d.lat, d.lng);
+  let node = nodeIndex[key];
+  if (!node) {
+    node = { items: [], lat: d.lat, lng: d.lng, marker: null };
+    nodeIndex[key] = node;
+    nodes.push(node);
+    node.marker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(d.lat, d.lng), title: d.name });
+    kakao.maps.event.addListener(node.marker, "click", () => {
+      infowindow.setContent(nodePopup(node, node._visItems || node.items));
+      infowindow.open(map, node.marker);
+    });
+  }
+  node.items.push(d);
+  return node;
 }
 
 async function handleUpload(file) {
@@ -531,7 +582,7 @@ async function handleUpload(file) {
       route: (cells[idx["노선명"]] || "").trim(), address,
       lat: geo.lat, lng: geo.lng, operators, total, approx: false, uploaded: true,
     };
-    addMarkerForItem(item);
+    addItem(item);
     added.push(item);
     ok++;
   }
@@ -555,7 +606,7 @@ function init() {
   });
   infowindow = new kakao.maps.InfoWindow({ removable: true, zIndex: 10 });
 
-  DATA.forEach(addMarkerForItem);
+  DATA.forEach(addItem);
 
   buildFilters();
   wireSettings();
