@@ -47,6 +47,7 @@
   #op-settings .os-foot button:hover { background: #3f4d66; }
   .iw-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
   .dup-badge { display: inline-block; min-width: 16px; height: 16px; line-height: 16px; padding: 0 4px; border-radius: 8px; background: #e23b3b; color: #fff; font-size: 11px; font-weight: 700; text-align: center; vertical-align: middle; margin-left: 4px; }
+  .cnt-chip { display: inline-block; height: 18px; line-height: 18px; padding: 0 7px; border-radius: 9px; color: #fff; font-size: 11px; font-weight: 700; vertical-align: middle; margin-left: 6px; }
   .iw .dup-item { border-top: 1px dashed #d2d2d2; padding-top: 8px; margin-top: 8px; }
   .iw .dup-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
   .iw .dup-sub { font-weight: 400; color: #778; font-size: 11px; margin-left: 6px; }
@@ -86,7 +87,7 @@
     <div class="stat">
       <div class="row"><span>표시 중 휴게소</span><b id="stat-stops">0</b></div>
       <div class="row"><span>선택 운영사 충전기</span><b id="stat-chargers">0</b></div>
-      <div class="row"><span>중복 지점 <span class="dup-badge" style="position:static">2</span></span><b id="stat-dup">0곳</b></div>
+      <div class="row"><span>중복 지점 (2+사업자)</span><b id="stat-dup">0곳</b></div>
     </div>
     <div class="toolbar">
       <button id="all-on">전체 선택</button>
@@ -104,6 +105,7 @@
     <div class="legend">
       <div>마커 색 = 대표 사업자(켜진 것 중 충전기 최다), 버튼 색과 동일</div>
       <div><span class="dot" style="width:8px;height:8px;"></span>마커 크기 = 휴게소 총 충전기 수 (사업자 ⚙로 색·모양·크기 조절)</div>
+      <div>마커 배지 = 그 지점 사업자 수(2+), <b style="color:#e2231a">빨강</b>=SK일렉링크 포함</div>
       <div><span class="approx" style="margin:0;">근사</span> 건설중·미확정 부지(점선 테두리, 읍·면 단위 근사 위치)</div>
     </div>
   </div>
@@ -216,24 +218,20 @@ function shapeSVG(shape, c, r, color, dash) {
   return `<circle cx="${c}" cy="${c}" r="${r}" ${attr}/>`;
 }
 const _imgCache = {};
-// count>1이면 중복 지점: 강조 링 + 개수 배지 추가
-function markerImage(total, color, shape, scale, approx, count) {
-  const key = `${total}|${color}|${shape}|${scale}|${approx}|${count}`;
+// badgeText가 있으면 우상단에 사업자 수 배지(텍스트·색)
+function markerImage(total, color, shape, scale, approx, badgeText, badgeColor) {
+  const key = `${total}|${color}|${shape}|${scale}|${approx}|${badgeText}|${badgeColor}`;
   if (_imgCache[key]) return _imgCache[key];
   const r = radiusFor(total) * scale;
-  const dup = count > 1;
-  const size = Math.ceil(r * 2 + (dup ? 22 : 6));
+  const size = Math.ceil(r * 2 + (badgeText ? 28 : 6));
   const c = size / 2;
   const dash = approx ? ' stroke-dasharray="3 2"' : "";
-  let inner = "";
-  if (dup) {  // 중복 강조 링
-    inner += `<circle cx="${c}" cy="${c}" r="${r + 3}" fill="none" stroke="${color}" stroke-width="1.5" stroke-opacity="0.55"/>`;
-  }
-  inner += shapeSVG(shape, c, r, color, dash);
-  if (dup) {  // 우상단 개수 배지
-    const bx = c + r * 0.78, by = c - r * 0.78, rb = 7.5;
-    inner += `<circle cx="${bx}" cy="${by}" r="${rb}" fill="#e23b3b" stroke="#fff" stroke-width="1.5"/>`;
-    inner += `<text x="${bx}" y="${by + 3}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif">${count}</text>`;
+  let inner = shapeSVG(shape, c, r, color, dash);
+  if (badgeText) {  // 우상단 모서리 고정 배지
+    const bw = 9 + badgeText.length * 6.6, bh = 15;
+    const bx = size - bw / 2 - 2, by = bh / 2 + 2;
+    inner += `<rect x="${(bx - bw / 2).toFixed(1)}" y="${(by - bh / 2).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh}" rx="7" fill="${badgeColor}" stroke="#fff" stroke-width="1.3"/>`;
+    inner += `<text x="${bx.toFixed(1)}" y="${(by + 3.6).toFixed(1)}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="sans-serif">${badgeText}</text>`;
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">${inner}</svg>`;
   const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
@@ -253,13 +251,26 @@ function dominantOpOf(items) {
   });
   return best;
 }
-// 지점(node)의 보이는 항목들 기준 마커 이미지: 대표 사업자 스타일 + 중복 배지
+const isSKEL = op => op.includes("SK일렉링크");
+// 지점의 보이는 사업자 집합 정보: 개수 + SK일렉링크 포함 여부
+function nodeOpInfo(visItems) {
+  const s = new Set();
+  visItems.forEach(it => Object.keys(it.operators).forEach(op => { if (active.has(op)) s.add(op); }));
+  return { count: s.size, hasSK: [...s].some(isSKEL) };
+}
+// 지점(node)의 보이는 항목들 기준 마커 이미지: 대표 사업자 스타일 + 사업자 수 배지
 function nodeMarkerImage(node, visItems) {
   const op = dominantOpOf(visItems);
   const color = op ? COLORS[op] : "#9aa6b5";
   const total = visItems.reduce((s, it) => s + it.total, 0);
   const approx = visItems.some(it => it.approx);
-  return markerImage(total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, approx, visItems.length);
+  const { count, hasSK } = nodeOpInfo(visItems);
+  let badgeText = "", badgeColor = "";
+  if (count >= 2) {
+    badgeText = hasSK ? "SK" + count : "" + count;
+    badgeColor = hasSK ? "#e2231a" : "#475569";  // SK 빨강 / 일반 슬레이트
+  }
+  return markerImage(total, color, op ? shapeOf(op) : "circle", op ? scaleOf(op) : 1, approx, badgeText, badgeColor);
 }
 
 function makeOpButton(op) {
@@ -397,9 +408,15 @@ function opRows(operators) {
   return Object.entries(operators)
     .map(([k, v]) => `<tr><td><span class="iw-sw" style="background:${COLORS[k]||'#999'}"></span>${k}</td><td class="n">${v}</td></tr>`).join("");
 }
+function countChip(operators) {
+  const ops = Object.keys(operators);
+  if (ops.length < 2) return "";
+  const sk = ops.some(isSKEL);
+  return `<span class="cnt-chip" style="background:${sk ? '#e2231a' : '#475569'}">중복 ${sk ? "SK" : ""}${ops.length}</span>`;
+}
 function iwContent(d) {
   const approx = d.approx ? '<span class="approx">근사</span>' : "";
-  return `<div class="iw"><h3>${d.name}${approx}</h3>` +
+  return `<div class="iw"><h3>${d.name}${approx}${countChip(d.operators)}</h3>` +
     `<div class="meta">${d.type || ""} · ${d.route || ""}<br>${d.address || ""}</div>` +
     `<table>${opRows(d.operators)}</table>` +
     `<div class="tot"><span>합계</span><span>${d.total}대</span></div></div>`;
@@ -441,7 +458,10 @@ function refresh() {
   document.getElementById("stat-stops").textContent = visibleStops;
   document.getElementById("stat-chargers").textContent = chargerSum.toLocaleString() + "대";
   const dupEl = document.getElementById("stat-dup");
-  if (dupEl) dupEl.textContent = nodes.filter(n => (n._visItems || []).length > 1).length + "곳";
+  if (dupEl) {
+    const dup = nodes.filter(n => (n._visItems || []).length && nodeOpInfo(n._visItems).count >= 2).length;
+    dupEl.textContent = dup + "곳";
+  }
 }
 
 // ===== CSV 업로드 =====
