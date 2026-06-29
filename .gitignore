@@ -6,3 +6,5 @@ geocode_failed.csv
 __pycache__/
 *.pyc
 .gstack/
+.wrangler/
+node_modules/

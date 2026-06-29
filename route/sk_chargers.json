@@ -1,0 +1,2747 @@
+[
+ {
+  "name": "경주휴게소 (부산)",
+  "lat": 35.7244266,
+  "lng": 129.1926615,
+  "address": "경상북도 경주시 내남면 경부고속도로 59",
+  "region": "경상북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "고성공룡나라휴게소 (대전)",
+  "lat": 35.0557812,
+  "lng": 128.253619,
+  "address": "경상남도 고성군 대가면 통영대전고속도로 32",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "고성공룡나라휴게소 (통영)",
+  "lat": 35.0515626,
+  "lng": 128.2640819,
+  "address": "경상남도 고성군 대가면 통영대전고속도로 29",
+  "region": "경상남도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "고창고인돌휴게소 (시흥)",
+  "lat": 35.4613233,
+  "lng": 126.6728433,
+  "address": "전라북도 고창군 고창읍 서해안고속도로 80",
+  "region": "전라북도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "공주휴게소 (대전)",
+  "lat": 36.4969281,
+  "lng": 127.1650238,
+  "address": "충청남도 공주시 당진영덕고속도로 72 (송선동)",
+  "region": "충청남도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "괴산휴게소 (창원)",
+  "lat": 36.8310012,
+  "lng": 127.958043,
+  "address": "충청북도 괴산군 장연면 중부내륙고속도로 205",
+  "region": "충청북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "군위영천휴게소 (영천)",
+  "lat": 36.0708186,
+  "lng": 128.7077762,
+  "address": "대구 군위군 산성면 치산효령로 865-43",
+  "region": "대구",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 6
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 6
+  }
+ },
+ {
+  "name": "군위휴게소 (부산)",
+  "lat": 36.2659722,
+  "lng": 128.5748572,
+  "address": "경상북도 군위군 군위읍 경북대로 4084",
+  "region": "경상북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "금산인삼랜드휴게소 (통영)",
+  "lat": 36.1536328,
+  "lng": 127.4953671,
+  "address": "충청남도 금산군 군북면 어필각로 300",
+  "region": "충청남도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "기흥휴게소 (부산)",
+  "lat": 37.2357322,
+  "lng": 127.103557,
+  "address": "경기 용인시 기흥구 공세로 173",
+  "region": "경기도",
+  "total": 8,
+  "fast": 8,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 7
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 8,
+  "status": {
+   "정상사용": 8
+  }
+ },
+ {
+  "name": "김제휴게소 (새만금)",
+  "lat": 35.841742,
+  "lng": 126.9038669,
+  "address": "전북특별자치도 김제시 하정로 93",
+  "region": "전라북도",
+  "total": 8,
+  "fast": 8,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 7
+   },
+   {
+    "kw": 50,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC차데모+AC3상+DC콤보(승용)",
+   "DC콤보+NACS"
+  ],
+  "makers": [
+   "모던텍"
+  ],
+  "years": [
+   "2025"
+  ],
+  "luckypass": 0,
+  "status": {
+   "정상사용": 8
+  }
+ },
+ {
+  "name": "김제휴게소 (전주)",
+  "lat": 35.8394016,
+  "lng": 126.8965202,
+  "address": "전북특별자치도 김제시 백산면 하정2길 126",
+  "region": "전라북도",
+  "total": 7,
+  "fast": 7,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 6
+   },
+   {
+    "kw": 50,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC차데모+AC3상+DC콤보(승용)",
+   "DC콤보+NACS"
+  ],
+  "makers": [
+   "모던텍"
+  ],
+  "years": [
+   "2025"
+  ],
+  "luckypass": 7,
+  "status": {
+   "정상사용": 7
+  }
+ },
+ {
+  "name": "김해금관가야휴게소 (창원)",
+  "lat": 35.270339,
+  "lng": 129.003914,
+  "address": "경상남도 김해시 대동면 동남로 400",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "낙동강구미휴게소 (상주)",
+  "lat": 36.3430393,
+  "lng": 128.3008814,
+  "address": "경북 구미시 도개면 용산리 산 29-10",
+  "region": "경상북도",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 6
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 6
+  }
+ },
+ {
+  "name": "낙동강의성휴게소 (영천)",
+  "lat": 36.3447978,
+  "lng": 128.2969452,
+  "address": "경북 구미시 도개면 용산리 산 21-8",
+  "region": "경상북도",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 6
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 6
+  }
+ },
+ {
+  "name": "남성주휴게소 (양평)",
+  "lat": 35.858393,
+  "lng": 128.3196755,
+  "address": "경상북도 성주군 용암면 중부내륙고속도로 76",
+  "region": "경상북도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "남양졸음쉼터",
+  "lat": 37.1878813,
+  "lng": 126.838131,
+  "address": "경기도 화성시 남양읍 고향의봄길 71-13",
+  "region": "경기도",
+  "total": 1,
+  "fast": 1,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 50,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "중앙제어"
+  ],
+  "years": [
+   "2021"
+  ],
+  "luckypass": 1,
+  "status": {
+   "정상사용": 1
+  }
+ },
+ {
+  "name": "내린천휴게소 (양양)",
+  "lat": 37.9151915,
+  "lng": 128.2878183,
+  "address": "강원도 인제군 상남면 서울양양고속도로 116",
+  "region": "강원도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "대관령 강릉휴게소 (강릉)",
+  "lat": 37.7571415,
+  "lng": 128.8053871,
+  "address": "강원도 강릉시 성산면 영동고속도로 232",
+  "region": "강원도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "대관령 강릉휴게소 (인천)",
+  "lat": 37.7592199,
+  "lng": 128.804822,
+  "address": "강원도 강릉시 성산면 영동고속도로 231-1",
+  "region": "강원도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "덕유산휴게소 (통영)",
+  "lat": 35.8141195,
+  "lng": 127.6435683,
+  "address": "전라북도 장수군 계북면 통영대전고속도로 147",
+  "region": "전라북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "덕유산휴게소 (하남)",
+  "lat": 35.8170002,
+  "lng": 127.6458517,
+  "address": "전라북도 무주군 안성면 통영대전고속도로 148",
+  "region": "전라북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "독정(시흥) 졸음쉼터",
+  "lat": 37.0648672,
+  "lng": 126.8632934,
+  "address": "경기 화성시 장안면 평택시흥고속도로 4",
+  "region": "경기도",
+  "total": 1,
+  "fast": 1,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 1,
+  "status": {
+   "정상사용": 1
+  }
+ },
+ {
+  "name": "동명휴게소 (춘천)",
+  "lat": 36.0066115,
+  "lng": 128.5488426,
+  "address": "경상북도 칠곡군 동명면 중앙고속도로 122",
+  "region": "경상북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "망향휴게소 (부산)",
+  "lat": 36.8541836,
+  "lng": 127.1804749,
+  "address": "충청남도 천안시 서북구 성거읍 요방리 125-1",
+  "region": "충청남도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "문경휴게소 (창원)",
+  "lat": 36.6217089,
+  "lng": 128.1494602,
+  "address": "경상북도 문경시 중부내륙고속도로 173",
+  "region": "경상북도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "문막휴게소 (인천)",
+  "lat": 37.2974879,
+  "lng": 127.8173226,
+  "address": "강원도 원주시 문막읍 개나루길 13",
+  "region": "강원도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "문의청남대휴게소 (영덕)",
+  "lat": 36.5429386,
+  "lng": 127.4833183,
+  "address": "충청북도 청주시 상당구 문의면 당진영덕고속도로 124",
+  "region": "충청북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "문의청남대휴게소 (청주)",
+  "lat": 36.5442136,
+  "lng": 127.483893,
+  "address": "충청북도 청주시 상당구 문의면 당진영덕고속도로 123",
+  "region": "충청북도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "별내휴게소",
+  "lat": 37.691903,
+  "lng": 127.129855,
+  "address": "경기도 남양주시 별내면 구리포천고속도로 14",
+  "region": "경기도",
+  "total": 11,
+  "fast": 11,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 8
+   },
+   {
+    "kw": 50,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC차데모+AC3상+DC콤보(승용)",
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷",
+   "중앙제어"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 0,
+  "status": {
+   "정상사용": 11
+  }
+ },
+ {
+  "name": "사천휴게소 (부산)",
+  "lat": 35.0734776,
+  "lng": 128.0114341,
+  "address": "경상남도 사천시 곤양면 서삼로 619",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "사천휴게소 (순천)",
+  "lat": 35.0747916,
+  "lng": 128.0132868,
+  "address": "경상남도 사천시 곤양면 묵실길 31-11",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "삼국유사군위휴게소 (상주)",
+  "lat": 36.0793307,
+  "lng": 128.6973075,
+  "address": "대구 군위군 부계면 치산효령로 989-23",
+  "region": "대구",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 6
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 6
+  }
+ },
+ {
+  "name": "서산휴게소 (목포)",
+  "lat": 36.7438449,
+  "lng": 126.5657578,
+  "address": "충청남도 서산시 해미면 서해안고속도로 241",
+  "region": "충청남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "서산휴게소 (시흥)",
+  "lat": 36.7339037,
+  "lng": 126.5671013,
+  "address": "충청남도 서산시 해미면 서해안고속도로 242",
+  "region": "충청남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "서울만남휴게소 (부산)",
+  "lat": 37.4596599,
+  "lng": 127.0423491,
+  "address": "서울특별시 서초구 양재대로12길 73-71 (원지동)",
+  "region": "서울",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "서천휴게소 (목포)",
+  "lat": 36.1303648,
+  "lng": 126.6259912,
+  "address": "충청남도 서천군 비인면 서해안고속도로 169",
+  "region": "충청남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "서하남 간이 휴게소 (판교)",
+  "lat": 37.5257163,
+  "lng": 127.1926972,
+  "address": "경기도 하남시 수도권제1순환고속도로 19 (춘궁동)",
+  "region": "경기도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "선산휴게소 (양평)",
+  "lat": 36.2769046,
+  "lng": 128.2496663,
+  "address": "경상북도 구미시 옥성면 중부내륙고속도로 128",
+  "region": "경상북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "성남택시쉼터(개방 외부사용 시간 확인 필수)",
+  "lat": 37.4226468,
+  "lng": 127.1225414,
+  "address": "경기 성남시 중원구 여수대로 179",
+  "region": "경기도",
+  "total": 10,
+  "fast": 10,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 10
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 10,
+  "status": {
+   "정상사용": 10
+  }
+ },
+ {
+  "name": "송산마도IC영업소",
+  "lat": 37.2094553,
+  "lng": 126.7521555,
+  "address": "경기 화성시 마도면 평택시흥고속도로 21",
+  "region": "경기도",
+  "total": 5,
+  "fast": 2,
+  "slow": 3,
+  "byKw": [
+   {
+    "kw": 100,
+    "speed": "급속",
+    "count": 2
+   },
+   {
+    "kw": 7,
+    "speed": "완속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "AC완속(승용)",
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷",
+   "이카플러그"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "송산포도휴게소(시흥방향)",
+  "lat": 37.2363437,
+  "lng": 126.7570842,
+  "address": "경기 화성시 송산면 평택시흥고속도로 25",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "송산포도휴게소(평택방향)",
+  "lat": 37.237254,
+  "lng": 126.7571855,
+  "address": "경기 화성시 송산면 평택시흥고속도로 25",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "신녕IC영업소",
+  "lat": 36.039185,
+  "lng": 128.8110294,
+  "address": "경북 영천시 화산면 신정길 60-40",
+  "region": "경상북도",
+  "total": 3,
+  "fast": 2,
+  "slow": 1,
+  "byKw": [
+   {
+    "kw": 100,
+    "speed": "급속",
+    "count": 2
+   },
+   {
+    "kw": 7,
+    "speed": "완속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "AC완속(승용)",
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷",
+   "이카플러그"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 0,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "신탄진휴게소 (서울)",
+  "lat": 36.4278643,
+  "lng": 127.417519,
+  "address": "대전광역시 대덕구 산업단지로 27 (상서동)",
+  "region": "대전",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "언양휴게소 (서울)",
+  "lat": 35.5970803,
+  "lng": 129.1413276,
+  "address": "울산광역시 울주군 언양읍 경부고속도로 44",
+  "region": "울산",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "여주휴게소 (강릉)",
+  "lat": 37.2384378,
+  "lng": 127.5681291,
+  "address": "경기도 여주시 가남읍 여주남로 722",
+  "region": "경기도",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 5,
+   "고장조치중": 1
+  }
+ },
+ {
+  "name": "여주휴게소 (인천)",
+  "lat": 37.2397297,
+  "lng": 127.569294,
+  "address": "경기도 여주시 가남읍 화평길 116",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "영산 휴게소 (창원)",
+  "lat": 35.4293788,
+  "lng": 128.495714,
+  "address": "경상남도 창녕군 영산면 장척호수길 56-110",
+  "region": "경상남도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "영천휴게소 (대구)",
+  "lat": 36.0523646,
+  "lng": 129.0455892,
+  "address": "경상북도 영천시 임고면 운주로 791",
+  "region": "경상북도",
+  "total": 6,
+  "fast": 6,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 6,
+  "status": {
+   "정상사용": 6
+  }
+ },
+ {
+  "name": "영천휴게소 (포항)",
+  "lat": 36.0511505,
+  "lng": 129.0438684,
+  "address": "경상북도 영천시 임고면 운주로 777",
+  "region": "경상북도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "오수휴게소 (순천)",
+  "lat": 35.5399416,
+  "lng": 127.3093028,
+  "address": "전라북도 임실군 오수면 순천완주고속도로 73",
+  "region": "전라북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 3,
+   "고장조치중": 1
+  }
+ },
+ {
+  "name": "오수휴게소 (완주)",
+  "lat": 35.5390189,
+  "lng": 127.3106225,
+  "address": "전라북도 임실군 오수면 순천완주고속도로 74",
+  "region": "전라북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "오창휴게소 (하남)",
+  "lat": 36.7556161,
+  "lng": 127.4804469,
+  "address": "충청북도 청주시 청원구 오창읍 중부고속도로 20",
+  "region": "충청북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "옥계휴게소 (속초)",
+  "lat": 37.615139,
+  "lng": 129.0608331,
+  "address": "강원도 강릉시 옥계면 동해고속도로 320",
+  "region": "강원도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "울주휴게소 (울산)",
+  "lat": 35.5101542,
+  "lng": 129.1310097,
+  "address": "울산광역시 울주군 삼동면 함양울산고속도로 134",
+  "region": "울산",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "울주휴게소 (함양)",
+  "lat": 35.512704,
+  "lng": 129.1289886,
+  "address": "울산광역시 울주군 삼동면 함양울산고속도로 133",
+  "region": "울산",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 2,
+   "고장조치중": 1
+  }
+ },
+ {
+  "name": "의왕청계행복드림쉼터",
+  "lat": 37.3934246,
+  "lng": 127.0233566,
+  "address": "경기도 의왕시 안양판교로 476 (청계동)",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "의정부휴게소",
+  "lat": 37.7318256,
+  "lng": 127.1150521,
+  "address": "경기 의정부시 구리포천고속도로 19",
+  "region": "경기도",
+  "total": 12,
+  "fast": 12,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 2
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 9
+   },
+   {
+    "kw": 50,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC차데모+AC3상+DC콤보(승용)",
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷",
+   "중앙제어"
+  ],
+  "years": [
+   "2017",
+   "2023"
+  ],
+  "luckypass": 0,
+  "status": {
+   "정상사용": 11,
+   "임시사용중지": 1
+  }
+ },
+ {
+  "name": "이천휴게소 (하남)",
+  "lat": 37.2932483,
+  "lng": 127.3793835,
+  "address": "경기도 이천시 신둔면 서이천로853번길 346-129",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "익산미륵사지휴게소 (순천)",
+  "lat": 36.0490334,
+  "lng": 127.1026409,
+  "address": "전라북도 익산시 여산면 호남고속도로 191",
+  "region": "전라북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "입장휴게소 (서울)",
+  "lat": 36.9428479,
+  "lng": 127.1941999,
+  "address": "충청남도 천안시 서북구 입장면 연곡길 407",
+  "region": "충청남도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "장안(평택) 졸음쉼터",
+  "lat": 37.0927703,
+  "lng": 126.8447192,
+  "address": "경기 화성시 장안면 평택시흥고속도로 7",
+  "region": "경기도",
+  "total": 1,
+  "fast": 1,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 1,
+  "status": {
+   "정상사용": 1
+  }
+ },
+ {
+  "name": "죽암휴게소 (부산)",
+  "lat": 36.4862717,
+  "lng": 127.4292654,
+  "address": "충청북도 청주시 서원구 현도면 경부고속도로 289",
+  "region": "충청북도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "진주휴게소 (부산)",
+  "lat": 35.1596238,
+  "lng": 128.1209657,
+  "address": "경상남도 진주시 남해고속도로 194",
+  "region": "경상남도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "진주휴게소(부산) 외부 반려견 공원 주차장",
+  "lat": 35.1591027,
+  "lng": 128.1205415,
+  "address": "경상남도 진주시 남해고속도로 194",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 0,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "청송휴게소 (영덕)",
+  "lat": 36.4558545,
+  "lng": 129.0140014,
+  "address": "경상북도 청송군 파천면 중평병부길 203-115",
+  "region": "경상북도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "청송휴게소 (청주)",
+  "lat": 36.4565642,
+  "lng": 129.0113234,
+  "address": "경상북도 청송군 파천면 중평병부길 203-92",
+  "region": "경상북도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "청주휴게소 (서울)",
+  "lat": 36.7166701,
+  "lng": 127.348401,
+  "address": "충청북도 청주시 흥덕구 옥산면 경부고속도로 318-1",
+  "region": "충청북도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "칠곡휴게소 (서울)",
+  "lat": 36.0113372,
+  "lng": 128.4302908,
+  "address": "경상북도 칠곡군 왜관읍 경부고속도로 158",
+  "region": "경상북도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "택시쉼터 공영주차장(이천)",
+  "lat": 37.2863033,
+  "lng": 127.4403576,
+  "address": "경기도 이천시 설봉로 122",
+  "region": "경기도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 100,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "중앙제어"
+  ],
+  "years": [
+   "2021"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "택시쉼터 주차장(통영)",
+  "lat": 34.8757751,
+  "lng": 128.4135745,
+  "address": "경상남도 통영시 광도면 남해안대로 923",
+  "region": "경상남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "함안휴게소 (순천)",
+  "lat": 35.2945956,
+  "lng": 128.343525,
+  "address": "경상남도 함안군 군북면 현포로 205-1",
+  "region": "경상남도",
+  "total": 5,
+  "fast": 5,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 5
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 5,
+  "status": {
+   "정상사용": 5
+  }
+ },
+ {
+  "name": "함평나비휴게소 (광주)",
+  "lat": 35.0377587,
+  "lng": 126.5125297,
+  "address": "전라남도 함평군 엄다면 무안광주고속도로 12",
+  "region": "전라남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "홍성휴게소 (서울)",
+  "lat": 36.553737,
+  "lng": 126.581763,
+  "address": "충청남도 홍성군 은하면 서해안고속도로 220",
+  "region": "충청남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "홍천강휴게소 (춘천)",
+  "lat": 37.7130314,
+  "lng": 127.8267423,
+  "address": "강원도 홍천군 북방면 도사곡길 223",
+  "region": "강원도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "홍천휴게소 (서울)",
+  "lat": 37.7588229,
+  "lng": 128.0056573,
+  "address": "강원도 홍천군 화촌면 서울양양고속도로 83",
+  "region": "강원도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "화성시 택시쉼터",
+  "lat": 37.1975446,
+  "lng": 126.9905592,
+  "address": "경기도 화성시 안녕남로 63 (안녕동)",
+  "region": "경기도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 4
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ },
+ {
+  "name": "황전휴게소 (순천)",
+  "lat": 35.1481785,
+  "lng": 127.4547065,
+  "address": "전라남도 순천시 황전면 순천완주고속도로 25",
+  "region": "전라남도",
+  "total": 3,
+  "fast": 3,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 2
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 3,
+  "status": {
+   "정상사용": 3
+  }
+ },
+ {
+  "name": "황전휴게소 (전주)",
+  "lat": 35.1531394,
+  "lng": 127.4555901,
+  "address": "전라남도 순천시 황전면 순천완주고속도로 28",
+  "region": "전라남도",
+  "total": 2,
+  "fast": 2,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 1
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 2,
+  "status": {
+   "정상사용": 2
+  }
+ },
+ {
+  "name": "횡성휴게소 (인천)",
+  "lat": 37.4644776,
+  "lng": 128.135835,
+  "address": "강원도 횡성군 안흥면 영동고속도로 153",
+  "region": "강원도",
+  "total": 4,
+  "fast": 4,
+  "slow": 0,
+  "byKw": [
+   {
+    "kw": 350,
+    "speed": "급속",
+    "count": 1
+   },
+   {
+    "kw": 200,
+    "speed": "급속",
+    "count": 3
+   }
+  ],
+  "connectors": [
+   "DC콤보(승용)"
+  ],
+  "makers": [
+   "시그넷"
+  ],
+  "years": [
+   "2023"
+  ],
+  "luckypass": 4,
+  "status": {
+   "정상사용": 4
+  }
+ }
+]
