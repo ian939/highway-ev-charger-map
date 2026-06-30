@@ -29,7 +29,7 @@
     position:fixed;left:0;right:0;bottom:0;pointer-events:auto;
     background:#fff;border-radius:20px 20px 0 0;padding:2px 15px 14px;
     box-shadow:0 -8px 30px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .26s cubic-bezier(.32,.72,0,1);
-    max-width:520px;margin:0 auto;max-height:40vh;overflow-y:auto;
+    max-width:520px;margin:0 auto;
   }
   #search.open .search-body{transform:translateY(0);}
   .search-body .grab{width:38px;height:4px;border-radius:2px;background:#e0e3e8;margin:7px auto 11px;cursor:pointer;}
@@ -43,8 +43,6 @@
   }
   .field input:focus{border-color:var(--blue);}
   .field input::placeholder{color:#b0b8c1;}
-  .swap{display:block;margin:-1px auto 5px;width:30px;height:30px;border-radius:50%;
-    border:1px solid var(--line);background:#fff;cursor:pointer;font-size:13px;color:var(--gray);box-shadow:0 2px 6px rgba(0,0,0,.08);}
   /* 자동완성 — 입력 위로 펼침(시트가 하단이라) */
   .ac{
     position:absolute;left:0;right:0;bottom:calc(100% + 5px);z-index:40;background:#fff;
@@ -66,9 +64,6 @@
   #reset{width:100%;margin-top:6px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
     color:var(--gray);font-size:12.5px;font-weight:700;padding:10px;cursor:pointer;font-family:inherit;}
   #reset:hover{border-color:var(--gray);color:var(--ink);}
-  .radius{display:flex;align-items:center;gap:9px;margin:10px 2px 2px;font-size:12px;color:var(--gray);}
-  .radius input[type=range]{flex:1;accent-color:var(--blue);}
-  .radius b{color:var(--ink);font-weight:700;min-width:38px;text-align:right;}
 
   /* 바텀시트 */
   #scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s;}
@@ -136,7 +131,7 @@
   .tool-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;border-radius:11px;
     border:1.5px solid var(--line);background:#fff;font-size:12px;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;}
   .tool-chip.on{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
-  #panel{margin-top:7px;display:none;max-height:150px;overflow-y:auto;}
+  #panel{display:none;max-height:38vh;overflow-y:auto;margin-bottom:9px;}
   #panel.show{display:block;}
   .panel-item{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:11px;background:var(--bg);margin-bottom:5px;cursor:pointer;}
   .panel-item:hover{background:#eef1f4;}
@@ -161,28 +156,22 @@
   <button id="openSearch">경로 찾기</button>
   <div class="search-body">
     <div class="grab" id="closeSearch"></div>
+    <div id="panel"></div>
     <div class="field">
       <span class="dot start"></span>
       <input id="from" type="text" placeholder="출발지 검색 (예: 서울역)" autocomplete="off" />
       <div class="ac" id="ac-from"></div>
     </div>
-    <button class="swap" id="swap" title="출발/도착 바꾸기">⇅</button>
     <div class="field">
       <span class="dot end"></span>
       <input id="to" type="text" placeholder="도착지 검색 (예: 부산역)" autocomplete="off" />
       <div class="ac" id="ac-to"></div>
-    </div>
-    <div class="radius">
-      <span>경로 반경</span>
-      <input id="radius" type="range" min="1" max="15" step="1" value="1" />
-      <b id="radius-val">1 km</b>
     </div>
     <button id="go">경로 찾기</button>
     <button id="reset" style="display:none">↺ 초기화</button>
     <div class="tools">
       <div class="tool-chip" id="tab-history">🕘 최근 검색</div>
     </div>
-    <div id="panel"></div>
   </div>
 </div>
 
@@ -426,8 +415,8 @@ function endMarker(lat,lng,color,label){
 }
 
 function selectStops(path){
-  window._lastPath = path;        // 반경 변경 시 재계산용
-  const radius = +$("radius").value;
+  window._lastPath = path;
+  const radius = 2;               // 경로 반경 고정 2km
   // 누적거리 (정렬용)
   const cum=[0];
   for(let i=1;i<path.length;i++) cum[i]=cum[i-1]+haversine(path[i-1].lat,path[i-1].lng,path[i].lat,path[i].lng);
@@ -562,17 +551,6 @@ function init(){
   $("reset").addEventListener("click", resetRoute);
   // 자동완성 목록이 닫혀 있을 때만 Enter로 경로 찾기 (목록 열림 시는 자동완성이 처리)
   $("to").addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("ac-to").classList.contains("show")) findRoute(); });
-  $("swap").addEventListener("click", e=>{
-    e.preventDefault();
-    const f=$("from"), t=$("to"); const tmp=f.value; f.value=t.value; t.value=tmp;
-    const s=fromSel; fromSel=toSel; toSel=s;
-  });
-  $("radius").addEventListener("input", e=>{
-    $("radius-val").textContent = e.target.value+" km";
-  });
-  $("radius").addEventListener("change", ()=>{
-    if(routeLine && window._lastPath) selectStops(window._lastPath);
-  });
   $("scrim").addEventListener("click", closeSheet);
 
   // 최근 검색 탭
