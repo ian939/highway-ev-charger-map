@@ -22,7 +22,18 @@
     box-shadow:0 6px 24px rgba(0,0,0,.12);
   }
   #search h1{font-size:17px;font-weight:800;margin:0 0 2px;letter-spacing:-.4px;}
-  #search .desc{font-size:12px;color:var(--gray);margin:0 0 14px;}
+  #search .desc{font-size:12px;color:var(--gray);margin:0 0 12px;}
+  /* 요약 통계 */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
+  .stat{background:var(--bg);border-radius:12px;padding:10px 12px;}
+  .stat .sv{font-size:17px;font-weight:800;letter-spacing:-.4px;}
+  .stat .sl{font-size:11px;color:var(--gray);margin-top:1px;}
+  .stat.on .sv{color:var(--red);}
+  .stat.prep .sv{color:#16a34a;}
+  /* 초기화 버튼 */
+  #reset{width:100%;margin-top:7px;border:1.5px solid var(--line);border-radius:14px;background:#fff;
+    color:var(--gray);font-size:14px;font-weight:700;padding:13px;cursor:pointer;font-family:inherit;}
+  #reset:hover{border-color:var(--gray);color:var(--ink);}
   .field{position:relative;margin-bottom:9px;}
   .field .dot{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;}
   .field .dot.start{background:var(--blue);}
@@ -217,6 +228,7 @@
 <div id="search">
   <h1>동선 위 SK일렉링크 충전소 🔌</h1>
   <p class="desc">출발지·도착지를 입력하면 경로 주변 SK일렉링크 휴게소 충전기를 찾아드려요.</p>
+  <div id="stats" class="stats"></div>
   <div class="field">
     <span class="dot start"></span>
     <input id="from" type="text" placeholder="출발지 검색 (예: 서울역, 강남구청)" autocomplete="off" />
@@ -229,6 +241,7 @@
     <div class="ac" id="ac-to"></div>
   </div>
   <button id="go">경로 찾기</button>
+  <button id="reset" style="display:none">↺ 초기화</button>
   <div class="radius">
     <span>경로 반경</span>
     <input id="radius" type="range" min="1" max="15" step="1" value="1" />
@@ -305,6 +318,20 @@ async function loadData(){
     && Object.keys(d.operators).some(op => ["5차 1권역","5차 2권역","5차 3권역"].includes(op)));
   showAllSK();
   showAllPrep();
+  renderStats();
+}
+
+// 메인 요약 통계
+function renderStats(){
+  const stations = allSK.length;
+  const chargers = allSK.reduce((s,d)=>s+(d.total||0),0);
+  const prep = prepSites.length;
+  const prepCh = prepSites.reduce((s,d)=>s+prepPlannedCount(d),0);
+  $("stats").innerHTML = `
+    <div class="stat on"><div class="sv">${stations}개소</div><div class="sl">SK일렉링크 휴게소</div></div>
+    <div class="stat on"><div class="sv">${chargers}기</div><div class="sl">설치된 충전기</div></div>
+    <div class="stat prep"><div class="sv">${prep}곳</div><div class="sl">설치 고려중 휴게소</div></div>
+    <div class="stat prep"><div class="sv">${prepCh}기</div><div class="sl">설치 예정 충전기</div></div>`;
 }
 
 // 기본 상태: SK일렉링크 운영 충전소 전체를 작은 점 마커로 표시
@@ -460,11 +487,26 @@ async function findRoute(){
     selectStops(path);
     pushHistory({name:a.name||fromQ, lat:a.lat, lng:a.lng}, {name:b.name||toQ, lat:b.lat, lng:b.lng});
     if($("tab-history").classList.contains("on")) renderPanel("history");
+    $("reset").style.display = "";
   }catch(e){
     toast("오류가 발생했어요: " + e.message);
   }finally{
     go.disabled=false; go.textContent="경로 찾기";
   }
+}
+
+// 경로·결과 초기화 → 기본 보기로 복귀
+function resetRoute(){
+  if(routeLine){ routeLine.setMap(null); routeLine=null; }
+  if(startMk){ startMk.setMap(null); startMk=null; }
+  if(endMk){ endMk.setMap(null); endMk=null; }
+  markers.forEach(m=>m.setMap(null)); markers=[];
+  window._lastPath = null;
+  $("results").classList.remove("show");
+  $("reset").style.display = "none";
+  $("from").value=""; $("to").value=""; fromSel=null; toSel=null;
+  showAllSK(); showAllPrep();              // 기본 마커 복원
+  map.setCenter(new kakao.maps.LatLng(36.5, 127.8)); map.setLevel(13);
 }
 
 function extractPath(data){
@@ -718,6 +760,7 @@ function init(){
   setupAutocomplete("to","ac-to","to");
 
   $("go").addEventListener("click", findRoute);
+  $("reset").addEventListener("click", resetRoute);
   // 자동완성 목록이 닫혀 있을 때만 Enter로 경로 찾기 (목록 열림 시는 자동완성이 처리)
   $("to").addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("ac-to").classList.contains("show")) findRoute(); });
   $("swap").addEventListener("click", e=>{
