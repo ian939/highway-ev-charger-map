@@ -17,57 +17,58 @@
   html,body{margin:0;height:100%;font-family:"Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:#fff;}
   #map{position:fixed;inset:0;z-index:0;}
 
-  /* 하단 검색 — 접힘 시 보라 버튼, 탭하면 위로 확장 */
-  #search{position:fixed;z-index:35;left:0;right:0;bottom:0;}
+  /* 하단 검색 — 접힘 시 보라 버튼, 탭하면 위로 확장. (pointer-events로 지도 터치 통과) */
+  #search{position:fixed;z-index:35;left:0;right:0;bottom:0;pointer-events:none;}
   #openSearch{
-    position:absolute;bottom:16px;left:16px;right:16px;
-    border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:16px;font-weight:700;
-    padding:16px;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(120,60,252,.42);
+    position:absolute;bottom:14px;left:14px;right:14px;pointer-events:auto;
+    border:0;border-radius:13px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;
+    padding:14px;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(120,60,252,.42);
   }
   #search.open #openSearch{display:none;}
   .search-body{
-    position:relative;background:#fff;border-radius:22px 22px 0 0;padding:6px 18px 22px;
-    box-shadow:0 -8px 30px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .28s cubic-bezier(.32,.72,0,1);
-    max-width:520px;margin:0 auto;
+    position:fixed;left:0;right:0;bottom:0;pointer-events:auto;
+    background:#fff;border-radius:20px 20px 0 0;padding:2px 15px 14px;
+    box-shadow:0 -8px 30px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .26s cubic-bezier(.32,.72,0,1);
+    max-width:520px;margin:0 auto;max-height:40vh;overflow-y:auto;
   }
   #search.open .search-body{transform:translateY(0);}
-  .search-body .grab{width:42px;height:5px;border-radius:3px;background:#e0e3e8;margin:8px auto 16px;cursor:pointer;}
-  .field{position:relative;margin-bottom:9px;}
-  .field .dot{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;}
+  .search-body .grab{width:38px;height:4px;border-radius:2px;background:#e0e3e8;margin:7px auto 11px;cursor:pointer;}
+  .field{position:relative;margin-bottom:6px;}
+  .field .dot{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;}
   .field .dot.start{background:var(--blue);}
   .field .dot.end{background:var(--red);}
   .field input{
-    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:14px;
-    padding:15px 14px 15px 38px;font-size:16px;color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
+    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:11px;
+    padding:10px 12px 10px 30px;font-size:13.5px;color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
   }
   .field input:focus{border-color:var(--blue);}
   .field input::placeholder{color:#b0b8c1;}
-  .swap{display:block;margin:-2px auto 7px;width:38px;height:38px;border-radius:50%;
-    border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--gray);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  .swap{display:block;margin:-1px auto 5px;width:30px;height:30px;border-radius:50%;
+    border:1px solid var(--line);background:#fff;cursor:pointer;font-size:13px;color:var(--gray);box-shadow:0 2px 6px rgba(0,0,0,.08);}
   /* 자동완성 — 입력 위로 펼침(시트가 하단이라) */
   .ac{
-    position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:40;background:#fff;
-    border-radius:14px;box-shadow:0 -8px 24px rgba(0,0,0,.16);overflow:hidden;display:none;
-    max-height:240px;overflow-y:auto;
+    position:absolute;left:0;right:0;bottom:calc(100% + 5px);z-index:40;background:#fff;
+    border-radius:12px;box-shadow:0 -8px 24px rgba(0,0,0,.16);overflow:hidden;display:none;
+    max-height:200px;overflow-y:auto;
   }
   .ac.show{display:block;}
-  .ac-item{padding:13px 16px;cursor:pointer;border-bottom:1px solid #f1f3f5;}
+  .ac-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #f1f3f5;}
   .ac-item:last-child{border-bottom:0;}
   .ac-item:hover,.ac-item.active{background:var(--blue-soft);}
-  .ac-item .t{font-size:14.5px;font-weight:600;color:var(--ink);}
-  .ac-item .a{font-size:12px;color:var(--gray);margin-top:2px;}
+  .ac-item .t{font-size:13px;font-weight:600;color:var(--ink);}
+  .ac-item .a{font-size:11px;color:var(--gray);margin-top:1px;}
   #go{
-    width:100%;margin-top:6px;border:0;border-radius:14px;background:var(--blue);color:#fff;
-    font-size:16px;font-weight:700;padding:16px;cursor:pointer;font-family:inherit;transition:background .12s;
+    width:100%;margin-top:4px;border:0;border-radius:12px;background:var(--blue);color:#fff;
+    font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:inherit;transition:background .12s;
   }
   #go:hover{background:var(--blue-dark);}
   #go:disabled{background:#c9b8f5;cursor:default;}
-  #reset{width:100%;margin-top:8px;border:1.5px solid var(--line);border-radius:14px;background:#fff;
-    color:var(--gray);font-size:14px;font-weight:700;padding:13px;cursor:pointer;font-family:inherit;}
+  #reset{width:100%;margin-top:6px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
+    color:var(--gray);font-size:12.5px;font-weight:700;padding:10px;cursor:pointer;font-family:inherit;}
   #reset:hover{border-color:var(--gray);color:var(--ink);}
-  .radius{display:flex;align-items:center;gap:10px;margin:14px 2px 4px;font-size:13px;color:var(--gray);}
+  .radius{display:flex;align-items:center;gap:9px;margin:10px 2px 2px;font-size:12px;color:var(--gray);}
   .radius input[type=range]{flex:1;accent-color:var(--blue);}
-  .radius b{color:var(--ink);font-weight:700;min-width:42px;text-align:right;}
+  .radius b{color:var(--ink);font-weight:700;min-width:38px;text-align:right;}
 
   /* 바텀시트 */
   #scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s;}
@@ -130,14 +131,14 @@
     color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3);}
   .lbl .lr{font-size:11.5px;font-weight:800;color:var(--red);line-height:1.5;text-align:center;white-space:nowrap;}
 
-  /* 도구(최근 검색·찜) */
-  .tools{display:flex;gap:7px;margin-top:10px;}
-  .tool-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:11px;border-radius:12px;
-    border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;}
+  /* 도구(최근 검색) */
+  .tools{display:flex;gap:7px;margin-top:7px;}
+  .tool-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;border-radius:11px;
+    border:1.5px solid var(--line);background:#fff;font-size:12px;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;}
   .tool-chip.on{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
-  #panel{margin-top:8px;display:none;max-height:220px;overflow-y:auto;}
+  #panel{margin-top:7px;display:none;max-height:150px;overflow-y:auto;}
   #panel.show{display:block;}
-  .panel-item{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;background:var(--bg);margin-bottom:6px;cursor:pointer;}
+  .panel-item{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:11px;background:var(--bg);margin-bottom:5px;cursor:pointer;}
   .panel-item:hover{background:#eef1f4;}
   .panel-item .pi-main{flex:1;min-width:0;}
   .panel-item .pi-t{font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -542,6 +543,10 @@ function init(){
   }
   kakao.maps.event.addListener(map,"dragend",clampToKorea);
   kakao.maps.event.addListener(map,"zoom_changed",clampToKorea);
+  // iframe/모바일에서 컨테이너 크기 확정 후 다시 중심 맞춤(초기 바다로 잡히는 문제 방지)
+  const recenter = ()=>{ map.relayout(); if(!routeLine){ map.setCenter(new kakao.maps.LatLng(36.5,127.8)); map.setLevel(13); } };
+  setTimeout(recenter, 60); setTimeout(recenter, 400);
+  window.addEventListener("resize", ()=>{ map.relayout(); });
   geocoder = new kakao.maps.services.Geocoder();
   ps = new kakao.maps.services.Places();
 

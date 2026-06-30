@@ -18,7 +18,7 @@
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--page);color:var(--ink);
     font-family:"Pretendard","Pretendard Variable","Noto Sans KR",-apple-system,system-ui,sans-serif;
-    line-height:1.6;-webkit-font-smoothing:antialiased}
+    line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
   @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -166,7 +166,7 @@
       <p style="color:var(--ink2);font-size:14.5px;margin:0 0 16px">2026년부터 고속도로 휴게소에도 구독 할인이 적용돼요. 스타터 구독이면 휴게소에서도 같은 단가로 충전할 수 있어요.</p>
       <div style="display:flex;align-items:baseline;gap:12px;padding:16px 18px;border-radius:14px;background:#FAFAFB;border:1px solid var(--line)">
         <span style="text-decoration:line-through;color:#B8B8BE;font-weight:700">391원</span>
-        <span style="font-size:26px;font-weight:800;color:var(--green)">315원<span style="font-size:13px;color:var(--ink2)">/kWh</span></span>
+        <span style="font-size:26px;font-weight:800;color:var(--green);white-space:nowrap">315원<span style="font-size:13px;color:var(--ink2)">/kWh</span></span>
         <span style="margin-left:auto;font-size:12.5px;color:var(--ink2)">스타터 구독 · 휴게소 적용</span>
       </div>
       <p style="margin:14px 0 0;font-size:12.5px;color:var(--ink2)">＊ 일부 민자·제외 충전소가 있을 수 있어요. 적용 충전소는 앱에서 확인하세요.</p>
