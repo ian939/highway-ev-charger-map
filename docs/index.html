@@ -121,6 +121,22 @@
   .sk-total .l{font-size:14px;font-weight:700;color:var(--red);}
   .sk-total .r{font-size:22px;font-weight:800;color:var(--red);}
   .sub-total{text-align:right;font-size:12px;color:var(--gray);margin-top:12px;}
+  /* 시트 부가 섹션 (음식·볼거리·블로그) */
+  #extras{margin-top:6px;}
+  .ex-sec{font-size:14px;font-weight:800;color:var(--ink);margin:22px 0 10px;letter-spacing:-.3px;}
+  .ex-load{font-size:13px;color:var(--gray);padding:6px 2px;}
+  .ex-empty{font-size:13px;color:#b0b8c1;padding:4px 2px;}
+  .ex-chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .ex-chip{font-size:13px;font-weight:600;background:#fff4ec;color:#d2691e;border:1px solid #ffe0c7;border-radius:12px;padding:7px 12px;}
+  .ex-chip b{color:#a0521a;font-weight:800;margin-left:3px;}
+  .ex-place{display:block;text-decoration:none;background:var(--bg);border-radius:12px;padding:11px 14px;margin-bottom:7px;}
+  .ex-place .ep-t{font-size:14px;font-weight:700;color:var(--ink);}
+  .ex-place .ep-s{font-size:11.5px;color:var(--gray);margin-top:2px;}
+  .ex-blog-card{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:8px;transition:border-color .12s;}
+  .ex-blog-card:hover{border-color:#03c75a;}
+  .ex-blog-card .eb-t{font-size:14px;font-weight:700;color:var(--ink);line-height:1.4;}
+  .ex-blog-card .eb-d{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .ex-blog-card .eb-m{font-size:11px;color:#03c75a;font-weight:700;margin-top:6px;}
 
   /* 토스트 */
   #toast{
@@ -247,10 +263,12 @@
 <script>
 const JS_KEY = "825a7e9f4444cd7f3ad90a4689fffd8f";
 const ROUTE_API = "https://highway-ev-route-proxy.ian-1f3.workers.dev/route";
+const WORKER = "https://highway-ev-route-proxy.ian-1f3.workers.dev"; // 네이버 블로그·지역 검색 프록시
 
 let map, geocoder, ps;
 let allSK = [];                 // SK 운영 충전소(sk_chargers.json)
 let prepSites = [];             // 준비중(5차 권역) 사이트
+let foodMap = {};               // 정규화 휴게소명 → 대표메뉴[]
 let routeLine = null;           // 현재 경로 폴리라인
 let markers = [];               // 경로 위 번호 마커
 let baseMarkers = [];           // 기본 SK 마커(점)
@@ -283,6 +301,7 @@ async function loadData(){
     fetch("sk_chargers.json").then(r=>r.json()),
     fetch("data.json").then(r=>r.json()),
   ]);
+  fetch("food.json").then(r=>r.ok?r.json():{}).then(f=>{ foodMap=f||{}; }).catch(()=>{});
   allSK = sk.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
   // 준비중: 5차 1/2/3권역 사업자가 있는 사이트
   prepSites = dj.filter(d => d.operators && Number.isFinite(d.lat) && Number.isFinite(d.lng)
@@ -612,8 +631,10 @@ function openSheet(d){
     ${statusHtml}
     <div class="sk-total"><div class="l">급속 ${d.fast||0}기 · 완속 ${d.slow||0}기</div><div class="r">합계 ${d.total}대</div></div>
     <div class="note">${meta}</div>
+    <div id="extras"></div>
   `;
   $("fav-toggle").addEventListener("click",()=>{ toggleFav(d); openSheet(d); });
+  loadExtras(d);
   $("sheet").classList.add("show");
   $("scrim").classList.add("show");
 }
@@ -626,12 +647,48 @@ function openPrepSheet(d){
     <div class="addr">${d.route||""} · ${d.address||""}</div>
     <div class="prep-msg">🚧 이곳은 현재 SK일렉링크가 충전소 설치를 위해 준비중입니다.<br>해당 위치에 희망하신다면 투표해주세요!</div>
     <button class="vote-btn ${voted?'voted':''}" id="vote-btn">${voted?'✓ 투표 완료':'👍 설치 투표하기'}</button>
+    <div id="extras"></div>
   `;
   $("vote-btn").addEventListener("click",()=>{ vote(d); });
+  loadExtras(d);
   $("sheet").classList.add("show");
   $("scrim").classList.add("show");
 }
 function closeSheet(){ $("sheet").classList.remove("show"); $("scrim").classList.remove("show"); }
+
+/* ---------- 시트 부가 콘텐츠: 유명 음식 · 주변 볼거리 · 인기 리뷰 블로그 ---------- */
+let sheetToken = 0;
+function normName(s){ return (s||"").replace(/\(.*?\)/g,"").replace(/휴게소/g,"").replace(/\s+/g,"").trim(); }
+function fmtDate(d){ return d&&d.length===8 ? `${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}` : (d||""); }
+function esc(s){ return (s||"").replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c])); }
+
+function loadExtras(d){
+  const token = ++sheetToken;
+  const food = foodMap[normName(d.name)] || [];
+  const foodHtml = food.length
+    ? `<div class="ex-chips">${food.map(f=>`<span class="ex-chip">${esc(f.menu)}${f.price?` <b>${Number(f.price).toLocaleString()}원</b>`:""}</span>`).join("")}</div>`
+    : `<div class="ex-empty">대표메뉴 정보 없음</div>`;
+  $("extras").innerHTML = `
+    <div class="ex-sec">🍜 유명 메뉴</div>${foodHtml}
+    <div class="ex-sec">📍 주변 볼거리</div><div id="ex-local" class="ex-load">불러오는 중…</div>
+    <div class="ex-sec">📝 인기 리뷰 블로그</div><div id="ex-blog" class="ex-load">불러오는 중…</div>`;
+
+  fetch(`${WORKER}/local?q=${encodeURIComponent(d.name+" 가볼만한곳")}`).then(r=>r.json()).then(j=>{
+    if(token!==sheetToken) return; const el=$("ex-local"); if(!el) return;
+    const its=j.items||[];
+    el.outerHTML = its.length
+      ? `<div id="ex-local">${its.map(it=>`<a class="ex-place" href="${it.link||'#'}" target="_blank" rel="noopener"><div class="ep-t">${esc(it.title)}</div><div class="ep-s">${esc(it.category||"")}${it.address?` · ${esc(it.address)}`:""}</div></a>`).join("")}</div>`
+      : `<div id="ex-local" class="ex-empty">주변 정보 없음</div>`;
+  }).catch(()=>{ if(token===sheetToken&&$("ex-local")) $("ex-local").outerHTML=`<div id="ex-local" class="ex-empty">불러오기 실패</div>`; });
+
+  fetch(`${WORKER}/blogs?q=${encodeURIComponent(d.name+" 휴게소 후기")}`).then(r=>r.json()).then(j=>{
+    if(token!==sheetToken) return; const el=$("ex-blog"); if(!el) return;
+    const its=j.items||[];
+    el.outerHTML = its.length
+      ? `<div id="ex-blog">${its.map(it=>`<a class="ex-blog-card" href="${it.link}" target="_blank" rel="noopener"><div class="eb-t">${esc(it.title)}</div><div class="eb-d">${esc(it.desc||"")}</div><div class="eb-m">${esc(it.blogger||"")}${it.date?` · ${fmtDate(it.date)}`:""}</div></a>`).join("")}</div>`
+      : `<div id="ex-blog" class="ex-empty">리뷰 없음</div>`;
+  }).catch(()=>{ if(token===sheetToken&&$("ex-blog")) $("ex-blog").outerHTML=`<div id="ex-blog" class="ex-empty">불러오기 실패</div>`; });
+}
 
 /* ---------- 찜·투표·기록 ---------- */
 function toggleFav(d){

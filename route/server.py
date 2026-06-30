@@ -48,6 +48,9 @@ class Handler(BaseHTTPRequestHandler):
             return self.serve_index()
         if route == "/sk_chargers.json":
             return self.serve_json(os.path.join(HERE, "sk_chargers.json"))
+        if route == "/food.json":
+            fp = os.path.join(HERE, "food.json")
+            return self.serve_json(fp) if os.path.exists(fp) else self._send(200, "{}")
         if route == "/data.json":
             return self.serve_json(os.path.join(PARENT, "data.json"))
         if route == "/route":
