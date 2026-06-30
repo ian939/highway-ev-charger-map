@@ -44,7 +44,9 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         route = parsed.path
 
-        if route == "/" or route == "/index.html":
+        if route == "/" or route == "/promo.html":
+            return self.serve_file(os.path.join(HERE, "promo.html"), "text/html; charset=utf-8")
+        if route == "/app.html" or route == "/index.html":
             return self.serve_index()
         if route == "/sk_chargers.json":
             return self.serve_json(os.path.join(HERE, "sk_chargers.json"))
@@ -67,6 +69,10 @@ class Handler(BaseHTTPRequestHandler):
     def serve_json(self, path):
         with open(path, encoding="utf-8") as f:
             self._send(200, f.read())
+
+    def serve_file(self, path, ctype):
+        with open(path, encoding="utf-8") as f:
+            self._send(200, f.read(), ctype)
 
     def serve_route(self, qs):
         origin = qs.get("origin", [""])[0]
