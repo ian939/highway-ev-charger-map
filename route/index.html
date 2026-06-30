@@ -15,73 +15,57 @@
   html,body{margin:0;height:100%;font-family:"Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:var(--bg);}
   #map{position:fixed;inset:0;z-index:0;}
 
-  /* 상단 검색 바 (가로형) — #search는 투명 컨테이너 */
-  #search{position:fixed;z-index:20;top:14px;left:14px;right:14px;}
-  .bar{
-    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
-    background:var(--card);border-radius:16px;padding:11px 12px;box-shadow:0 6px 24px rgba(0,0,0,.12);
+  /* 하단 검색 — 접힘 시 보라 버튼, 탭하면 위로 확장 */
+  #search{position:fixed;z-index:35;left:0;right:0;bottom:0;}
+  #openSearch{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+    border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:16px;font-weight:700;
+    padding:15px 44px;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(120,60,252,.42);white-space:nowrap;
   }
-  #reset{flex:0 0 auto;border:1.5px solid var(--line);border-radius:12px;background:#fff;
-    color:var(--gray);font-size:13.5px;font-weight:700;padding:11px 14px;cursor:pointer;font-family:inherit;}
-  #reset:hover{border-color:var(--gray);color:var(--ink);}
-  .field{position:relative;flex:1 1 180px;min-width:140px;}
-  .field .dot{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;}
+  #search.open #openSearch{display:none;}
+  .search-body{
+    position:relative;background:#fff;border-radius:22px 22px 0 0;padding:6px 18px 22px;
+    box-shadow:0 -8px 30px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .28s cubic-bezier(.32,.72,0,1);
+    max-width:520px;margin:0 auto;
+  }
+  #search.open .search-body{transform:translateY(0);}
+  .search-body .grab{width:42px;height:5px;border-radius:3px;background:#e0e3e8;margin:8px auto 16px;cursor:pointer;}
+  .field{position:relative;margin-bottom:9px;}
+  .field .dot{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;}
   .field .dot.start{background:var(--blue);}
   .field .dot.end{background:var(--red);}
   .field input{
-    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:12px;
-    padding:12px 12px 12px 32px;font-size:15px;color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
+    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:14px;
+    padding:15px 14px 15px 38px;font-size:16px;color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
   }
   .field input:focus{border-color:var(--blue);}
   .field input::placeholder{color:#b0b8c1;}
-  /* 자동완성 드롭다운 */
+  .swap{display:block;margin:-2px auto 7px;width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--gray);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  /* 자동완성 — 입력 위로 펼침(시트가 하단이라) */
   .ac{
-    position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;
-    border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.16);overflow:hidden;display:none;
-    max-height:260px;overflow-y:auto;
+    position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:40;background:#fff;
+    border-radius:14px;box-shadow:0 -8px 24px rgba(0,0,0,.16);overflow:hidden;display:none;
+    max-height:240px;overflow-y:auto;
   }
   .ac.show{display:block;}
-  .ac-item{padding:12px 16px;cursor:pointer;border-bottom:1px solid #f1f3f5;}
+  .ac-item{padding:13px 16px;cursor:pointer;border-bottom:1px solid #f1f3f5;}
   .ac-item:last-child{border-bottom:0;}
   .ac-item:hover,.ac-item.active{background:var(--blue-soft);}
   .ac-item .t{font-size:14.5px;font-weight:600;color:var(--ink);}
   .ac-item .a{font-size:12px;color:var(--gray);margin-top:2px;}
-  .swap{
-    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
-    border:1px solid var(--line);background:#fff;cursor:pointer;font-size:15px;color:var(--gray);
-  }
   #go{
-    flex:0 0 auto;border:0;border-radius:12px;background:var(--blue);color:#fff;
-    font-size:14.5px;font-weight:700;padding:12px 20px;cursor:pointer;font-family:inherit;transition:background .12s;white-space:nowrap;
+    width:100%;margin-top:6px;border:0;border-radius:14px;background:var(--blue);color:#fff;
+    font-size:16px;font-weight:700;padding:16px;cursor:pointer;font-family:inherit;transition:background .12s;
   }
   #go:hover{background:var(--blue-dark);}
   #go:disabled{background:#c9b8f5;cursor:default;}
-  .radius{flex:0 0 auto;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gray);white-space:nowrap;}
-  .radius input[type=range]{width:88px;accent-color:var(--blue);}
-  .radius b{color:var(--ink);font-weight:700;min-width:40px;text-align:right;}
-
-  /* 결과 리스트 (바 아래 우측) */
-  #results{
-    position:fixed;z-index:18;top:84px;right:14px;width:300px;max-height:calc(100vh - 100px);
-    overflow-y:auto;display:none;
-  }
-  #results.show{display:block;}
-  .res-head{
-    background:var(--card);border-radius:16px;padding:13px 16px;margin-bottom:9px;
-    box-shadow:0 4px 16px rgba(0,0,0,.08);font-size:13px;font-weight:700;
-  }
-  .res-head b{color:var(--blue);}
-  .res-head .total{float:right;color:var(--gray);font-weight:600;font-size:12px;}
-  .rcard{
-    background:var(--card);border-radius:16px;padding:13px 15px;margin-bottom:8px;cursor:pointer;
-    box-shadow:0 4px 16px rgba(0,0,0,.06);border:1.5px solid transparent;transition:border-color .12s,transform .08s;
-  }
-  .rcard:hover{border-color:var(--blue);}
-  .rcard:active{transform:scale(.99);}
-  .rcard .nm{font-size:14.5px;font-weight:700;letter-spacing:-.3px;}
-  .rcard .rt{font-size:11px;color:var(--gray);margin-top:2px;}
-  .rcard .sk{margin-top:8px;font-size:12.5px;color:var(--ink);}
-  .rcard .sk .pill{display:inline-block;background:#ffecec;color:var(--red);font-weight:700;border-radius:8px;padding:2px 8px;font-size:12px;}
+  #reset{width:100%;margin-top:8px;border:1.5px solid var(--line);border-radius:14px;background:#fff;
+    color:var(--gray);font-size:14px;font-weight:700;padding:13px;cursor:pointer;font-family:inherit;}
+  #reset:hover{border-color:var(--gray);color:var(--ink);}
+  .radius{display:flex;align-items:center;gap:10px;margin:14px 2px 4px;font-size:13px;color:var(--gray);}
+  .radius input[type=range]{flex:1;accent-color:var(--blue);}
+  .radius b{color:var(--ink);font-weight:700;min-width:42px;text-align:right;}
 
   /* 바텀시트 */
   #scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s;}
@@ -149,12 +133,11 @@
   .lbl .lr{font-size:11.5px;font-weight:800;color:var(--red);line-height:1.5;text-align:center;white-space:nowrap;}
 
   /* 도구(최근 검색·찜) */
-  .tools{display:flex;gap:7px;flex:0 0 auto;}
-  .tool-chip{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:11px 13px;border-radius:12px;
+  .tools{display:flex;gap:7px;margin-top:10px;}
+  .tool-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:11px;border-radius:12px;
     border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;}
   .tool-chip.on{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
-  #panel{margin-top:8px;display:none;max-height:260px;overflow-y:auto;width:340px;max-width:100%;
-    background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:8px;}
+  #panel{margin-top:8px;display:none;max-height:220px;overflow-y:auto;}
   #panel.show{display:block;}
   .panel-item{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;background:var(--bg);margin-bottom:6px;cursor:pointer;}
   .panel-item:hover{background:#eef1f4;}
@@ -164,44 +147,15 @@
   .panel-item .pi-del{color:#c5ccd4;font-size:16px;padding:0 4px;flex-shrink:0;}
   .panel-item .pi-del:hover{color:var(--red);}
   .panel-empty{font-size:12.5px;color:var(--gray);text-align:center;padding:16px 0;}
-  /* 응모 참여 버튼 (바 아래, 골드) */
-  #event-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;border-radius:12px;padding:12px 18px;cursor:pointer;font-family:inherit;
-    background:linear-gradient(135deg,#FFC24D,#F0A800);color:#3a2600;font-size:14px;font-weight:800;letter-spacing:-.2px;
-    box-shadow:0 4px 14px rgba(240,168,0,.32);}
-  #event-btn:active{transform:scale(.99);}
   /* 찜 별 버튼(시트) */
   .fav-btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:12px;
     padding:9px 14px;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;margin-top:4px;}
   .fav-btn.on{border-color:#f59e0b;color:#f59e0b;background:#fffaf0;}
-  /* 중앙 모달 */
-  #modal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);padding:24px;}
-  #modal.show{display:flex;}
-  .modal-card{background:#fff;border-radius:24px;padding:32px 26px;max-width:340px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
-  .modal-card .emoji{font-size:44px;}
-  .modal-card h3{font-size:19px;font-weight:800;margin:14px 0 8px;letter-spacing:-.4px;}
-  .modal-card p{font-size:14px;color:var(--gray);line-height:1.6;margin:0 0 22px;}
-  .modal-card button{width:100%;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;}
 
-  /* 데스크톱: 시트를 바닥에서 띄워 카드처럼 */
+  /* 데스크톱: 상세 시트를 바닥에서 띄워 카드처럼 */
   @media (min-width:861px){
     #sheet{bottom:20px;border-radius:24px;max-height:calc(100dvh - 40px);
       padding:8px 24px 28px;box-shadow:0 12px 40px rgba(0,0,0,.22);}
-  }
-  /* 모바일: 검색바 세로 스택 + 결과는 하단 시트 */
-  @media (max-width:860px){
-    #search{top:8px;left:8px;right:8px;}
-    .bar{padding:10px;gap:8px;}
-    .field{flex:1 1 100%;}
-    .swap{margin:0 auto;}
-    .radius{flex:1 1 100%;justify-content:space-between;}
-    .radius input[type=range]{flex:1;width:auto;}
-    #go{flex:1 1 100%;padding:14px;}
-    #reset{flex:1 1 100%;}
-    .tools{flex:1 1 100%;}
-    .tool-chip{flex:1;justify-content:center;}
-    #panel{width:100%;}
-    #results{top:auto;bottom:0;left:0;right:0;width:auto;max-height:46vh;
-      background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.16);padding:12px 12px 16px;}
   }
 </style>
 </head>
@@ -209,7 +163,9 @@
 <div id="map"></div>
 
 <div id="search">
-  <div class="bar">
+  <button id="openSearch">경로 찾기</button>
+  <div class="search-body">
+    <div class="grab" id="closeSearch"></div>
     <div class="field">
       <span class="dot start"></span>
       <input id="from" type="text" placeholder="출발지 검색 (예: 서울역)" autocomplete="off" />
@@ -222,7 +178,7 @@
       <div class="ac" id="ac-to"></div>
     </div>
     <div class="radius">
-      <span>반경</span>
+      <span>경로 반경</span>
       <input id="radius" type="range" min="1" max="15" step="1" value="1" />
       <b id="radius-val">1 km</b>
     </div>
@@ -232,14 +188,8 @@
       <div class="tool-chip" id="tab-history">🕘 최근</div>
       <div class="tool-chip" id="tab-fav">☆ 찜</div>
     </div>
+    <div id="panel"></div>
   </div>
-  <div id="panel"></div>
-  <button id="event-btn">🎁 응모 참여</button>
-</div>
-
-<div id="results">
-  <div class="res-head" id="res-head"></div>
-  <div id="res-list"></div>
 </div>
 
 <div id="scrim"></div>
@@ -249,8 +199,6 @@
 </div>
 
 <div id="toast"></div>
-
-<div id="modal"><div class="modal-card" id="modal-card"></div></div>
 
 <script>
 const JS_KEY = "__JSKEY__";
@@ -281,9 +229,6 @@ function toast(msg){
 }
 
 /* ---------- 데이터 (sk_chargers.json: SK일렉링크 충전기 원장 집계) ---------- */
-// 용량 요약 문자열: "350kW 2 · 200kW 4"
-function kwBrief(d){ return (d.byKw||[]).map(b=>`${b.kw}kW ${b.count}`).join(" · "); }
-
 async function loadData(){
   const sk = await fetch("/sk_chargers.json").then(r=>r.json());
   fetch("/food.json").then(r=>r.ok?r.json():{}).then(f=>{ foodMap=f||{}; }).catch(()=>{});
@@ -431,6 +376,7 @@ async function findRoute(){
     pushHistory({name:a.name||fromQ, lat:a.lat, lng:a.lng}, {name:b.name||toQ, lat:b.lat, lng:b.lng});
     if($("tab-history").classList.contains("on")) renderPanel("history");
     $("reset").style.display = "";
+    $("search").classList.remove("open");   // 검색 시트 접기 → 지도/경로 노출
   }catch(e){
     toast("오류가 발생했어요: " + e.message);
   }finally{
@@ -445,7 +391,6 @@ function resetRoute(){
   if(endMk){ endMk.setMap(null); endMk=null; }
   markers.forEach(m=>m.setMap(null)); markers=[];
   window._lastPath = null;
-  $("results").classList.remove("show");
   $("reset").style.display = "none";
   $("from").value=""; $("to").value=""; fromSel=null; toSel=null;
   showAllSK();                             // 기본 마커 복원
@@ -512,35 +457,15 @@ function selectStops(path){
     markers.push(ov);
   });
 
-  renderResults(hits);
   fitBounds(path, hits);
+  toast(hits.length ? `경로 위 SK일렉링크 ${hits.length}곳 · 마커를 누르면 상세가 떠요` : "반경 내 SK 충전소가 없어요. 반경을 넓혀보세요.");
 }
 
 function fitBounds(path, hits){
   const bounds=new kakao.maps.LatLngBounds();
   path.forEach(p=>bounds.extend(new kakao.maps.LatLng(p.lat,p.lng)));
   hits.forEach(d=>bounds.extend(new kakao.maps.LatLng(d.lat,d.lng)));
-  map.setBounds(bounds, 60, 320, 60, 60); // 좌측 검색카드 공간 확보
-}
-
-function renderResults(hits){
-  const wrap=$("results"), head=$("res-head"), list=$("res-list");
-  wrap.classList.add("show");
-  const sum = hits.reduce((s,d)=>s+(d.total||0),0);
-  head.innerHTML = `경로 위 SK일렉링크 <b>${hits.length}</b>곳 <span class="total">충전기 ${sum}대</span>`;
-
-  list.innerHTML = hits.length
-    ? hits.map((d,i)=>`<div class="rcard" data-i="${i}">
-        <div class="nm">${i+1}. ${d.name}</div>
-        <div class="rt">${d.region||""} · 경로에서 ${d._dist.toFixed(1)}km</div>
-        <div class="sk">${kwBrief(d)} <span class="pill">${d.total}대</span></div>
-      </div>`).join("")
-    : `<div class="rcard" style="cursor:default"><div class="rt">반경 내 SK일렉링크 충전소가 없어요. 반경을 넓혀보세요.</div></div>`;
-
-  list.querySelectorAll(".rcard[data-i]").forEach(el=>{
-    const i=+el.dataset.i;
-    el.addEventListener("click",()=>{ const d=hits[i]; map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
-  });
+  map.setBounds(bounds, 70, 70, 220, 70); // 하단 검색 시트 공간 확보
 }
 
 /* ---------- 바텀시트 ---------- */
@@ -621,13 +546,6 @@ function pushHistory(a,b){
   LS.set(HISTORY_KEY, h.slice(0,10));
 }
 
-/* ---------- 모달 ---------- */
-function openModal(emoji,title,body){
-  $("modal-card").innerHTML = `<div class="emoji">${emoji}</div><h3>${title}</h3><p>${body}</p><button id="modal-ok">확인</button>`;
-  $("modal-ok").addEventListener("click",()=>$("modal").classList.remove("show"));
-  $("modal").classList.add("show");
-}
-
 /* ---------- 초기화 ---------- */
 function init(){
   map = new kakao.maps.Map($("map"), {
@@ -638,6 +556,10 @@ function init(){
 
   setupAutocomplete("from","ac-from","from");
   setupAutocomplete("to","ac-to","to");
+
+  // 하단 검색 시트 열기/닫기
+  $("openSearch").addEventListener("click", ()=>{ $("search").classList.add("open"); $("from").focus(); });
+  $("closeSearch").addEventListener("click", ()=>$("search").classList.remove("open"));
 
   $("go").addEventListener("click", findRoute);
   $("reset").addEventListener("click", resetRoute);
@@ -659,10 +581,6 @@ function init(){
   // 최근 검색 / 찜 탭
   $("tab-history").addEventListener("click", ()=>togglePanel("history"));
   $("tab-fav").addEventListener("click", ()=>togglePanel("fav"));
-  // 이벤트 참여
-  $("event-btn").addEventListener("click", ()=>
-    openModal("🎉","이벤트에 참여해주셔서 감사합니다!","SK일렉링크와 함께해 주셔서 감사합니다.<br>당첨 결과는 추후 안내드릴게요."));
-  $("modal").addEventListener("click", e=>{ if(e.target===$("modal")) $("modal").classList.remove("show"); });
 
   loadData().catch(()=>toast("데이터를 불러오지 못했어요."));
 }
@@ -705,6 +623,7 @@ function renderPanel(which){
     [...panel.querySelectorAll(".panel-item")].forEach(el=>{
       el.addEventListener("click",()=>{
         const x=f[+el.dataset.i];
+        $("search").classList.remove("open");
         map.panTo(new kakao.maps.LatLng(x.lat,x.lng));
         const st = allSK.find(s=>s.name===x.name);
         if(st) openSheet(st);
