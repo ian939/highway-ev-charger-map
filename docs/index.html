@@ -28,10 +28,6 @@
   .faq summary::after{content:"+";color:var(--pp);font-size:24px;font-weight:400;line-height:1}
   .faq details[open] summary::after{content:"–"}
   .faq p{margin:0 0 18px;color:var(--ink2);font-size:14.5px}
-  .cta{transition:background .15s,transform .15s}
-  .cta:hover{background:var(--pp-d)!important;transform:translateY(-1px)}
-  .cta-ghost{transition:background .15s}
-  .cta-ghost:hover{background:#FAF7FF!important}
   @media (max-width:860px){
     .g3{grid-template-columns:1fr}
     .g2{grid-template-columns:1fr}
@@ -47,7 +43,6 @@
   <div class="wrap" style="display:flex;align-items:center;gap:12px;padding:12px 24px">
     <span style="width:30px;height:30px;border-radius:9px;background:var(--pp);display:grid;place-items:center;flex:0 0 auto"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
     <span style="font-weight:800;font-size:15px;letter-spacing:-.01em">SK일렉링크<span style="color:var(--ink2);font-weight:600"> · 여름 휴게소 충전 이벤트</span></span>
-    <a href="#finder" class="cta" style="margin-left:auto;background:var(--pp);color:#fff;font-weight:700;font-size:13.5px;padding:9px 17px;border-radius:999px;text-decoration:none">응모 참여하기</a>
   </div>
 </div>
 
@@ -57,14 +52,10 @@
     <div>
       <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--pp);background:var(--pp100);padding:6px 13px;border-radius:999px">2026 여름 캠페인 · 고속도로 휴게소</span>
       <h1 style="font-size:clamp(32px,5vw,52px);line-height:1.12;font-weight:800;letter-spacing:-.025em;margin:18px 0 0">가는 길에 충전하면,<br><span style="color:var(--pp)">여름 휴가 지원금</span> 추첨까지.</h1>
-      <p style="font-size:clamp(16px,2vw,18px);color:#55555c;max-width:480px;margin:18px 0 0">출발지와 목적지만 정하면 경로 위 SK일렉링크 휴게소 충전소가 한눈에. 가는 길에 충전하면 추첨에 자동으로 응모돼요.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:30px">
-        <a href="#finder" class="cta" style="background:var(--pp);color:#fff;font-weight:700;font-size:16px;padding:15px 26px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px">응모 참여하기 <span>→</span></a>
-        <a href="#finder" class="cta-ghost" style="background:#fff;color:var(--pp);font-weight:700;font-size:16px;padding:15px 24px;border-radius:12px;text-decoration:none;border:1.5px solid #E2D6FF">경로에서 충전소 보기</a>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:20px;font-size:12.5px;color:var(--ink2)">
+      <p style="font-size:clamp(16px,2vw,18px);color:#55555c;max-width:480px;margin:18px 0 0">출발지와 목적지만 정하면 경로 위 SK일렉링크 휴게소 충전소가 한눈에. <b style="color:var(--ink)">이 페이지에서 경로를 한 번 찾으면 자동으로 이벤트 응모 완료</b>예요.</p>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:24px;font-size:12.5px;color:var(--ink2)">
         <span style="background:#FFF3DB;color:var(--gold-d);font-weight:700;padding:4px 10px;border-radius:999px">이벤트 기간 추후 안내</span>
-        <span>응모 참여 후 휴게소 충전이 곧 응모권이에요</span>
+        <span>경로 한 번 찾기 = 응모 완료</span>
       </div>
     </div>
 
@@ -120,23 +111,9 @@
   </div>
 
   <div style="background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(26,26,26,.04),0 2px 8px rgba(26,26,26,.05);overflow:hidden">
-    <!-- 가로 헤더 -->
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:15px 18px;border-bottom:1px solid var(--line);background:#FAFAFB">
-      <span style="width:34px;height:34px;border-radius:10px;background:var(--pp100);display:grid;place-items:center;flex:0 0 auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pp)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:15px;font-weight:800;letter-spacing:-.01em">동선 위 SK일렉링크 충전소 찾기</div>
-        <div style="font-size:12px;color:var(--ink2)">출발지·도착지를 입력하면 경로 주변 휴게소 충전기를 찾아드려요.</div>
-      </div>
-    </div>
-    <!-- 응모권 차등 적립 가로 바 -->
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:11px 18px;background:var(--pp100);border-bottom:1px solid var(--line);font-size:12.5px;color:#5B3BB0">
-      <span style="font-weight:700">응모권 차등 적립</span>
-      <span style="display:inline-flex;align-items:center;gap:6px"><b style="background:#fff;color:var(--pp);border:1px solid #d9c8ff;border-radius:999px;padding:2px 9px;font-size:11px">응모권 ×1</b>가동률 높은 충전소</span>
-      <span style="display:inline-flex;align-items:center;gap:6px"><b style="background:var(--pp);color:#fff;border-radius:999px;padding:2px 9px;font-size:11px">응모권 ×2</b>가동률 낮은 충전소</span>
-    </div>
     <!-- 임베드 지도앱 -->
     <iframe src="app.html" title="경로 위 SK일렉링크 충전소 찾기" loading="lazy" style="display:block;width:100%;height:700px;border:0"></iframe>
-    <div style="padding:13px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink2);background:#FAFAFB">경로 위 SK일렉링크 휴게소 충전소를 실시간으로 찾아봐요. 가동률이 낮은 충전소에서 충전하면 응모권을 2배로 드려요.</div>
+    <div style="padding:13px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink2);background:#FAFAFB">경로 위 SK일렉링크 휴게소 충전소를 실시간으로 찾아봐요. 특정 충전소는 응모권을 두배로 드려요.</div>
   </div>
 </div>
 
@@ -149,8 +126,8 @@
   <div class="g3" style="margin-top:28px">
     <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
       <div style="width:44px;height:44px;border-radius:12px;background:var(--pp);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px">01</div>
-      <h3 style="font-size:18px;font-weight:800;margin:16px 0 6px">응모에 참여해요</h3>
-      <p style="color:var(--ink2);font-size:14.5px;margin:0">'응모 참여하기'를 한 번 누르면 끝. 이때부터의 휴게소 충전이 응모로 잡혀요.</p>
+      <h3 style="font-size:18px;font-weight:800;margin:16px 0 6px">경로를 한 번 찾아요</h3>
+      <p style="color:var(--ink2);font-size:14.5px;margin:0">이 페이지에서 출발지·도착지로 경로를 한 번 찾으면 끝. 이것으로 이벤트 응모가 완료돼요.</p>
     </div>
     <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
       <div style="width:44px;height:44px;border-radius:12px;background:var(--pp);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px">02</div>
@@ -160,7 +137,7 @@
     <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
       <div style="width:44px;height:44px;border-radius:12px;background:var(--gold);color:#3a2600;display:grid;place-items:center;font-weight:800;font-size:17px">03</div>
       <h3 style="font-size:18px;font-weight:800;margin:16px 0 6px">충전할 때마다 쌓여요</h3>
-      <p style="color:var(--ink2);font-size:14.5px;margin:0">충전 1건당 응모권 1매. 가동률이 낮은 휴게소 충전은 <b style="color:var(--pp)">응모권 2배</b>예요.</p>
+      <p style="color:var(--ink2);font-size:14.5px;margin:0">충전 1건당 응모권 1매. <b style="color:var(--pp)">특정 충전소는 응모권을 두배</b>로 드려요.</p>
     </div>
   </div>
 </div>
@@ -200,9 +177,9 @@
   <div style="background:var(--page);border:1px solid var(--line);border-radius:16px;padding:26px 30px">
     <h3 style="margin:0 0 14px;font-size:17px;font-weight:800">참여 자격 · 유의사항</h3>
     <ul style="margin:0;padding-left:18px;color:var(--ink2);font-size:14px;line-height:1.8">
-      <li>이벤트 기간 내 <b style="color:var(--ink)">응모 참여 후</b>, SK일렉링크 <b style="color:var(--ink)">회원 ID로 고속도로 휴게소 급속 충전</b>을 완료한 고객이 대상이에요.</li>
-      <li>'응모 참여하기'를 누른 시점부터의 충전이 응모권으로 쌓여요. <b style="color:var(--ink)">충전 1건 = 응모권 1매.</b></li>
-      <li>가동률이 낮은 휴게소 충전은 <b style="color:var(--pp)">응모권이 2배</b>로 적립돼요. (충전소별 차등은 경로 탐색 화면에서 확인할 수 있어요.)</li>
+      <li>이 페이지에서 <b style="color:var(--ink)">경로를 한 번 찾으면 이벤트 응모가 완료</b>돼요. 이후 SK일렉링크 <b style="color:var(--ink)">회원 ID로 고속도로 휴게소 급속 충전</b>을 완료한 고객이 대상이에요.</li>
+      <li>응모 이후의 휴게소 충전이 응모권으로 쌓여요. <b style="color:var(--ink)">충전 1건 = 응모권 1매.</b></li>
+      <li><b style="color:var(--pp)">특정 충전소는 응모권을 두배</b>로 드려요.</li>
       <li>1인 다중 차량·과다 충전 등 비정상 이용은 응모에서 제외될 수 있어요.</li>
       <li>경품 규모·기간·제세공과금 안내는 확정 후 별도로 고지해요.</li>
     </ul>
@@ -214,13 +191,10 @@
   <span style="font-size:12.5px;font-weight:700;color:var(--pp)">FAQ</span>
   <h2 style="font-size:clamp(24px,3.2vw,32px);font-weight:800;letter-spacing:-.02em;margin:8px 0 18px">자주 묻는 질문</h2>
   <div class="faq">
-    <details open><summary>응모하려면 뭘 해야 하나요?</summary><p>'응모 참여하기'를 한 번 누르고, 기간 내 고속도로 휴게소에서 회원으로 충전하면 돼요. 참여한 시점부터의 충전이 응모권으로 쌓여요.</p></details>
+    <details open><summary>응모하려면 뭘 해야 하나요?</summary><p>이 페이지에서 경로를 한 번 찾으면 응모가 완료돼요. 이후 기간 내 고속도로 휴게소에서 회원으로 충전하면 응모권이 쌓여요.</p></details>
     <details><summary>비회원도 참여할 수 있나요?</summary><p>가입 후 충전하면 참여돼요. 앱에서 가입하고 휴게소에서 충전하면 그 충전부터 응모로 잡혀요.</p></details>
-    <details><summary>일반 도로 충전소도 응모에 포함되나요?</summary><p>이번 이벤트는 고속도로 휴게소 충전소가 대상이에요. 응모권 가중 조건은 휴게소 가동률에 따라 달라질 수 있어요.</p></details>
+    <details><summary>일반 도로 충전소도 응모에 포함되나요?</summary><p>이번 이벤트는 고속도로 휴게소 충전소가 대상이에요. 특정 충전소는 응모권을 두배로 드려요.</p></details>
     <details><summary>당첨되면 무엇을 받나요?</summary><p>휴가 지원금 크레딧과 함께 구독 체험 제안을 드려요. 크레딧을 다 쓴 뒤에도 스타터 구독으로 휴게소에서 계속 할인받을 수 있어요.</p></details>
-  </div>
-  <div style="margin-top:30px;text-align:center">
-    <a href="#finder" class="cta" style="background:var(--pp);color:#fff;font-weight:800;font-size:16px;padding:15px 28px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px">지금 응모 참여하기 <span>→</span></a>
   </div>
 </div>
 
