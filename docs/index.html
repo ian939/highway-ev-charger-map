@@ -138,6 +138,14 @@
   .dot-mk{width:16px;height:16px;border-radius:50%;background:var(--red);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;}
   .dot-mk.prep{background:#22c55e;}
   .pin.prep{background:#22c55e;}
+  /* 경로 위 운영중 충전소 라벨(용량별 기수) */
+  .lbl{position:relative;background:#fff;border:2px solid var(--red);border-radius:10px;padding:3px 8px 4px;
+    box-shadow:0 2px 8px rgba(0,0,0,.28);cursor:pointer;}
+  .lbl::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+    border:5px solid transparent;border-top-color:var(--red);}
+  .lbl-no{position:absolute;top:-9px;left:-9px;width:18px;height:18px;border-radius:50%;background:var(--red);
+    color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+  .lbl .lr{font-size:11.5px;font-weight:800;color:var(--red);line-height:1.5;text-align:center;white-space:nowrap;}
 
   /* 도구(최근 검색·찜) */
   .tools{display:flex;gap:7px;margin-top:13px;}
@@ -494,10 +502,12 @@ function selectStops(path){
   // 마커 (CustomOverlay: DOM element로 만들어 클릭 핸들러 부착)
   markers.forEach(m=>m.setMap(null)); markers=[];
   hits.forEach((d,i)=>{
-    const div=document.createElement("div"); div.className="mk"; div.style.cursor="pointer";
-    div.innerHTML=`<div class="pin"><span>${i+1}</span></div>`;
+    const rows = (d.byKw||[]).slice().sort((a,b)=>a.kw-b.kw)
+      .map(b=>`<div class="lr">${b.kw}:${b.count}</div>`).join("");
+    const div=document.createElement("div"); div.className="lbl";
+    div.innerHTML=`<span class="lbl-no">${i+1}</span>${rows}`;
     div.addEventListener("click",(e)=>{ e.stopPropagation(); openSheet(d); });
-    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:1, zIndex:6 });
+    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:1.15, zIndex:6 });
     ov.setMap(map);
     markers.push(ov);
   });
