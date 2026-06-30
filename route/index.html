@@ -7,47 +7,37 @@
 <title>동선 위 SK일렉링크 충전소 찾기</title>
 <style>
   :root{
-    --blue:#3182f6; --blue-dark:#1b64da; --blue-soft:#e8f3ff;
-    --red:#e53935; --ink:#191f28; --gray:#8b95a1; --line:#e5e8eb;
-    --bg:#f2f4f6; --card:#fff;
+    --blue:#783CFC; --blue-dark:#6C34E0; --blue-soft:#EDE4FF;
+    --red:#e53935; --gold:#F0A800; --ink:#1A1A1A; --gray:#8E8E93; --line:#ECECEE;
+    --bg:#F4F4F6; --card:#fff;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;height:100%;font-family:"Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:var(--bg);}
   #map{position:fixed;inset:0;z-index:0;}
 
-  /* 상단 검색 카드 */
-  #search{
-    position:fixed;z-index:20;top:16px;left:16px;width:360px;max-width:calc(100% - 32px);
-    background:var(--card);border-radius:20px;padding:18px;
-    box-shadow:0 6px 24px rgba(0,0,0,.12);
+  /* 상단 검색 바 (가로형) — #search는 투명 컨테이너 */
+  #search{position:fixed;z-index:20;top:14px;left:14px;right:14px;}
+  .bar{
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    background:var(--card);border-radius:16px;padding:11px 12px;box-shadow:0 6px 24px rgba(0,0,0,.12);
   }
-  #search h1{font-size:17px;font-weight:800;margin:0 0 2px;letter-spacing:-.4px;}
-  #search .desc{font-size:12px;color:var(--gray);margin:0 0 12px;}
-  /* 요약 통계 */
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
-  .stat{background:var(--bg);border-radius:12px;padding:10px 12px;}
-  .stat .sv{font-size:17px;font-weight:800;letter-spacing:-.4px;}
-  .stat .sl{font-size:11px;color:var(--gray);margin-top:1px;}
-  .stat.on .sv{color:var(--red);}
-  /* 초기화 버튼 */
-  #reset{width:100%;margin-top:7px;border:1.5px solid var(--line);border-radius:14px;background:#fff;
-    color:var(--gray);font-size:14px;font-weight:700;padding:13px;cursor:pointer;font-family:inherit;}
+  #reset{flex:0 0 auto;border:1.5px solid var(--line);border-radius:12px;background:#fff;
+    color:var(--gray);font-size:13.5px;font-weight:700;padding:11px 14px;cursor:pointer;font-family:inherit;}
   #reset:hover{border-color:var(--gray);color:var(--ink);}
-  .field{position:relative;margin-bottom:9px;}
-  .field .dot{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;}
+  .field{position:relative;flex:1 1 180px;min-width:140px;}
+  .field .dot{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;}
   .field .dot.start{background:var(--blue);}
   .field .dot.end{background:var(--red);}
   .field input{
-    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:14px;
-    padding:14px 14px 14px 34px;font-size:15px;color:var(--ink);outline:none;transition:border-color .12s;
-    font-family:inherit;
+    width:100%;border:1.5px solid var(--line);background:#fff;border-radius:12px;
+    padding:12px 12px 12px 32px;font-size:15px;color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
   }
   .field input:focus{border-color:var(--blue);}
   .field input::placeholder{color:#b0b8c1;}
   /* 자동완성 드롭다운 */
   .ac{
     position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;
-    border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.14);overflow:hidden;display:none;
+    border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.16);overflow:hidden;display:none;
     max-height:260px;overflow-y:auto;
   }
   .ac.show{display:block;}
@@ -57,23 +47,22 @@
   .ac-item .t{font-size:14.5px;font-weight:600;color:var(--ink);}
   .ac-item .a{font-size:12px;color:var(--gray);margin-top:2px;}
   .swap{
-    position:absolute;right:8px;top:-22px;width:36px;height:36px;border-radius:50%;
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
     border:1px solid var(--line);background:#fff;cursor:pointer;font-size:15px;color:var(--gray);
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
   }
   #go{
-    width:100%;margin-top:7px;border:0;border-radius:14px;background:var(--blue);color:#fff;
-    font-size:15px;font-weight:700;padding:15px;cursor:pointer;font-family:inherit;transition:background .12s;
+    flex:0 0 auto;border:0;border-radius:12px;background:var(--blue);color:#fff;
+    font-size:14.5px;font-weight:700;padding:12px 20px;cursor:pointer;font-family:inherit;transition:background .12s;white-space:nowrap;
   }
   #go:hover{background:var(--blue-dark);}
-  #go:disabled{background:#c5d3e8;cursor:default;}
-  .radius{display:flex;align-items:center;gap:10px;margin-top:13px;font-size:12.5px;color:var(--gray);}
-  .radius input[type=range]{flex:1;accent-color:var(--blue);}
-  .radius b{color:var(--ink);font-weight:700;min-width:42px;text-align:right;}
+  #go:disabled{background:#c9b8f5;cursor:default;}
+  .radius{flex:0 0 auto;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gray);white-space:nowrap;}
+  .radius input[type=range]{width:88px;accent-color:var(--blue);}
+  .radius b{color:var(--ink);font-weight:700;min-width:40px;text-align:right;}
 
-  /* 결과 리스트 */
+  /* 결과 리스트 (바 아래 우측) */
   #results{
-    position:fixed;z-index:20;top:16px;right:16px;width:300px;max-height:calc(100vh - 32px);
+    position:fixed;z-index:18;top:84px;right:14px;width:300px;max-height:calc(100vh - 100px);
     overflow-y:auto;display:none;
   }
   #results.show{display:block;}
@@ -160,11 +149,12 @@
   .lbl .lr{font-size:11.5px;font-weight:800;color:var(--red);line-height:1.5;text-align:center;white-space:nowrap;}
 
   /* 도구(최근 검색·찜) */
-  .tools{display:flex;gap:7px;margin-top:13px;}
-  .tool-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;border-radius:12px;
-    border:1.5px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--gray);cursor:pointer;}
+  .tools{display:flex;gap:7px;flex:0 0 auto;}
+  .tool-chip{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:11px 13px;border-radius:12px;
+    border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;}
   .tool-chip.on{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
-  #panel{margin-top:9px;display:none;max-height:200px;overflow-y:auto;}
+  #panel{margin-top:8px;display:none;max-height:260px;overflow-y:auto;width:340px;max-width:100%;
+    background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:8px;}
   #panel.show{display:block;}
   .panel-item{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;background:var(--bg);margin-bottom:6px;cursor:pointer;}
   .panel-item:hover{background:#eef1f4;}
@@ -174,10 +164,10 @@
   .panel-item .pi-del{color:#c5ccd4;font-size:16px;padding:0 4px;flex-shrink:0;}
   .panel-item .pi-del:hover{color:var(--red);}
   .panel-empty{font-size:12.5px;color:var(--gray);text-align:center;padding:16px 0;}
-  /* 이벤트 버튼 */
-  #event-btn{width:100%;margin-top:14px;border:0;border-radius:14px;padding:15px;cursor:pointer;font-family:inherit;
-    background:linear-gradient(135deg,#ff6b6b,#ee5253);color:#fff;font-size:14.5px;font-weight:800;letter-spacing:-.2px;
-    box-shadow:0 4px 14px rgba(238,82,83,.35);}
+  /* 응모 참여 버튼 (바 아래, 골드) */
+  #event-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;border-radius:12px;padding:12px 18px;cursor:pointer;font-family:inherit;
+    background:linear-gradient(135deg,#FFC24D,#F0A800);color:#3a2600;font-size:14px;font-weight:800;letter-spacing:-.2px;
+    box-shadow:0 4px 14px rgba(240,168,0,.32);}
   #event-btn:active{transform:scale(.99);}
   /* 찜 별 버튼(시트) */
   .fav-btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:12px;
@@ -193,14 +183,25 @@
   .modal-card button{width:100%;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;}
 
   /* 데스크톱: 시트를 바닥에서 띄워 카드처럼 */
-  @media (min-width:681px){
+  @media (min-width:861px){
     #sheet{bottom:20px;border-radius:24px;max-height:calc(100dvh - 40px);
       padding:8px 24px 28px;box-shadow:0 12px 40px rgba(0,0,0,.22);}
   }
-  @media (max-width:680px){
-    #search{top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;border-radius:20px 20px 0 0;}
-    #results{top:12px;right:8px;left:8px;width:auto;max-height:42vh;}
-    #search h1{font-size:16px;} #search .desc{display:none;}
+  /* 모바일: 검색바 세로 스택 + 결과는 하단 시트 */
+  @media (max-width:860px){
+    #search{top:8px;left:8px;right:8px;}
+    .bar{padding:10px;gap:8px;}
+    .field{flex:1 1 100%;}
+    .swap{margin:0 auto;}
+    .radius{flex:1 1 100%;justify-content:space-between;}
+    .radius input[type=range]{flex:1;width:auto;}
+    #go{flex:1 1 100%;padding:14px;}
+    #reset{flex:1 1 100%;}
+    .tools{flex:1 1 100%;}
+    .tool-chip{flex:1;justify-content:center;}
+    #panel{width:100%;}
+    #results{top:auto;bottom:0;left:0;right:0;width:auto;max-height:46vh;
+      background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.16);padding:12px 12px 16px;}
   }
 </style>
 </head>
@@ -208,33 +209,32 @@
 <div id="map"></div>
 
 <div id="search">
-  <h1>동선 위 SK일렉링크 충전소 🔌</h1>
-  <p class="desc">출발지·도착지를 입력하면 경로 주변 SK일렉링크 휴게소 충전기를 찾아드려요.</p>
-  <div id="stats" class="stats"></div>
-  <div class="field">
-    <span class="dot start"></span>
-    <input id="from" type="text" placeholder="출발지 검색 (예: 서울역, 강남구청)" autocomplete="off" />
-    <div class="ac" id="ac-from"></div>
-  </div>
-  <div class="field">
-    <span class="dot end"></span>
-    <input id="to" type="text" placeholder="도착지 검색 (예: 부산역, 해운대)" autocomplete="off" />
+  <div class="bar">
+    <div class="field">
+      <span class="dot start"></span>
+      <input id="from" type="text" placeholder="출발지 검색 (예: 서울역)" autocomplete="off" />
+      <div class="ac" id="ac-from"></div>
+    </div>
     <button class="swap" id="swap" title="출발/도착 바꾸기">⇅</button>
-    <div class="ac" id="ac-to"></div>
-  </div>
-  <button id="go">경로 찾기</button>
-  <button id="reset" style="display:none">↺ 초기화</button>
-  <div class="radius">
-    <span>경로 반경</span>
-    <input id="radius" type="range" min="1" max="15" step="1" value="1" />
-    <b id="radius-val">1 km</b>
-  </div>
-  <div class="tools">
-    <div class="tool-chip" id="tab-history">🕘 최근 검색</div>
-    <div class="tool-chip" id="tab-fav">⭐ 찜한 휴게소</div>
+    <div class="field">
+      <span class="dot end"></span>
+      <input id="to" type="text" placeholder="도착지 검색 (예: 부산역)" autocomplete="off" />
+      <div class="ac" id="ac-to"></div>
+    </div>
+    <div class="radius">
+      <span>반경</span>
+      <input id="radius" type="range" min="1" max="15" step="1" value="1" />
+      <b id="radius-val">1 km</b>
+    </div>
+    <button id="go">경로 찾기</button>
+    <button id="reset" style="display:none">↺ 초기화</button>
+    <div class="tools">
+      <div class="tool-chip" id="tab-history">🕘 최근</div>
+      <div class="tool-chip" id="tab-fav">☆ 찜</div>
+    </div>
   </div>
   <div id="panel"></div>
-  <button id="event-btn">🎁 이벤트 참여하기</button>
+  <button id="event-btn">🎁 응모 참여</button>
 </div>
 
 <div id="results">
@@ -289,16 +289,6 @@ async function loadData(){
   fetch("/food.json").then(r=>r.ok?r.json():{}).then(f=>{ foodMap=f||{}; }).catch(()=>{});
   allSK = sk.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
   showAllSK();
-  renderStats();
-}
-
-// 메인 요약 통계
-function renderStats(){
-  const stations = allSK.length;
-  const chargers = allSK.reduce((s,d)=>s+(d.total||0),0);
-  $("stats").innerHTML = `
-    <div class="stat on"><div class="sv">${stations}개소</div><div class="sl">SK일렉링크 휴게소</div></div>
-    <div class="stat on"><div class="sv">${chargers}기</div><div class="sl">설치된 충전기</div></div>`;
 }
 
 // 기본 상태: SK일렉링크 운영 충전소 전체를 작은 점 마커로 표시
@@ -480,12 +470,12 @@ function drawRoute(path, a, b){
   if(routeLine) routeLine.setMap(null);
   const pts = path.map(p=>new kakao.maps.LatLng(p.lat,p.lng));
   routeLine = new kakao.maps.Polyline({
-    map, path:pts, strokeWeight:6, strokeColor:"#3182f6", strokeOpacity:0.85, strokeStyle:"solid"
+    map, path:pts, strokeWeight:6, strokeColor:"#783CFC", strokeOpacity:0.85, strokeStyle:"solid"
   });
   // 출발/도착 마커
   if(startMk) startMk.setMap(null);
   if(endMk) endMk.setMap(null);
-  startMk = endMarker(a.lat,a.lng,"#3182f6","출");
+  startMk = endMarker(a.lat,a.lng,"#783CFC","출");
   endMk   = endMarker(b.lat,b.lng,"#e53935","도");
 }
 
