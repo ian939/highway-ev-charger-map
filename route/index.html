@@ -119,16 +119,17 @@
   .mk{position:relative;width:30px;height:38px;}
   .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
   .pin span{transform:rotate(45deg);display:block;color:#fff;font-size:12px;font-weight:800;text-align:center;line-height:26px;}
-  /* 기본 SK 마커(작은 점) */
-  .dot-mk{width:16px;height:16px;border-radius:50%;background:var(--red);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;}
-  /* 경로 위 운영중 충전소 라벨(용량별 기수) */
-  .lbl{position:relative;background:#fff;border:2px solid var(--red);border-radius:10px;padding:3px 8px 4px;
-    box-shadow:0 2px 8px rgba(0,0,0,.28);cursor:pointer;}
-  .lbl::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
-    border:5px solid transparent;border-top-color:var(--red);}
-  .lbl-no{position:absolute;top:-9px;left:-9px;width:18px;height:18px;border-radius:50%;background:var(--red);
-    color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3);}
-  .lbl .lr{font-size:11.5px;font-weight:800;color:var(--red);line-height:1.5;text-align:center;white-space:nowrap;}
+  /* 기본 SK 마커(작은 점) — 럭키패스 컬러(보라) */
+  .dot-mk{width:15px;height:15px;border-radius:50%;background:var(--blue);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;}
+  /* 경로 위 충전소 라벨 — 럭키패스 배지 + 테두리 (용량별 기수) */
+  .lbl{position:relative;background:#fff;border:1.5px solid #d9c8ff;border-radius:12px;padding:5px 9px 6px;
+    box-shadow:0 4px 12px rgba(120,60,252,.28);cursor:pointer;}
+  .lbl::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:#fff;filter:drop-shadow(0 2px 1px rgba(120,60,252,.25));}
+  .lbl-logo{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:7px;
+    background:var(--blue);margin:0 auto 3px;box-shadow:0 1px 3px rgba(120,60,252,.4);}
+  .lbl .lr{font-size:11px;font-weight:800;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
+  .lbl .lr b{color:var(--blue);font-weight:800;margin-left:1px;}
 
   /* 도구(최근 검색) */
   .tools{display:flex;gap:7px;margin-top:7px;}
@@ -191,6 +192,7 @@
 <script>
 const JS_KEY = "__JSKEY__";
 const WORKER = "https://highway-ev-route-proxy.ian-1f3.workers.dev"; // 네이버 블로그·지역 검색 프록시
+const BOLT = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; // 럭키패스 번개
 
 let map, geocoder, ps;
 let allSK = [];                 // SK 운영 충전소(sk_chargers.json)
@@ -435,9 +437,9 @@ function selectStops(path){
   markers.forEach(m=>m.setMap(null)); markers=[];
   hits.forEach((d,i)=>{
     const rows = (d.byKw||[]).slice().sort((a,b)=>a.kw-b.kw)
-      .map(b=>`<div class="lr">${b.kw}:${b.count}</div>`).join("");
+      .map(b=>`<div class="lr">${b.kw} <b>${b.count}기</b></div>`).join("");
     const div=document.createElement("div"); div.className="lbl";
-    div.innerHTML=`<span class="lbl-no">${i+1}</span>${rows}`;
+    div.innerHTML=`<span class="lbl-logo">${BOLT}</span>${rows}`;
     div.addEventListener("click",(e)=>{ e.stopPropagation(); openSheet(d); });
     const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:1.15, zIndex:6 });
     ov.setMap(map);
