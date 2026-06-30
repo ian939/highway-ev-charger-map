@@ -11,7 +11,6 @@ export default {
     const p = url.pathname;
     if (p === "/route") return route(url, env);
     if (p === "/blogs") return naverBlogs(url, env);
-    if (p === "/local") return naverLocal(url, env);
     return new Response("highway-ev-route-proxy ok", { headers: CORS });
   },
 };
@@ -60,29 +59,6 @@ async function naverBlogs(url, env) {
       link: it.link,
       blogger: it.bloggername,
       date: it.postdate,
-    }));
-    return json({ items }, 200);
-  } catch (e) {
-    return json({ error: "프록시 실패", detail: String(e) }, 502);
-  }
-}
-
-// 네이버 지역 검색 (주변 볼거리)
-async function naverLocal(url, env) {
-  const q = url.searchParams.get("q");
-  if (!q) return json({ error: "q 필요" }, 400);
-  if (!env.NAVER_CLIENT_ID) return json({ error: "네이버 키 미설정" }, 500);
-  const api = "https://openapi.naver.com/v1/search/local?" +
-    new URLSearchParams({ query: q, display: "5", sort: "random" });
-  try {
-    const r = await fetch(api, { headers: naverHeaders(env) });
-    if (!r.ok) return json({ error: "네이버 지역 오류", status: r.status }, r.status);
-    const data = await r.json();
-    const items = (data.items || []).map((it) => ({
-      title: stripTags(it.title),
-      category: it.category,
-      address: it.roadAddress || it.address,
-      link: it.link,
     }));
     return json({ items }, 200);
   } catch (e) {
