@@ -5,7 +5,8 @@ from openpyxl import load_workbook
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-XLSX = os.path.join(PARENT, "SK일렉링크_휴게소_충전기_현황.ver2.xlsx")
+XLSX = os.path.join(PARENT, "SK일렉링크_휴게소_충전기_현황.ver3_주말혼잡도.xlsx")
+SHEET = "SK일렉링크 휴게소 충전기"
 OUTS = [os.path.join(HERE, "sk_chargers.json"), os.path.join(PARENT, "docs", "sk_chargers.json")]
 
 # 설치예정(좌표 없는) 휴게소는 주소를 지오코딩 — build_geocode.geocode 재사용(.env의 KAKAO_REST_KEY)
@@ -14,8 +15,10 @@ import build_geocode as geo
 
 # (kW, 엑셀 열 인덱스, 급속/완속)
 KW_COLS = [(350, 9, "급속"), (200, 10, "급속"), (100, 11, "급속"), (50, 12, "급속"), (7, 13, "완속")]
+# ver3: 등급·경쟁강도 삭제 → 응모권=20, 혼잡도(주말)=21~25, 충전단가=31
 C = dict(no=0, name=1, region=2, addr=3, lat=4, lng=5, total=6, conn=14, maker=15,
-         year=16, lucky=17, status=18, menu=19, grade=20, comp=21, ticket=22)
+         year=16, lucky=17, status=18, menu=19, ticket=20, price=31)
+CONG_SLOTS = [("00-08", 21), ("08-12", 22), ("12-16", 23), ("16-20", 24), ("20-24", 25)]
 
 
 def clean(s):
@@ -39,8 +42,21 @@ def parse_status(v, total):  # "정상사용 4" → {"정상사용":4}
     return {m.group(1).strip(): int(m.group(2))} if m else {s: total}
 
 
+def parse_price(v):  # 347.2 / 391 / "295원" → 숫자(정수면 int)
+    if v in (None, ""):
+        return None
+    if isinstance(v, (int, float)):
+        p = float(v)
+    else:
+        m = re.search(r"[\d.]+", str(v))
+        if not m:
+            return None
+        p = float(m.group())
+    return int(p) if p == int(p) else p
+
+
 wb = load_workbook(XLSX, data_only=True)
-ws = wb.active
+ws = wb[SHEET]
 rows = [r for r in ws.iter_rows(min_row=2, values_only=True) if r[C["name"]]]
 
 stations = []
@@ -52,7 +68,6 @@ for r in rows:
     region = (clean(r[C["region"]]) or "").strip()
     addr = (clean(r[C["addr"]]) or "").strip()
     ticket = int(r[C["ticket"]]) if isinstance(r[C["ticket"]], (int, float)) else None
-    grade = (clean(r[C["grade"]]) or "").strip() or None
     lat, lng = r[C["lat"]], r[C["lng"]]
     has_coord = isinstance(lat, (int, float)) and isinstance(lng, (int, float))
 
@@ -70,10 +85,12 @@ for r in rows:
             "address": addr, "region": region, "total": total,
             "fast": sum(b["count"] for b in by if b["speed"] == "급속"),
             "slow": sum(b["count"] for b in by if b["speed"] == "완속"),
-            "byKw": by, "connectors": splist(r[C["conn"]]), "makers": splist(r[C["maker"]]),
+            "byKw": by, "makers": splist(r[C["maker"]]),
             "years": splist(r[C["year"]]), "luckypass": parse_lucky(r[C["lucky"]]),
             "status": parse_status(r[C["status"]], total),
-            "tickets": ticket, "grade": grade, "planned": False,
+            "tickets": ticket, "planned": False,
+            "price": parse_price(r[C["price"]]),
+            "congestion": [{"t": lab, "lv": r[col]} for lab, col in CONG_SLOTS if r[col] not in (None, "")],
         })
     else:  # 설치예정 — 주소 지오코딩
         res = geo.geocode(name, addr)
@@ -82,10 +99,9 @@ for r in rows:
             continue
         glat, glng, method, _ = res
         planned_ok += 1
-        stations.append({  # 설치예정: 응모권 없음(tickets 미포함)
+        stations.append({  # 설치예정: 응모권·혼잡도·단가 없음
             "name": name, "lat": round(float(glat), 7), "lng": round(float(glng), 7),
-            "address": addr, "region": region,
-            "grade": grade, "planned": True,
+            "address": addr, "region": region, "planned": True,
             "approx": method.startswith("approx:"),
         })
 

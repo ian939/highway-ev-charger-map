@@ -84,6 +84,7 @@
   #sheet .s-title{font-size:21px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   #sheet .badge{font-size:11px;font-weight:700;background:var(--blue-soft);color:var(--blue);border-radius:8px;padding:3px 9px;}
   #sheet .badge.tkt{background:#FFF3D6;color:#9A6B00;}
+  #sheet .badge.price{background:#EAF6EF;color:#127a3e;}
   #sheet .addr{font-size:13px;color:var(--gray);margin:8px 0 20px;line-height:1.5;}
   #sheet .sec{font-size:13px;font-weight:700;color:var(--gray);margin-bottom:10px;}
   .oprow{display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--bg);border-radius:14px;margin-bottom:8px;}
@@ -94,6 +95,12 @@
   .cap.kw{background:#fff;color:var(--ink);border:1px solid var(--line);}
   .oprow .r{font-size:15px;font-weight:800;min-width:34px;text-align:right;flex-shrink:0;}
   .note{font-size:11.5px;color:var(--gray);line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
+  /* 주말 혼잡도 칩 (시간대별) */
+  .cong{display:flex;gap:5px;margin-bottom:4px;}
+  .cong .cg{flex:1;text-align:center;border-radius:10px;padding:7px 2px;font-size:11px;font-weight:800;line-height:1.3;}
+  .cong .cg b{display:block;font-size:9.5px;font-weight:700;opacity:.65;margin-bottom:2px;}
+  .cg.l0{background:#E7F7EE;color:#127a3e;} .cg.l1{background:#FFF3D6;color:#9A6B00;}
+  .cg.l2{background:#FDE4E4;color:#c0392b;} .cg.l3{background:#EEF0F3;color:#8E8E93;}
   /* 시트 부가 섹션 (음식·블로그) */
   #extras{margin-top:6px;}
   .ex-sec{font-size:14px;font-weight:800;color:var(--ink);margin:22px 0 10px;letter-spacing:-.3px;}
@@ -219,6 +226,15 @@ const BOLT = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><polyg
 function boltLogo(tickets){ const n = tickets===2 ? 2 : 1; return `<span class="lbl-logo${n===2?' t2':''}">${BOLT.repeat(n)}</span>`; }
 // 대표메뉴 이름매칭 보정: 우리 휴게소명(normName) → food.json 키
 const FOOD_ALIAS = {"대관령강릉":"강릉","남성주":"남성주참외","입장":"입장거봉포도","의왕청계행복드림쉼터":"의왕","서하남간이":"서하남행복드림쉼터","진주외부반려견공원주차장":"진주"};
+// 주말 혼잡도(25.7~8 토·일 P95 점유율) 섹션
+const CONG_LV = {"여유":"l0","보통":"l1","혼잡":"l2","신규설치":"l3"};
+function congSection(cong){
+  if(!cong || !cong.length) return "";
+  if(cong.every(c=>c.lv==="신규설치"))
+    return `<div class="sec" style="margin-top:18px;">주말 혼잡도</div><div class="ex-empty">신규 개소 · 혼잡도 데이터 준비 중</div>`;
+  const chips = cong.map(c=>`<div class="cg ${CONG_LV[c.lv]||"l3"}"><b>${c.t}</b>${c.lv}</div>`).join("");
+  return `<div class="sec" style="margin-top:18px;">주말 혼잡도 <span style="font-weight:400;color:#b0b8c1;font-size:11px;">25.7~8 토·일</span></div><div class="cong">${chips}</div>`;
+}
 
 let map, geocoder, ps;
 let allSK = [];                 // SK 운영 충전소(sk_chargers.json)
@@ -501,7 +517,7 @@ function fitBounds(path, hits){
 function openSheet(d){
   const badges = [
     d.region ? `<span class="badge">${d.region}</span>` : "",
-    d.grade ? `<span class="badge">등급 ${d.grade}</span>` : "",
+    d.price ? `<span class="badge price">${d.price}원/kWh</span>` : "",
     d.planned ? "" : `<span class="badge tkt">응모권 ${d.tickets||1}장</span>`,
   ].filter(Boolean).join("");
   let mid;
@@ -519,12 +535,11 @@ function openSheet(d){
     const statusHtml = badStatus.length
       ? `<div class="note" style="color:#d14343;border:0;padding-top:6px;margin-top:8px;">⚠ ${badStatus.map(([k,n])=>`${k} ${n}기`).join(" · ")}</div>` : "";
     const meta = [
-      (d.connectors||[]).length ? `커넥터 ${d.connectors.join(", ")}` : "",
       (d.makers||[]).length ? `제조사 ${d.makers.join(", ")}` : "",
       (d.years||[]).length ? `설치 ${d.years.join("·")}` : "",
       `럭키패스 ${d.luckypass||0}/${d.total}기`,
     ].filter(Boolean).join(" · ");
-    mid = `<div class="sec" style="margin-top:16px;">충전기 용량별 구성</div>${rows}${statusHtml}<div class="note">${meta}</div>`;
+    mid = `<div class="sec" style="margin-top:16px;">충전기 용량별 구성</div>${rows}${congSection(d.congestion)}${statusHtml}<div class="note">${meta}</div>`;
   }
   $("sheet-body").innerHTML = `
     <div class="s-title">${d.name} ${badges}</div>
