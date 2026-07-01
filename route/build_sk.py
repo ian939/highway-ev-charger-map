@@ -82,10 +82,10 @@ for r in rows:
             continue
         glat, glng, method, _ = res
         planned_ok += 1
-        stations.append({
+        stations.append({  # 설치예정: 응모권 없음(tickets 미포함)
             "name": name, "lat": round(float(glat), 7), "lng": round(float(glng), 7),
             "address": addr, "region": region,
-            "tickets": ticket, "grade": grade, "planned": True,
+            "grade": grade, "planned": True,
             "approx": method.startswith("approx:"),
         })
 
@@ -105,6 +105,6 @@ if planned_fail:
 approx = [s["name"] for s in pl if s.get("approx")]
 if approx:
     print(f"  근사좌표(읍·면 단위) {len(approx)}곳:", approx)
-print("응모권 분포:", dict(Counter(s["tickets"] for s in stations)))
+print("응모권 분포(운영):", dict(Counter(s["tickets"] for s in op)))
 if kw_mismatch:
     print("총충전기 ≠ kW합 불일치:", kw_mismatch)

@@ -43,7 +43,6 @@
   "lng": 127.2945283,
   "address": "경기도 안성시 고삼면 이전봉산길 224-56 (봉산리 산 13-1) 일원",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -54,7 +53,6 @@
   "lng": 127.2945283,
   "address": "경기도 안성시 고삼면 이전봉산길 224-56 (봉산리 산 13-1) 일원",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -141,7 +139,6 @@
   "lng": 126.6736976,
   "address": "전북 고창군 신림면 서해안고속도로 81 고창(목포)휴게소",
   "region": "전라북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -337,7 +334,6 @@
   "lng": 127.4976697,
   "address": "충남 금산군 군북면 대암길 34-30 인삼랜드(대전)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -758,7 +754,6 @@
   "lng": 126.5557174,
   "address": "충남 보령시 주교면 서해안고속도로 199대천(목포)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -769,7 +764,6 @@
   "lng": 126.5583353,
   "address": "충남 보령시 주교면 서해안고속도로 200 대천(서울)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -1074,7 +1068,6 @@
   "lng": 127.2734138,
   "address": "충남 논산시 벌곡면 호남지선고속도로 25 벌곡(논산)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -1315,7 +1308,6 @@
   "lng": 127.5805274,
   "address": "경기 여주시 능서면 중부내륙고속도로 272 서여주(양평)휴게소",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -1364,7 +1356,6 @@
   "lng": 126.6279961,
   "address": "충남 서천군 비인면 서해안고속도로 168 서천(서울)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -1588,7 +1579,6 @@
   "lng": 127.1446898,
   "address": "경기 안성시 원곡면 경부고속도로 365 안성(부산)휴게소",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -1713,7 +1703,6 @@
   "lng": 129.3638379,
   "address": "경상북도 영덕군 남정면 양성리 산 8-1",
   "region": "경상북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2139,7 +2128,6 @@
   "lng": 127.0239019,
   "address": "전북 완주군 이서면 호남고속도로 161 이서(순천)휴게소",
   "region": "전라북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2150,7 +2138,6 @@
   "lng": 127.0257997,
   "address": "전북 완주군 이서면 호남고속도로 162 이서(천안)휴게소",
   "region": "전라북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2161,7 +2148,6 @@
   "lng": 127.4036073,
   "address": "경기 이천시 마장면 중부대로 609번길 244-35 이천(통영)휴게소",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2286,7 +2272,6 @@
   "lng": 126.8642702,
   "address": "전북 정읍시 북면 하북1길 227-23 정읍(천안)휴게소",
   "region": "전라북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2335,7 +2320,6 @@
   "lng": 127.4252822,
   "address": "전북 진안군 진안읍 익산장수고속도로 41 진안(익산)휴게소",
   "region": "전라북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2554,7 +2538,6 @@
   "lng": 129.0425444,
   "address": "경상북도 포항시 북구 송라면 포항영덕고속도로 19 (지경리 산 21-1)",
   "region": "경상북도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2636,7 +2619,6 @@
   "lng": 126.5794561,
   "address": "충남 홍성군 은하면 금국리 292-3 홍성(목포)휴게소",
   "region": "충청남도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false
@@ -2761,7 +2743,6 @@
   "lng": 126.8812211,
   "address": "경기 화성시 팔탄면 서해안고속도로 302 화성(시흥)휴게소",
   "region": "경기도",
-  "tickets": 1,
   "grade": null,
   "planned": true,
   "approx": false

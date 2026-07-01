@@ -121,13 +121,13 @@
   .mk{position:relative;width:30px;height:38px;}
   .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
   .pin span{transform:rotate(45deg);display:block;color:#fff;font-size:12px;font-weight:800;text-align:center;line-height:26px;}
-  /* 기본 SK 마커(작은 점) — 럭키패스 컬러(보라) */
+  /* 기본 SK 마커 — 응모권 번개 배지(1장 ⚡ / 2장 ⚡⚡) */
+  .mk-bolt{display:flex;align-items:center;justify-content:center;gap:1px;min-width:20px;height:20px;padding:0 4px;
+    border-radius:8px;background:var(--blue);border:2px solid #fff;box-shadow:0 2px 5px rgba(120,60,252,.45);cursor:pointer;}
+  .mk-bolt svg{width:11px;height:11px;}
+  /* 설치예정 마커 — 회색 점선 점(응모권 없음) */
   .dot-wrap{position:relative;cursor:pointer;}
-  .dot-mk{width:15px;height:15px;border-radius:50%;background:var(--blue);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);}
-  .dot-mk.planned{background:#B9BDC7;border-style:dashed;}                      /* 설치예정: 회색·점선 */
-  .dot-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);display:flex;    /* 응모권 2장 표시(⚡⚡) */
-    background:var(--gold);border-radius:6px;padding:1px 2px;box-shadow:0 1px 3px rgba(0,0,0,.35);}
-  .dot-badge svg{width:8px;height:8px;}
+  .dot-mk.planned{width:15px;height:15px;border-radius:50%;background:#B9BDC7;border:2.5px dashed #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);}
   /* 경로 위 충전소 라벨 — 럭키패스 배지 + 테두리 (용량별 기수) */
   .lbl{position:relative;background:#fff;border:1.5px solid #d9c8ff;border-radius:12px;padding:5px 9px 6px;
     box-shadow:0 4px 12px rgba(120,60,252,.28);cursor:pointer;}
@@ -142,12 +142,13 @@
   .lbl.planned .lr{color:var(--gray);}
   /* 상단 응모권 안내 범례 */
   #legend{position:fixed;z-index:34;top:10px;left:50%;transform:translateX(-50%);max-width:calc(100% - 20px);
+    display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;
     background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:7px 12px;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11.5px;font-weight:600;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
-  #legend .lg-b{display:inline-flex;align-items:center;vertical-align:-3px;background:var(--blue);border-radius:4px;padding:1px;margin:0 1px;}
-  #legend .lg-b svg{width:10px;height:10px;}
-  #legend .lg-plan{display:inline-block;width:9px;height:9px;border-radius:50%;background:#B9BDC7;border:1.5px dashed #8b90a0;vertical-align:0;margin:0 3px 0 6px;}
-  #legend .lg-sep{color:var(--line);margin:0 4px;}
+    box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11.5px;font-weight:600;color:var(--ink);line-height:1;white-space:nowrap;}
+  #legend .lg-b{display:inline-flex;align-items:center;background:var(--blue);border-radius:4px;padding:2px;}
+  #legend .lg-b svg{width:11px;height:11px;display:block;}
+  #legend .lg-plan{display:inline-block;width:10px;height:10px;border-radius:50%;background:#B9BDC7;border:1.5px dashed #8b90a0;}
+  #legend .lg-sep{color:#d5d8de;}
 
   /* 도구(최근 검색) */
   .tools{display:flex;gap:7px;margin-top:7px;}
@@ -175,11 +176,7 @@
 <body>
 <div id="map"></div>
 
-<div id="legend">
-  충전 1건당 응모권 <span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>1장 ·
-  <span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>2배 지급
-  <span class="lg-sep">|</span><span class="lg-plan"></span>설치예정
-</div>
+<div id="legend"><span>충전 1건당 응모권</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>1장</span><span class="lg-sep">·</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>2배 지급</span><span class="lg-sep">|</span><span class="lg-plan"></span><span>설치예정</span></div>
 
 <div id="search">
   <button id="openSearch">경로 찾기</button>
@@ -257,12 +254,17 @@ async function loadData(){
 function showAllSK(){
   baseMarkers.forEach(m=>m.setMap(null)); baseMarkers=[];
   allSK.forEach(d=>{
-    const wrap=document.createElement("div"); wrap.className="dot-wrap"; wrap.title=d.name;
-    const dot=document.createElement("div"); dot.className="dot-mk"+(d.planned?" planned":"");
-    wrap.appendChild(dot);
-    if(!d.planned && d.tickets===2){ const b=document.createElement("div"); b.className="dot-badge"; b.innerHTML=BOLT+BOLT; wrap.appendChild(b); }
-    wrap.addEventListener("click",(e)=>{ e.stopPropagation(); map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
-    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:wrap, yAnchor:0.5, zIndex:d.planned?3:4 });
+    let el;
+    if(d.planned){
+      el=document.createElement("div"); el.className="dot-wrap";
+      const dot=document.createElement("div"); dot.className="dot-mk planned"; el.appendChild(dot);
+    }else{
+      el=document.createElement("div"); el.className="mk-bolt";
+      el.innerHTML=BOLT.repeat(d.tickets===2?2:1);
+    }
+    el.title=d.name;
+    el.addEventListener("click",(e)=>{ e.stopPropagation(); map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
+    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:el, yAnchor:0.5, zIndex:d.planned?3:4 });
     ov.setMap(map);
     baseMarkers.push(ov);
   });
@@ -469,7 +471,7 @@ function selectStops(path){
     const div=document.createElement("div");
     if(d.planned){
       div.className="lbl planned";
-      div.innerHTML=`${boltLogo(d.tickets)}<div class="lr">설치<br>예정</div>`;
+      div.innerHTML=`<div class="lr">설치<br>예정</div>`;
     }else{
       const rows = (d.byKw||[]).slice().sort((a,b)=>a.kw-b.kw)
         .map(b=>`<div class="lr">${b.kw} <b>${b.count}기</b></div>`).join("");
@@ -499,11 +501,11 @@ function openSheet(d){
   const badges = [
     d.region ? `<span class="badge">${d.region}</span>` : "",
     d.grade ? `<span class="badge">등급 ${d.grade}</span>` : "",
-    `<span class="badge tkt">응모권 ${d.tickets||1}장</span>`,
+    d.planned ? "" : `<span class="badge tkt">응모권 ${d.tickets||1}장</span>`,
   ].filter(Boolean).join("");
   let mid;
   if(d.planned){
-    mid = `<div class="note" style="border:0;margin-top:14px;font-size:13px;color:var(--gray);line-height:1.6;">🚧 설치 예정 충전소예요.<br>표시 위치는 근사값일 수 있어요.</div>`;
+    mid = `<div class="note" style="border:0;margin-top:14px;font-size:13.5px;color:var(--blue);font-weight:600;line-height:1.6;">🚧 올해 안으로 선보일 수 있도록 열심히 설치 중입니다!</div>`;
   }else{
     const rows = (d.byKw||[]).map(b=>
       `<div class="oprow">
