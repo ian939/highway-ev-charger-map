@@ -1,103 +1,110 @@
-# 휴게소 충전기 정보.xlsx → 휴게소별 용량 집계 JSON 생성 + data.json 좌표 매칭 리포트
-import io, sys, json, os, math
-from collections import defaultdict, Counter
+# SK일렉링크_휴게소_충전기_현황.ver2.xlsx → sk_chargers.json (운영+설치예정) 생성. route/·docs/ 이중 저장
+import sys, os, re, json
+from collections import Counter
 from openpyxl import load_workbook
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-XLSX = os.path.join(PARENT, "휴게소 충전기 정보.xlsx")
-OUT = os.path.join(HERE, "sk_chargers.json")
+XLSX = os.path.join(PARENT, "SK일렉링크_휴게소_충전기_현황.ver2.xlsx")
+OUTS = [os.path.join(HERE, "sk_chargers.json"), os.path.join(PARENT, "docs", "sk_chargers.json")]
 
-wb = load_workbook(XLSX, read_only=True, data_only=True)
-ws = wb["Sheet1"]
-hdr = [c.value for c in next(ws.iter_rows(min_row=1, max_row=1))]
-I = {h: i for i, h in enumerate(hdr)}
-rows = [r for r in ws.iter_rows(min_row=2, values_only=True) if r[0]]
+# 설치예정(좌표 없는) 휴게소는 주소를 지오코딩 — build_geocode.geocode 재사용(.env의 KAKAO_REST_KEY)
+sys.path.insert(0, PARENT)
+import build_geocode as geo
+
+# (kW, 엑셀 열 인덱스, 급속/완속)
+KW_COLS = [(350, 9, "급속"), (200, 10, "급속"), (100, 11, "급속"), (50, 12, "급속"), (7, 13, "완속")]
+C = dict(no=0, name=1, region=2, addr=3, lat=4, lng=5, total=6, conn=14, maker=15,
+         year=16, lucky=17, status=18, menu=19, grade=20, comp=21, ticket=22)
+
 
 def clean(s):
-    # 고립 서로게이트 등 잘못된 유니코드 제거 (JSON/브라우저 호환)
-    if isinstance(s, str):
-        return s.encode("utf-8", "ignore").decode("utf-8")
-    return s
+    return s.encode("utf-8", "ignore").decode("utf-8") if isinstance(s, str) else s
 
-def g(r, name):
-    return clean(r[I[name]])
 
-# 휴게소명 기준 그룹핑 (1행 = 충전기 1대)
-groups = defaultdict(list)
-for r in rows:
-    groups[g(r, "충전소명")].append(r)
+def splist(v):  # "A, B" → ["A","B"] (커넥터/제조사/설치년도)
+    return sorted({p.strip() for p in re.split(r"\s*,\s*", str(v)) if p.strip()}) if v else []
 
-def speed_label(code):
-    return "완속" if str(code) == "01" else "급속"
+
+def parse_lucky(v):  # "4/4" → 4 (적용 대수)
+    m = re.match(r"\s*(\d+)", str(v or ""))
+    return int(m.group(1)) if m else 0
+
+
+def parse_status(v, total):  # "정상사용 4" → {"정상사용":4}
+    s = str(v or "").strip()
+    if not s:
+        return {}
+    m = re.match(r"(.+?)\s*(\d+)\s*$", s)
+    return {m.group(1).strip(): int(m.group(2))} if m else {s: total}
+
+
+wb = load_workbook(XLSX, data_only=True)
+ws = wb.active
+rows = [r for r in ws.iter_rows(min_row=2, values_only=True) if r[C["name"]]]
 
 stations = []
-for name, rs in groups.items():
-    lats = [float(g(r, "GPS 위도")) for r in rs if g(r, "GPS 위도")]
-    lngs = [float(g(r, "GPS 경도")) for r in rs if g(r, "GPS 경도")]
-    lat = sum(lats) / len(lats)
-    lng = sum(lngs) / len(lngs)
-    # (kW, 급속/완속)별 대수 집계
-    bykw = Counter()
-    for r in rs:
-        kw = int(float(g(r, "전력량")))
-        bykw[(kw, speed_label(g(r, "01-완속, 02-급속")))] += 1
-    by = [{"kw": kw, "speed": sp, "count": c}
-          for (kw, sp), c in sorted(bykw.items(), key=lambda x: (-x[0][0], x[0][1]))]
-    fast = sum(c for (kw, sp), c in bykw.items() if sp == "급속")
-    slow = sum(c for (kw, sp), c in bykw.items() if sp == "완속")
-    addr = next((g(r, "도로명 주소") for r in rs if g(r, "도로명 주소")), "") \
-        or next((g(r, "지번 주소") for r in rs if g(r, "지번 주소")), "")
-    conns = sorted({g(r, "커넥터") for r in rs if g(r, "커넥터")})
-    makers = sorted({g(r, "제조사") for r in rs if g(r, "제조사")})
-    years = sorted({str(g(r, "설치년도")) for r in rs if g(r, "설치년도")})
-    lucky = sum(1 for r in rs if str(g(r, "럭키패스 적용여부")) == "Y")
-    status = dict(Counter(str(g(r, "현장상태")) for r in rs))
-    stations.append({
-        "name": name.strip(),
-        "lat": round(lat, 7), "lng": round(lng, 7),
-        "address": (addr or "").strip(),
-        "region": (g(rs[0], "지역") or "").strip(),
-        "total": len(rs), "fast": fast, "slow": slow,
-        "byKw": by, "connectors": conns, "makers": makers,
-        "years": years, "luckypass": lucky, "status": status,
-    })
+planned_ok = 0
+planned_fail = []
+kw_mismatch = []
+for r in rows:
+    name = clean(r[C["name"]]).strip()
+    region = (clean(r[C["region"]]) or "").strip()
+    addr = (clean(r[C["addr"]]) or "").strip()
+    ticket = int(r[C["ticket"]]) if isinstance(r[C["ticket"]], (int, float)) else None
+    grade = (clean(r[C["grade"]]) or "").strip() or None
+    lat, lng = r[C["lat"]], r[C["lng"]]
+    has_coord = isinstance(lat, (int, float)) and isinstance(lng, (int, float))
+
+    if has_coord:  # 운영 충전소
+        by = []
+        for kw, col, sp in KW_COLS:
+            v = r[col]
+            if isinstance(v, (int, float)) and v > 0:
+                by.append({"kw": kw, "speed": sp, "count": int(v)})
+        total = int(r[C["total"]]) if isinstance(r[C["total"]], (int, float)) else sum(b["count"] for b in by)
+        if by and sum(b["count"] for b in by) != total:
+            kw_mismatch.append((name, total, sum(b["count"] for b in by)))
+        stations.append({
+            "name": name, "lat": round(float(lat), 7), "lng": round(float(lng), 7),
+            "address": addr, "region": region, "total": total,
+            "fast": sum(b["count"] for b in by if b["speed"] == "급속"),
+            "slow": sum(b["count"] for b in by if b["speed"] == "완속"),
+            "byKw": by, "connectors": splist(r[C["conn"]]), "makers": splist(r[C["maker"]]),
+            "years": splist(r[C["year"]]), "luckypass": parse_lucky(r[C["lucky"]]),
+            "status": parse_status(r[C["status"]], total),
+            "tickets": ticket, "grade": grade, "planned": False,
+        })
+    else:  # 설치예정 — 주소 지오코딩
+        res = geo.geocode(name, addr)
+        if not res:
+            planned_fail.append(name)
+            continue
+        glat, glng, method, _ = res
+        planned_ok += 1
+        stations.append({
+            "name": name, "lat": round(float(glat), 7), "lng": round(float(glng), 7),
+            "address": addr, "region": region,
+            "tickets": ticket, "grade": grade, "planned": True,
+            "approx": method.startswith("approx:"),
+        })
 
 stations.sort(key=lambda s: s["name"])
-with open(OUT, "w", encoding="utf-8") as f:
-    json.dump(stations, f, ensure_ascii=False, indent=1)
+data = json.dumps(stations, ensure_ascii=False, indent=1)
+for out in OUTS:
+    open(out, "w", encoding="utf-8").write(data)
 
 # ---- 리포트 ----
-print(f"[생성] {OUT}")
-print(f"휴게소 {len(stations)}곳 / 충전기 {sum(s['total'] for s in stations)}대")
-kw_total = Counter()
-for s in stations:
-    for b in s["byKw"]:
-        kw_total[(b['kw'], b['speed'])] += b['count']
-print("용량별 합계:", {f"{k}kW {sp}": c for (k, sp), c in sorted(kw_total.items(), key=lambda x: -x[0][0])})
-
-# data.json 좌표 매칭 (가장 가까운 SK 휴게소까지 거리)
-R = 6371
-def hav(a, b):
-    dl = math.radians(b[0]-a[0]); dn = math.radians(b[1]-a[1])
-    s = math.sin(dl/2)**2 + math.cos(math.radians(a[0]))*math.cos(math.radians(b[0]))*math.sin(dn/2)**2
-    return 2*R*math.asin(math.sqrt(s))
-
-dj = json.load(open(os.path.join(PARENT, "data.json"), encoding="utf-8"))
-dj_sk = [d for d in dj if any("SK일렉링크" in k for k in d.get("operators", {}))
-         and isinstance(d.get("lat"), (int, float))]
-print(f"\ndata.json SK 휴게소: {len(dj_sk)}곳")
-matched = 0; far = []
-for s in stations:
-    best = min(((hav((s['lat'], s['lng']), (d['lat'], d['lng'])), d['name']) for d in dj_sk),
-               default=(9e9, None))
-    if best[0] <= 0.5:
-        matched += 1
-    else:
-        far.append((s['name'], round(best[0], 1), best[1]))
-print(f"좌표 0.5km 내 매칭: {matched}/{len(stations)}곳")
-if far:
-    print(f"미매칭(0.5km 초과) {len(far)}곳:")
-    for nm, dist, near in far[:30]:
-        print(f"  {nm}  → 최근접 {near} {dist}km")
+op = [s for s in stations if not s["planned"]]
+pl = [s for s in stations if s["planned"]]
+print(f"[생성] {len(stations)}곳 → route/, docs/  (운영 {len(op)} · 설치예정 {len(pl)})")
+print(f"운영 충전기 합계: {sum(s['total'] for s in op)}대")
+print(f"설치예정 지오코딩: 성공 {planned_ok} · 실패 {len(planned_fail)}")
+if planned_fail:
+    print("  [지오코딩 실패]", planned_fail)
+approx = [s["name"] for s in pl if s.get("approx")]
+if approx:
+    print(f"  근사좌표(읍·면 단위) {len(approx)}곳:", approx)
+print("응모권 분포:", dict(Counter(s["tickets"] for s in stations)))
+if kw_mismatch:
+    print("총충전기 ≠ kW합 불일치:", kw_mismatch)

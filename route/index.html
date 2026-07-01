@@ -83,6 +83,7 @@
   #sheet .grab{width:40px;height:4px;border-radius:2px;background:#e0e3e8;margin:8px auto 16px;}
   #sheet .s-title{font-size:21px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   #sheet .badge{font-size:11px;font-weight:700;background:var(--blue-soft);color:var(--blue);border-radius:8px;padding:3px 9px;}
+  #sheet .badge.tkt{background:#FFF3D6;color:#9A6B00;}
   #sheet .addr{font-size:13px;color:var(--gray);margin:8px 0 20px;line-height:1.5;}
   #sheet .sec{font-size:13px;font-weight:700;color:var(--gray);margin-bottom:10px;}
   .oprow{display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--bg);border-radius:14px;margin-bottom:8px;}
@@ -121,16 +122,32 @@
   .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
   .pin span{transform:rotate(45deg);display:block;color:#fff;font-size:12px;font-weight:800;text-align:center;line-height:26px;}
   /* 기본 SK 마커(작은 점) — 럭키패스 컬러(보라) */
-  .dot-mk{width:15px;height:15px;border-radius:50%;background:var(--blue);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;}
+  .dot-wrap{position:relative;cursor:pointer;}
+  .dot-mk{width:15px;height:15px;border-radius:50%;background:var(--blue);border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);}
+  .dot-mk.planned{background:#B9BDC7;border-style:dashed;}                      /* 설치예정: 회색·점선 */
+  .dot-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);display:flex;    /* 응모권 2장 표시(⚡⚡) */
+    background:var(--gold);border-radius:6px;padding:1px 2px;box-shadow:0 1px 3px rgba(0,0,0,.35);}
+  .dot-badge svg{width:8px;height:8px;}
   /* 경로 위 충전소 라벨 — 럭키패스 배지 + 테두리 (용량별 기수) */
   .lbl{position:relative;background:#fff;border:1.5px solid #d9c8ff;border-radius:12px;padding:5px 9px 6px;
     box-shadow:0 4px 12px rgba(120,60,252,.28);cursor:pointer;}
   .lbl::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
     border:6px solid transparent;border-top-color:#fff;filter:drop-shadow(0 2px 1px rgba(120,60,252,.25));}
-  .lbl-logo{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:7px;
+  .lbl-logo{display:flex;align-items:center;justify-content:center;gap:1px;min-width:20px;height:20px;padding:0 4px;border-radius:7px;
     background:var(--blue);margin:0 auto 3px;box-shadow:0 1px 3px rgba(120,60,252,.4);}
   .lbl .lr{font-size:11px;font-weight:800;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
   .lbl .lr b{color:var(--blue);font-weight:800;margin-left:1px;}
+  .lbl.planned{border-color:#C7CCD6;box-shadow:0 4px 12px rgba(0,0,0,.18);}     /* 설치예정 라벨 */
+  .lbl.planned .lbl-logo{background:#B9BDC7;}
+  .lbl.planned .lr{color:var(--gray);}
+  /* 상단 응모권 안내 범례 */
+  #legend{position:fixed;z-index:34;top:10px;left:50%;transform:translateX(-50%);max-width:calc(100% - 20px);
+    background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:7px 12px;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11.5px;font-weight:600;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
+  #legend .lg-b{display:inline-flex;align-items:center;vertical-align:-3px;background:var(--blue);border-radius:4px;padding:1px;margin:0 1px;}
+  #legend .lg-b svg{width:10px;height:10px;}
+  #legend .lg-plan{display:inline-block;width:9px;height:9px;border-radius:50%;background:#B9BDC7;border:1.5px dashed #8b90a0;vertical-align:0;margin:0 3px 0 6px;}
+  #legend .lg-sep{color:var(--line);margin:0 4px;}
 
   /* 도구(최근 검색) */
   .tools{display:flex;gap:7px;margin-top:7px;}
@@ -157,6 +174,12 @@
 </head>
 <body>
 <div id="map"></div>
+
+<div id="legend">
+  충전 1건당 응모권 <span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>1장 ·
+  <span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>2배 지급
+  <span class="lg-sep">|</span><span class="lg-plan"></span>설치예정
+</div>
 
 <div id="search">
   <button id="openSearch">경로 찾기</button>
@@ -194,6 +217,10 @@
 const JS_KEY = "__JSKEY__";
 const WORKER = "https://highway-ev-route-proxy.ian-1f3.workers.dev"; // 네이버 블로그·지역 검색 프록시
 const BOLT = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; // 럭키패스 번개
+// 응모권 매수만큼 번개 로고 (1장 ⚡ / 2장 ⚡⚡)
+function boltLogo(tickets){ const n = tickets===2 ? 2 : 1; return `<span class="lbl-logo${n===2?' t2':''}">${BOLT.repeat(n)}</span>`; }
+// 대표메뉴 이름매칭 보정: 우리 휴게소명(normName) → food.json 키
+const FOOD_ALIAS = {"대관령강릉":"강릉","남성주":"남성주참외","입장":"입장거봉포도","의왕청계행복드림쉼터":"의왕","서하남간이":"서하남행복드림쉼터","진주외부반려견공원주차장":"진주"};
 
 let map, geocoder, ps;
 let allSK = [];                 // SK 운영 충전소(sk_chargers.json)
@@ -230,10 +257,12 @@ async function loadData(){
 function showAllSK(){
   baseMarkers.forEach(m=>m.setMap(null)); baseMarkers=[];
   allSK.forEach(d=>{
-    const div=document.createElement("div"); div.className="dot-mk";
-    div.title=d.name;
-    div.addEventListener("click",(e)=>{ e.stopPropagation(); map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
-    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:0.5, zIndex:4 });
+    const wrap=document.createElement("div"); wrap.className="dot-wrap"; wrap.title=d.name;
+    const dot=document.createElement("div"); dot.className="dot-mk"+(d.planned?" planned":"");
+    wrap.appendChild(dot);
+    if(!d.planned && d.tickets===2){ const b=document.createElement("div"); b.className="dot-badge"; b.innerHTML=BOLT+BOLT; wrap.appendChild(b); }
+    wrap.addEventListener("click",(e)=>{ e.stopPropagation(); map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
+    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:wrap, yAnchor:0.5, zIndex:d.planned?3:4 });
     ov.setMap(map);
     baseMarkers.push(ov);
   });
@@ -437,18 +466,25 @@ function selectStops(path){
   // 마커 (CustomOverlay: DOM element로 만들어 클릭 핸들러 부착)
   markers.forEach(m=>m.setMap(null)); markers=[];
   hits.forEach((d,i)=>{
-    const rows = (d.byKw||[]).slice().sort((a,b)=>a.kw-b.kw)
-      .map(b=>`<div class="lr">${b.kw} <b>${b.count}기</b></div>`).join("");
-    const div=document.createElement("div"); div.className="lbl";
-    div.innerHTML=`<span class="lbl-logo">${BOLT}</span>${rows}`;
+    const div=document.createElement("div");
+    if(d.planned){
+      div.className="lbl planned";
+      div.innerHTML=`${boltLogo(d.tickets)}<div class="lr">설치<br>예정</div>`;
+    }else{
+      const rows = (d.byKw||[]).slice().sort((a,b)=>a.kw-b.kw)
+        .map(b=>`<div class="lr">${b.kw} <b>${b.count}기</b></div>`).join("");
+      div.className="lbl";
+      div.innerHTML=`${boltLogo(d.tickets)}${rows}`;
+    }
     div.addEventListener("click",(e)=>{ e.stopPropagation(); openSheet(d); });
-    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:1.15, zIndex:6 });
+    const ov=new kakao.maps.CustomOverlay({ map, position:new kakao.maps.LatLng(d.lat,d.lng), content:div, yAnchor:1.15, zIndex:d.planned?5:6 });
     ov.setMap(map);
     markers.push(ov);
   });
 
   fitBounds(path, hits);
-  toast(hits.length ? `경로 위 SK일렉링크 ${hits.length}곳 · 마커를 누르면 상세가 떠요` : "아쉽지만 이 경로엔 SK일렉링크가 설치된 휴게소가 없어요. 좀 더 노력할게요!");
+  const opN=hits.filter(h=>!h.planned).length, plN=hits.filter(h=>h.planned).length;
+  toast(hits.length ? `경로 위 SK일렉링크 ${opN}곳${plN?` · 설치예정 ${plN}곳`:""} · 마커를 누르면 상세가 떠요` : "아쉽지만 이 경로엔 SK일렉링크가 설치된 휴게소가 없어요. 좀 더 노력할게요!");
 }
 
 function fitBounds(path, hits){
@@ -460,29 +496,37 @@ function fitBounds(path, hits){
 
 /* ---------- 바텀시트 ---------- */
 function openSheet(d){
-  const rows = (d.byKw||[]).map(b=>
-    `<div class="oprow">
-       <div class="l">${b.kw}kW</div>
-       <div class="caps"><span class="cap ${b.speed==='급속'?'fast':'kw'}">${b.speed}</span></div>
-       <div class="r">${b.count}기</div>
-     </div>`
-  ).join("");
-  const badStatus = Object.entries(d.status||{}).filter(([k])=>k!=="정상사용");
-  const statusHtml = badStatus.length
-    ? `<div class="note" style="color:#d14343;border:0;padding-top:6px;margin-top:8px;">⚠ ${badStatus.map(([k,n])=>`${k} ${n}기`).join(" · ")}</div>` : "";
-  const meta = [
-    (d.connectors||[]).length ? `커넥터 ${d.connectors.join(", ")}` : "",
-    (d.makers||[]).length ? `제조사 ${d.makers.join(", ")}` : "",
-    (d.years||[]).length ? `설치 ${d.years.join("·")}` : "",
-    `럭키패스 ${d.luckypass||0}/${d.total}기`,
-  ].filter(Boolean).join(" · ");
+  const badges = [
+    d.region ? `<span class="badge">${d.region}</span>` : "",
+    d.grade ? `<span class="badge">등급 ${d.grade}</span>` : "",
+    `<span class="badge tkt">응모권 ${d.tickets||1}장</span>`,
+  ].filter(Boolean).join("");
+  let mid;
+  if(d.planned){
+    mid = `<div class="note" style="border:0;margin-top:14px;font-size:13px;color:var(--gray);line-height:1.6;">🚧 설치 예정 충전소예요.<br>표시 위치는 근사값일 수 있어요.</div>`;
+  }else{
+    const rows = (d.byKw||[]).map(b=>
+      `<div class="oprow">
+         <div class="l">${b.kw}kW</div>
+         <div class="caps"><span class="cap ${b.speed==='급속'?'fast':'kw'}">${b.speed}</span></div>
+         <div class="r">${b.count}기</div>
+       </div>`
+    ).join("");
+    const badStatus = Object.entries(d.status||{}).filter(([k])=>k!=="정상사용");
+    const statusHtml = badStatus.length
+      ? `<div class="note" style="color:#d14343;border:0;padding-top:6px;margin-top:8px;">⚠ ${badStatus.map(([k,n])=>`${k} ${n}기`).join(" · ")}</div>` : "";
+    const meta = [
+      (d.connectors||[]).length ? `커넥터 ${d.connectors.join(", ")}` : "",
+      (d.makers||[]).length ? `제조사 ${d.makers.join(", ")}` : "",
+      (d.years||[]).length ? `설치 ${d.years.join("·")}` : "",
+      `럭키패스 ${d.luckypass||0}/${d.total}기`,
+    ].filter(Boolean).join(" · ");
+    mid = `<div class="sec" style="margin-top:16px;">충전기 용량별 구성</div>${rows}${statusHtml}<div class="note">${meta}</div>`;
+  }
   $("sheet-body").innerHTML = `
-    <div class="s-title">${d.name} ${d.region?`<span class="badge">${d.region}</span>`:""}</div>
+    <div class="s-title">${d.name} ${badges}</div>
     <div class="addr">${d.address||""}</div>
-    <div class="sec" style="margin-top:16px;">충전기 용량별 구성</div>
-    ${rows}
-    ${statusHtml}
-    <div class="note">${meta}</div>
+    ${mid}
     <div id="extras"></div>
   `;
   loadExtras(d);
@@ -500,7 +544,8 @@ function esc(s){ return (s||"").replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&"
 
 function loadExtras(d){
   const token = ++sheetToken;
-  const food = foodMap[normName(d.name)] || [];
+  const _nk = normName(d.name);
+  const food = foodMap[FOOD_ALIAS[_nk] || _nk] || [];
   const foodHtml = food.length
     ? `<div class="ex-chips">${food.map(f=>`<span class="ex-chip">${esc(f.menu)}${f.price?` <b>${Number(f.price).toLocaleString()}원</b>`:""}</span>`).join("")}</div>`
     : `<div class="ex-empty">대표메뉴 정보 없음</div>`;

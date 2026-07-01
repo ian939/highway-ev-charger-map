@@ -32,7 +32,32 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "고삼호수(세종)",
+  "lat": 37.0770912,
+  "lng": 127.2945283,
+  "address": "경기도 안성시 고삼면 이전봉산길 224-56 (봉산리 산 13-1) 일원",
+  "region": "경기도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
+ },
+ {
+  "name": "고삼호수(포천)",
+  "lat": 37.0770912,
+  "lng": 127.2945283,
+  "address": "경기도 안성시 고삼면 이전봉산길 224-56 (봉산리 산 13-1) 일원",
+  "region": "경기도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "고성공룡나라휴게소 (대전)",
@@ -67,7 +92,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "고성공룡나라휴게소 (통영)",
@@ -102,7 +130,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
+ },
+ {
+  "name": "고창고인돌(목포)",
+  "lat": 35.4685695,
+  "lng": 126.6736976,
+  "address": "전북 고창군 신림면 서해안고속도로 81 고창(목포)휴게소",
+  "region": "전라북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "고창고인돌휴게소 (시흥)",
@@ -137,7 +179,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "공주휴게소 (대전)",
@@ -172,7 +217,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "괴산휴게소 (창원)",
@@ -207,7 +255,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "군위영천휴게소 (영천)",
@@ -237,7 +288,10 @@
   "luckypass": 6,
   "status": {
    "정상사용": 6
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "군위휴게소 (부산)",
@@ -272,7 +326,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "금산인삼랜드(대전)",
+  "lat": 36.1548831,
+  "lng": 127.4976697,
+  "address": "충남 금산군 군북면 대암길 34-30 인삼랜드(대전)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "금산인삼랜드휴게소 (통영)",
@@ -307,7 +375,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "기흥휴게소 (부산)",
@@ -342,7 +413,10 @@
   "luckypass": 8,
   "status": {
    "정상사용": 8
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "김제휴게소 (새만금)",
@@ -378,7 +452,10 @@
   "luckypass": 0,
   "status": {
    "정상사용": 8
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "김제휴게소 (전주)",
@@ -414,7 +491,10 @@
   "luckypass": 7,
   "status": {
    "정상사용": 7
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "김해금관가야휴게소 (창원)",
@@ -449,7 +529,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "낙동강구미휴게소 (상주)",
@@ -479,7 +562,10 @@
   "luckypass": 6,
   "status": {
    "정상사용": 6
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "낙동강의성휴게소 (영천)",
@@ -509,7 +595,10 @@
   "luckypass": 6,
   "status": {
    "정상사용": 6
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "남성주휴게소 (양평)",
@@ -544,37 +633,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
- },
- {
-  "name": "남양졸음쉼터",
-  "lat": 37.1878813,
-  "lng": 126.838131,
-  "address": "경기도 화성시 남양읍 고향의봄길 71-13",
-  "region": "경기도",
-  "total": 1,
-  "fast": 1,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 50,
-    "speed": "급속",
-    "count": 1
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "중앙제어"
-  ],
-  "years": [
-   "2021"
-  ],
-  "luckypass": 1,
-  "status": {
-   "정상사용": 1
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "내린천휴게소 (양양)",
@@ -609,7 +671,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "대관령 강릉휴게소 (강릉)",
@@ -644,7 +709,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "대관령 강릉휴게소 (인천)",
@@ -679,7 +747,32 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "대천(목포)",
+  "lat": 36.3729791,
+  "lng": 126.5557174,
+  "address": "충남 보령시 주교면 서해안고속도로 199대천(목포)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
+ },
+ {
+  "name": "대천(서울)",
+  "lat": 36.3743171,
+  "lng": 126.5583353,
+  "address": "충남 보령시 주교면 서해안고속도로 200 대천(서울)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "덕유산휴게소 (통영)",
@@ -714,7 +807,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "덕유산휴게소 (하남)",
@@ -749,37 +845,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
- },
- {
-  "name": "독정(시흥) 졸음쉼터",
-  "lat": 37.0648672,
-  "lng": 126.8632934,
-  "address": "경기 화성시 장안면 평택시흥고속도로 4",
-  "region": "경기도",
-  "total": 1,
-  "fast": 1,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 200,
-    "speed": "급속",
-    "count": 1
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 1,
-  "status": {
-   "정상사용": 1
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "동명휴게소 (춘천)",
@@ -814,7 +883,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "망향휴게소 (부산)",
@@ -844,7 +916,10 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "문경휴게소 (창원)",
@@ -874,7 +949,10 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "문막휴게소 (인천)",
@@ -909,7 +987,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "문의청남대휴게소 (영덕)",
@@ -944,7 +1025,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "문의청남대휴게소 (청주)",
@@ -979,7 +1063,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "벌곡(논산)",
+  "lat": 36.2179999,
+  "lng": 127.2734138,
+  "address": "충남 논산시 벌곡면 호남지선고속도로 25 벌곡(논산)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "별내휴게소",
@@ -1021,7 +1119,10 @@
   "luckypass": 0,
   "status": {
    "정상사용": 11
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "사천휴게소 (부산)",
@@ -1056,7 +1157,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "사천휴게소 (순천)",
@@ -1091,7 +1195,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "삼국유사군위휴게소 (상주)",
@@ -1121,7 +1228,10 @@
   "luckypass": 6,
   "status": {
    "정상사용": 6
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "서산휴게소 (목포)",
@@ -1156,7 +1266,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "서산휴게소 (시흥)",
@@ -1191,7 +1304,21 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
+ },
+ {
+  "name": "서여주(양평)",
+  "lat": 37.2786177,
+  "lng": 127.5805274,
+  "address": "경기 여주시 능서면 중부내륙고속도로 272 서여주(양평)휴게소",
+  "region": "경기도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "서울만남휴게소 (부산)",
@@ -1226,7 +1353,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "서천(서울)",
+  "lat": 36.1318405,
+  "lng": 126.6279961,
+  "address": "충남 서천군 비인면 서해안고속도로 168 서천(서울)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "서천휴게소 (목포)",
@@ -1261,7 +1402,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "서하남 간이 휴게소 (판교)",
@@ -1291,7 +1435,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "선산휴게소 (양평)",
@@ -1326,74 +1473,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
- },
- {
-  "name": "성남택시쉼터(개방 외부사용 시간 확인 필수)",
-  "lat": 37.4226468,
-  "lng": 127.1225414,
-  "address": "경기 성남시 중원구 여수대로 179",
-  "region": "경기도",
-  "total": 10,
-  "fast": 10,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 200,
-    "speed": "급속",
-    "count": 10
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 10,
-  "status": {
-   "정상사용": 10
-  }
- },
- {
-  "name": "송산마도IC영업소",
-  "lat": 37.2094553,
-  "lng": 126.7521555,
-  "address": "경기 화성시 마도면 평택시흥고속도로 21",
-  "region": "경기도",
-  "total": 5,
-  "fast": 2,
-  "slow": 3,
-  "byKw": [
-   {
-    "kw": 100,
-    "speed": "급속",
-    "count": 2
-   },
-   {
-    "kw": 7,
-    "speed": "완속",
-    "count": 3
-   }
-  ],
-  "connectors": [
-   "AC완속(승용)",
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷",
-   "이카플러그"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 2,
-  "status": {
-   "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "송산포도휴게소(시흥방향)",
@@ -1423,7 +1506,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "송산포도휴게소(평택방향)",
@@ -1453,44 +1539,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
- },
- {
-  "name": "신녕IC영업소",
-  "lat": 36.039185,
-  "lng": 128.8110294,
-  "address": "경북 영천시 화산면 신정길 60-40",
-  "region": "경상북도",
-  "total": 3,
-  "fast": 2,
-  "slow": 1,
-  "byKw": [
-   {
-    "kw": 100,
-    "speed": "급속",
-    "count": 2
-   },
-   {
-    "kw": 7,
-    "speed": "완속",
-    "count": 1
-   }
-  ],
-  "connectors": [
-   "AC완속(승용)",
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷",
-   "이카플러그"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 0,
-  "status": {
-   "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "신탄진휴게소 (서울)",
@@ -1525,7 +1577,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
+ },
+ {
+  "name": "안성(부산)",
+  "lat": 37.0135564,
+  "lng": 127.1446898,
+  "address": "경기 안성시 원곡면 경부고속도로 365 안성(부산)휴게소",
+  "region": "경기도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "언양휴게소 (서울)",
@@ -1560,7 +1626,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "여주휴게소 (강릉)",
@@ -1594,9 +1663,11 @@
   ],
   "luckypass": 6,
   "status": {
-   "정상사용": 5,
-   "고장조치중": 1
-  }
+   "정상사용 5·고장조치중": 1
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "여주휴게소 (인천)",
@@ -1631,7 +1702,21 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "영덕(영덕)",
+  "lat": 36.2806636,
+  "lng": 129.3638379,
+  "address": "경상북도 영덕군 남정면 양성리 산 8-1",
+  "region": "경상북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "영산 휴게소 (창원)",
@@ -1666,7 +1751,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "영천휴게소 (대구)",
@@ -1701,7 +1789,10 @@
   "luckypass": 6,
   "status": {
    "정상사용": 6
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "영천휴게소 (포항)",
@@ -1731,7 +1822,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "오수휴게소 (순천)",
@@ -1765,9 +1859,11 @@
   ],
   "luckypass": 4,
   "status": {
-   "정상사용": 3,
-   "고장조치중": 1
-  }
+   "정상사용 3·고장조치중": 1
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "오수휴게소 (완주)",
@@ -1802,7 +1898,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "오창휴게소 (하남)",
@@ -1837,7 +1936,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "옥계휴게소 (속초)",
@@ -1872,7 +1974,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "울주휴게소 (울산)",
@@ -1907,7 +2012,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "울주휴게소 (함양)",
@@ -1941,9 +2049,11 @@
   ],
   "luckypass": 3,
   "status": {
-   "정상사용": 2,
-   "고장조치중": 1
-  }
+   "정상사용 2·고장조치중": 1
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "의왕청계행복드림쉼터",
@@ -1973,7 +2083,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "의정부휴게소",
@@ -2010,14 +2123,48 @@
    "중앙제어"
   ],
   "years": [
-   "2017",
-   "2023"
+   "2017·2023"
   ],
   "luckypass": 0,
   "status": {
-   "정상사용": 11,
-   "임시사용중지": 1
-  }
+   "정상사용 11·임시사용중지": 1
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
+ },
+ {
+  "name": "이서(순천)",
+  "lat": 35.8041505,
+  "lng": 127.0239019,
+  "address": "전북 완주군 이서면 호남고속도로 161 이서(순천)휴게소",
+  "region": "전라북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
+ },
+ {
+  "name": "이서(천안)",
+  "lat": 35.8019906,
+  "lng": 127.0257997,
+  "address": "전북 완주군 이서면 호남고속도로 162 이서(천안)휴게소",
+  "region": "전라북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
+ },
+ {
+  "name": "이천(남이)",
+  "lat": 37.2645329,
+  "lng": 127.4036073,
+  "address": "경기 이천시 마장면 중부대로 609번길 244-35 이천(통영)휴게소",
+  "region": "경기도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "이천휴게소 (하남)",
@@ -2052,7 +2199,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "익산미륵사지휴게소 (순천)",
@@ -2087,7 +2237,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "입장휴게소 (서울)",
@@ -2122,37 +2275,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
-  "name": "장안(평택) 졸음쉼터",
-  "lat": 37.0927703,
-  "lng": 126.8447192,
-  "address": "경기 화성시 장안면 평택시흥고속도로 7",
-  "region": "경기도",
-  "total": 1,
-  "fast": 1,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 200,
-    "speed": "급속",
-    "count": 1
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 1,
-  "status": {
-   "정상사용": 1
-  }
+  "name": "정읍녹두장군(천안)",
+  "lat": 35.6000188,
+  "lng": 126.8642702,
+  "address": "전북 정읍시 북면 하북1길 227-23 정읍(천안)휴게소",
+  "region": "전라북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "죽암휴게소 (부산)",
@@ -2187,7 +2324,21 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
+ },
+ {
+  "name": "진안마이산(익산)",
+  "lat": 35.7778121,
+  "lng": 127.4252822,
+  "address": "전북 진안군 진안읍 익산장수고속도로 41 진안(익산)휴게소",
+  "region": "전라북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "진주휴게소 (부산)",
@@ -2222,7 +2373,10 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "진주휴게소(부산) 외부 반려견 공원 주차장",
@@ -2252,7 +2406,10 @@
   "luckypass": 0,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "청송휴게소 (영덕)",
@@ -2287,7 +2444,10 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "청송휴게소 (청주)",
@@ -2317,7 +2477,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "청주휴게소 (서울)",
@@ -2347,7 +2510,10 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "칠곡휴게소 (서울)",
@@ -2377,67 +2543,21 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
-  "name": "택시쉼터 공영주차장(이천)",
-  "lat": 37.2863033,
-  "lng": 127.4403576,
-  "address": "경기도 이천시 설봉로 122",
-  "region": "경기도",
-  "total": 2,
-  "fast": 2,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 100,
-    "speed": "급속",
-    "count": 2
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "중앙제어"
-  ],
-  "years": [
-   "2021"
-  ],
-  "luckypass": 2,
-  "status": {
-   "정상사용": 2
-  }
- },
- {
-  "name": "택시쉼터 주차장(통영)",
-  "lat": 34.8757751,
-  "lng": 128.4135745,
-  "address": "경상남도 통영시 광도면 남해안대로 923",
-  "region": "경상남도",
-  "total": 2,
-  "fast": 2,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 200,
-    "speed": "급속",
-    "count": 2
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 2,
-  "status": {
-   "정상사용": 2
-  }
+  "name": "포항(포항)",
+  "lat": 36.0513317,
+  "lng": 129.0425444,
+  "address": "경상북도 포항시 북구 송라면 포항영덕고속도로 19 (지경리 산 21-1)",
+  "region": "경상북도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "함안휴게소 (순천)",
@@ -2467,7 +2587,10 @@
   "luckypass": 5,
   "status": {
    "정상사용": 5
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "함평나비휴게소 (광주)",
@@ -2502,7 +2625,21 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
+ },
+ {
+  "name": "홍성(목포)",
+  "lat": 36.5525808,
+  "lng": 126.5794561,
+  "address": "충남 홍성군 은하면 금국리 292-3 홍성(목포)휴게소",
+  "region": "충청남도",
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "홍성휴게소 (서울)",
@@ -2537,7 +2674,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "홍천강휴게소 (춘천)",
@@ -2572,7 +2712,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "홍천휴게소 (서울)",
@@ -2607,37 +2750,21 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
-  "name": "화성시 택시쉼터",
-  "lat": 37.1975446,
-  "lng": 126.9905592,
-  "address": "경기도 화성시 안녕남로 63 (안녕동)",
+  "name": "화성(서울)",
+  "lat": 37.1435699,
+  "lng": 126.8812211,
+  "address": "경기 화성시 팔탄면 서해안고속도로 302 화성(시흥)휴게소",
   "region": "경기도",
-  "total": 4,
-  "fast": 4,
-  "slow": 0,
-  "byKw": [
-   {
-    "kw": 200,
-    "speed": "급속",
-    "count": 4
-   }
-  ],
-  "connectors": [
-   "DC콤보(승용)"
-  ],
-  "makers": [
-   "시그넷"
-  ],
-  "years": [
-   "2023"
-  ],
-  "luckypass": 4,
-  "status": {
-   "정상사용": 4
-  }
+  "tickets": 1,
+  "grade": null,
+  "planned": true,
+  "approx": false
  },
  {
   "name": "황전휴게소 (순천)",
@@ -2672,7 +2799,10 @@
   "luckypass": 3,
   "status": {
    "정상사용": 3
-  }
+  },
+  "tickets": 2,
+  "grade": "B",
+  "planned": false
  },
  {
   "name": "황전휴게소 (전주)",
@@ -2707,7 +2837,10 @@
   "luckypass": 2,
   "status": {
    "정상사용": 2
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  },
  {
   "name": "횡성휴게소 (인천)",
@@ -2742,6 +2875,9 @@
   "luckypass": 4,
   "status": {
    "정상사용": 4
-  }
+  },
+  "tickets": 1,
+  "grade": "A",
+  "planned": false
  }
 ]
