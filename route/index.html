@@ -132,7 +132,6 @@
   .mk-bolt{display:flex;align-items:center;justify-content:center;width:20px;height:20px;
     border-radius:8px;background:var(--blue);border:2px solid #fff;box-shadow:0 2px 5px rgba(120,60,252,.45);cursor:pointer;}
   .mk-bolt svg{width:12px;height:12px;}
-  .mk-bolt.t2{background:var(--red);box-shadow:0 2px 5px rgba(229,57,53,.5);}                /* 응모권 2배: 빨강 */
   /* 설치예정 마커 — 회색 점선 점(응모권 없음) */
   .dot-wrap{position:relative;cursor:pointer;}
   .dot-mk.planned{width:15px;height:15px;border-radius:50%;background:#B9BDC7;border:2.5px dashed #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);}
@@ -143,7 +142,6 @@
     border:6px solid transparent;border-top-color:#fff;filter:drop-shadow(0 2px 1px rgba(120,60,252,.25));}
   .lbl-logo{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:7px;
     background:var(--blue);margin:0 auto 3px;box-shadow:0 1px 3px rgba(120,60,252,.4);}
-  .lbl-logo.t2{background:var(--red);box-shadow:0 1px 3px rgba(229,57,53,.45);}
   .lbl .lr{font-size:11px;font-weight:800;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
   .lbl .lr b{color:var(--blue);font-weight:800;margin-left:1px;}
   .lbl.planned{border-color:#C7CCD6;box-shadow:0 4px 12px rgba(0,0,0,.18);}     /* 설치예정 라벨 */
@@ -155,7 +153,6 @@
     background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:7px 10px;
     box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11px;font-weight:600;color:var(--ink);line-height:1;white-space:nowrap;overflow:hidden;}
   #legend .lg-b{display:inline-flex;align-items:center;background:var(--blue);border-radius:4px;padding:2px;}
-  #legend .lg-b.red{background:var(--red);}
   #legend .lg-b svg{width:11px;height:11px;display:block;}
   #legend .lg-plan{display:inline-block;width:10px;height:10px;border-radius:50%;background:#B9BDC7;border:1.5px dashed #8b90a0;}
   #legend .lg-sep{color:#d5d8de;}
@@ -186,7 +183,7 @@
 <body>
 <div id="map"></div>
 
-<div id="legend"><span>충전 1건당 응모권</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>1장</span><span class="lg-sep">·</span><span class="lg-b red"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>2배 지급</span><span class="lg-sep">|</span><span class="lg-plan"></span><span>설치예정</span></div>
+<div id="legend"><span>충전 1건당 응모권</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>1장</span><span class="lg-sep">|</span><span class="lg-plan"></span><span>설치예정</span></div>
 
 <div id="search">
   <button id="openSearch">경로 찾기</button>
@@ -224,8 +221,8 @@
 const JS_KEY = "__JSKEY__";
 const WORKER = "https://highway-ev-route-proxy.ian-1f3.workers.dev"; // 네이버 블로그·지역 검색 프록시
 const BOLT = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; // 럭키패스 번개
-// 응모권 번개 로고 — 항상 1개, 2배(2장)는 빨간색으로 구분
-function boltLogo(tickets){ return `<span class="lbl-logo${tickets===2?' t2':''}">${BOLT}</span>`; }
+// 응모권 번개 로고 (모든 충전소 동일: 보라 번개 1개)
+function boltLogo(){ return `<span class="lbl-logo">${BOLT}</span>`; }
 // 대표메뉴 이름매칭 보정: 우리 휴게소명(normName) → food.json 키
 const FOOD_ALIAS = {"대관령강릉":"강릉","남성주":"남성주참외","입장":"입장거봉포도","의왕청계행복드림쉼터":"의왕","서하남간이":"서하남행복드림쉼터","진주외부반려견공원주차장":"진주"};
 // 주말 혼잡도(25.7~8 토·일 P95 점유율) 섹션
@@ -278,7 +275,7 @@ function showAllSK(){
       el=document.createElement("div"); el.className="dot-wrap";
       const dot=document.createElement("div"); dot.className="dot-mk planned"; el.appendChild(dot);
     }else{
-      el=document.createElement("div"); el.className="mk-bolt"+(d.tickets===2?" t2":"");
+      el=document.createElement("div"); el.className="mk-bolt";
       el.innerHTML=BOLT;
     }
     el.title=d.name;
@@ -520,7 +517,7 @@ function openSheet(d){
   const badges = [
     d.region ? `<span class="badge">${d.region}</span>` : "",
     d.price ? `<span class="badge price">${d.price}원/kWh</span>` : "",
-    d.planned ? "" : `<span class="badge tkt">응모권 ${d.tickets||1}장</span>`,
+    d.planned ? "" : `<span class="badge tkt">응모권 1장</span>`,
   ].filter(Boolean).join("");
   let mid;
   if(d.planned){
@@ -595,14 +592,23 @@ function init(){
   map = new kakao.maps.Map($("map"), {
     center:new kakao.maps.LatLng(36.5, 127.8), level:13   // ≈60km 스케일
   });
-  map.setMaxLevel(13);                 // 그 밖(더 축소)으로 못 벗어나게
-  // 한반도 밖으로 못 나가게 중심 클램프
-  const minLat=33.0, maxLat=38.7, minLng=124.6, maxLng=131.2;
+  map.setMaxLevel(13);                 // 초기 화면(한국 전체)보다 더 축소 불가
+  // 보이는 영역(뷰포트)이 한국 사각형을 벗어나지 않게 중심 클램프
+  const KB={minLat:33.0, maxLat:38.7, minLng:125.0, maxLng:130.2};
   function clampToKorea(){
-    const c=map.getCenter(); let la=c.getLat(), ln=c.getLng();
-    const cla=Math.min(maxLat,Math.max(minLat,la)), cln=Math.min(maxLng,Math.max(minLng,ln));
-    if(cla!==la||cln!==ln) map.setCenter(new kakao.maps.LatLng(cla,cln));
+    const b=map.getBounds(); if(!b) return;
+    const sw=b.getSouthWest(), ne=b.getNorthEast();
+    const hLat=(ne.getLat()-sw.getLat())/2, hLng=(ne.getLng()-sw.getLng())/2;
+    const c=map.getCenter(); const la=c.getLat(), ln=c.getLng();
+    // 뷰포트가 사각형보다 크면 가운데로, 작으면 경계 안으로 클램프
+    const nla = (KB.minLat+hLat)>(KB.maxLat-hLat) ? (KB.minLat+KB.maxLat)/2
+                : Math.min(KB.maxLat-hLat, Math.max(KB.minLat+hLat, la));
+    const nln = (KB.minLng+hLng)>(KB.maxLng-hLng) ? (KB.minLng+KB.maxLng)/2
+                : Math.min(KB.maxLng-hLng, Math.max(KB.minLng+hLng, ln));
+    if(Math.abs(nla-la)>1e-9 || Math.abs(nln-ln)>1e-9)
+      map.setCenter(new kakao.maps.LatLng(nla, nln));
   }
+  kakao.maps.event.addListener(map,"drag",clampToKorea);
   kakao.maps.event.addListener(map,"dragend",clampToKorea);
   kakao.maps.event.addListener(map,"zoom_changed",clampToKorea);
   // iframe/모바일에서 컨테이너 크기 확정 후 다시 중심 맞춤(초기 바다로 잡히는 문제 방지)
