@@ -129,9 +129,10 @@
   .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
   .pin span{transform:rotate(45deg);display:block;color:#fff;font-size:12px;font-weight:800;text-align:center;line-height:26px;}
   /* 기본 SK 마커 — 응모권 번개 배지(1장 ⚡ / 2장 ⚡⚡) */
-  .mk-bolt{display:flex;align-items:center;justify-content:center;gap:1px;min-width:20px;height:20px;padding:0 4px;
+  .mk-bolt{display:flex;align-items:center;justify-content:center;width:20px;height:20px;
     border-radius:8px;background:var(--blue);border:2px solid #fff;box-shadow:0 2px 5px rgba(120,60,252,.45);cursor:pointer;}
-  .mk-bolt svg{width:11px;height:11px;}
+  .mk-bolt svg{width:12px;height:12px;}
+  .mk-bolt.t2{background:var(--red);box-shadow:0 2px 5px rgba(229,57,53,.5);}                /* 응모권 2배: 빨강 */
   /* 설치예정 마커 — 회색 점선 점(응모권 없음) */
   .dot-wrap{position:relative;cursor:pointer;}
   .dot-mk.planned{width:15px;height:15px;border-radius:50%;background:#B9BDC7;border:2.5px dashed #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);}
@@ -140,19 +141,21 @@
     box-shadow:0 4px 12px rgba(120,60,252,.28);cursor:pointer;}
   .lbl::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
     border:6px solid transparent;border-top-color:#fff;filter:drop-shadow(0 2px 1px rgba(120,60,252,.25));}
-  .lbl-logo{display:flex;align-items:center;justify-content:center;gap:1px;min-width:20px;height:20px;padding:0 4px;border-radius:7px;
+  .lbl-logo{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:7px;
     background:var(--blue);margin:0 auto 3px;box-shadow:0 1px 3px rgba(120,60,252,.4);}
+  .lbl-logo.t2{background:var(--red);box-shadow:0 1px 3px rgba(229,57,53,.45);}
   .lbl .lr{font-size:11px;font-weight:800;color:var(--ink);line-height:1.5;text-align:center;white-space:nowrap;}
   .lbl .lr b{color:var(--blue);font-weight:800;margin-left:1px;}
   .lbl.planned{border-color:#C7CCD6;box-shadow:0 4px 12px rgba(0,0,0,.18);}     /* 설치예정 라벨 */
   .lbl.planned .lbl-logo{background:#B9BDC7;}
   .lbl.planned .lr{color:var(--gray);}
   /* 상단 응모권 안내 범례 */
-  #legend{position:fixed;z-index:34;top:10px;left:50%;transform:translateX(-50%);max-width:calc(100% - 20px);
-    display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;
-    background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:7px 12px;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11.5px;font-weight:600;color:var(--ink);line-height:1;white-space:nowrap;}
+  #legend{position:fixed;z-index:34;top:10px;left:10px;right:10px;
+    display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:4px;
+    background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:7px 10px;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:11px;font-weight:600;color:var(--ink);line-height:1;white-space:nowrap;overflow:hidden;}
   #legend .lg-b{display:inline-flex;align-items:center;background:var(--blue);border-radius:4px;padding:2px;}
+  #legend .lg-b.red{background:var(--red);}
   #legend .lg-b svg{width:11px;height:11px;display:block;}
   #legend .lg-plan{display:inline-block;width:10px;height:10px;border-radius:50%;background:#B9BDC7;border:1.5px dashed #8b90a0;}
   #legend .lg-sep{color:#d5d8de;}
@@ -183,7 +186,7 @@
 <body>
 <div id="map"></div>
 
-<div id="legend"><span>충전 1건당 응모권</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>1장</span><span class="lg-sep">·</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>2배 지급</span><span class="lg-sep">|</span><span class="lg-plan"></span><span>설치예정</span></div>
+<div id="legend"><span>충전 1건당 응모권</span><span class="lg-b"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>1장</span><span class="lg-sep">·</span><span class="lg-b red"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>2배 지급</span><span class="lg-sep">|</span><span class="lg-plan"></span><span>설치예정</span></div>
 
 <div id="search">
   <button id="openSearch">경로 찾기</button>
@@ -222,8 +225,8 @@ const JS_KEY = "825a7e9f4444cd7f3ad90a4689fffd8f";
 const ROUTE_API = "https://highway-ev-route-proxy.ian-1f3.workers.dev/route";
 const WORKER = "https://highway-ev-route-proxy.ian-1f3.workers.dev"; // 네이버 블로그·지역 검색 프록시
 const BOLT = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; // 럭키패스 번개
-// 응모권 매수만큼 번개 로고 (1장 ⚡ / 2장 ⚡⚡)
-function boltLogo(tickets){ const n = tickets===2 ? 2 : 1; return `<span class="lbl-logo${n===2?' t2':''}">${BOLT.repeat(n)}</span>`; }
+// 응모권 번개 로고 — 항상 1개, 2배(2장)는 빨간색으로 구분
+function boltLogo(tickets){ return `<span class="lbl-logo${tickets===2?' t2':''}">${BOLT}</span>`; }
 // 대표메뉴 이름매칭 보정: 우리 휴게소명(normName) → food.json 키
 const FOOD_ALIAS = {"대관령강릉":"강릉","남성주":"남성주참외","입장":"입장거봉포도","의왕청계행복드림쉼터":"의왕","서하남간이":"서하남행복드림쉼터","진주외부반려견공원주차장":"진주"};
 // 주말 혼잡도(25.7~8 토·일 P95 점유율) 섹션
@@ -276,8 +279,8 @@ function showAllSK(){
       el=document.createElement("div"); el.className="dot-wrap";
       const dot=document.createElement("div"); dot.className="dot-mk planned"; el.appendChild(dot);
     }else{
-      el=document.createElement("div"); el.className="mk-bolt";
-      el.innerHTML=BOLT.repeat(d.tickets===2?2:1);
+      el=document.createElement("div"); el.className="mk-bolt"+(d.tickets===2?" t2":"");
+      el.innerHTML=BOLT;
     }
     el.title=d.name;
     el.addEventListener("click",(e)=>{ e.stopPropagation(); map.panTo(new kakao.maps.LatLng(d.lat,d.lng)); openSheet(d); });
