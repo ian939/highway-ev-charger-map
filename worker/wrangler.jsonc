@@ -1,6 +1,0 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "highway-ev-route-proxy",
-  "main": "src/index.js",
-  "compatibility_date": "2026-06-01"
-}
